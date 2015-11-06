@@ -1,0 +1,81 @@
+#desktop {
+background-image:url('bg.jpg');
+background-size:100% 100%;
+font-family:Segoe UI;
+}
+#taskbar  {
+height:29px;
+border-top:1px solid rgba(0,0,0,.5);
+box-shadow:inset 0px 0px 1px white;
+background-image:url('glass.png');
+background-size:100%;
+background-color:rgba(21,109,122,1);
+}
+#taskbar #leftframe {
+width:50px;
+height:30px;
+display:inline-block;
+}
+#taskbar #rightframe {
+float:right;
+display:inline-block;
+}
+#taskbar #leftframe #start {
+width:54px;
+height:54px;
+position:fixed;
+bottom:0px;
+transition:.5s;
+background-image:url('so1.png');
+margin-left:-2px;
+margin-bottom:-11px;
+}
+#taskbar #leftframe #start::before {
+content:"";
+}
+#taskbar #leftframe #start:hover {
+background-image:url('so2.png');
+}
+#taskbar #leftframe #start:active {
+transition:none;
+background-image:url('so3.png');
+}
+#taskbar #time {
+color:white;
+font-size:14px;
+line-height:28px;
+height:30px;
+padding-right:10px;
+padding-left:50px;
+background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 52%,rgba(0,0,0,.3) 100%);
+}
+#taskbar .button {
+width:157px;
+height:30px;
+background:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+background-position:0, 0px 30px;
+background-repeat:no-repeat, no-repeat;
+display:inline-block;
+position:relative;
+top:-1px;
+margin-left:2px;
+vertical-align:top;
+color:white;
+line-height:18px;
+transition:.5s;
+font-size:14px;
+padding-right:3px;
+}
+#taskbar .button:hover {
+background-position:0, 0px 0px;
+}
+#taskbar .button::before {
+content:"";
+width:18px;
+margin-left:10px;
+margin-top:6px;
+margin-right:5px;
+height:18px;
+vertical-align:bottom;
+display:inline-block;
+}
