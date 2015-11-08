@@ -17,19 +17,15 @@ function boot() {
         $('body').append('<img src="webdows/resources/kernel/wsa.gif"><br>');
         $('body').append('Starting Webdows<br><span style="font-size:15px;color:lightgray;">&copy;Below Average</span>');
     });
-    setTimeout(function() {
-        $('body').html('');//Boot Cleanup
-        $('body').attr('style','background-color:black;');
-        $.getScript('webdows/system/system32.js').fail(function(xhr, s, e) {
-            $(document).ready(function() {
-                if(xhr.status == 0) {
-                    blueScreen('Fatal Error: CORS<br>The resources used to load Webdows has been rejected to load by your browser due to CORS (A resource makes a cross-origin HTTP request when it requests a resource from a different domain than the one which served itself.)');
-                } else {
-                    blueScreen('The resource "webdows/system/system32.js" has failed due to HTTP status: '+xhr.status);
-                }
-            });
+    $.getScript('webdows/system/system32.js').fail(function(xhr, s, e) {
+        $(document).ready(function() {
+            if(xhr.status == 0) {
+                blueScreen('Fatal Error: Your network has failed to retrieve the resource located here: '+'webdows/system/system32.js'+'<br> Please check your connection. Check the console for more information.');
+            } else {
+                blueScreen('The resource "'+'webdows/system/system32.js'+'" has failed due to HTTP status: '+xhr.status);
+            }
         });
-    }, 1000);
+    });
 }
 /*! Passoff to system32.js */
 boot();
