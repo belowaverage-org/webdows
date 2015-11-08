@@ -9,7 +9,12 @@ border-top:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 0px 1px white;
 background-image:url('glass.png');
 background-size:100%;
-background-color:rgba(21,109,122,1);
+background-color:rgba(0,0,0,.5);
+position:fixed;
+bottom:0px;
+left:0px;
+width:100%;
+z-index:1000;
 }
 #taskbar #leftframe {
 width:50px;
@@ -17,13 +22,15 @@ height:30px;
 display:inline-block;
 }
 #taskbar #rightframe {
-float:right;
+position:absolute;
+right:0px;
 display:inline-block;
+top:0px;
 }
 #taskbar #leftframe #start {
 width:54px;
 height:54px;
-position:fixed;
+position:absolute;
 bottom:0px;
 transition:.5s;
 background-image:url('so1.png');
@@ -40,7 +47,7 @@ background-image:url('so2.png');
 transition:none;
 background-image:url('so3.png');
 }
-#taskbar #time {
+#taskbar #rightframe #time {
 color:white;
 font-size:14px;
 line-height:28px;
@@ -48,6 +55,7 @@ height:30px;
 padding-right:10px;
 padding-left:50px;
 background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 52%,rgba(0,0,0,.3) 100%);
+display:inline-block;
 }
 #taskbar .button {
 width:157px;
@@ -62,12 +70,18 @@ margin-left:2px;
 vertical-align:top;
 color:white;
 line-height:18px;
-transition:.5s;
 font-size:14px;
 padding-right:3px;
+text-overflow:ellipsis;
+overflow:hidden;
+white-space: nowrap;
+transition:.5s;
 }
 #taskbar .button:hover {
 background-position:0, 0px 0px;
+}
+#taskbar .button.ui-sortable-helper {
+transition:none;
 }
 #taskbar .button::before {
 content:"";
@@ -78,4 +92,55 @@ margin-right:5px;
 height:18px;
 vertical-align:bottom;
 display:inline-block;
+}
+.window {
+width:300px;
+height:300px;
+top:10px;
+left:10px;
+position:absolute;
+border-radius:7px;
+border:1px solid rgba(0,0,0,.5);
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px black;
+background-color: rgba(0,0,0,.4);
+background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+background-size:600px, 100% 300px;
+background-repeat:repeat, no-repeat;
+}
+.window.active {
+background-color: rgba(0,0,0,.7);
+}
+.window .ttl {
+color:black;
+font-size:14px;
+text-shadow:0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white;
+text-overflow:ellipsis;
+overflow:hidden;
+white-space: nowrap;
+display:inline-block;
+width:100%;
+height:28px;
+}
+.window .ttl::before {
+content:"";
+width:18px;
+margin-left:6px;
+margin-top:6px;
+margin-right:5px;
+height:18px;
+vertical-align:bottom;
+display:inline-block;
+}
+.window .body {
+border:1px solid rgba(0,0,0,.8);
+position:absolute;
+left:6px;
+border-radius:2px;
+box-shadow:inset 0px 0px 1px black, 0px 0px 1px white;
+right:6px;
+top:28px;
+bottom:6px;
+background-color:white;
+color:black;
+overflow:auto;
 }

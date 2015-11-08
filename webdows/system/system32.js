@@ -11,9 +11,16 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
-
-
-
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+$(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Handle
+    blueScreen('Error detected @ '+settings.url+'<br><br>'+thrownError);
+});
 
 
 
@@ -34,4 +41,6 @@ function formatAMPM(date) {
 
 /* Start UI Process */
 $('title').text('Webdows');
-$.getScript('webdows/explorer.js');
+$.getScript('webdows/system/shell.js').done(function() {
+    $.getScript('webdows/explorer.js');
+});
