@@ -24,6 +24,7 @@ var explorer = {
             axis: "x",
             items: ".button",
             distance: 5,
+            helper : 'clone'
         });
         var timeService = setInterval(function() { //Start clock
             var date = new Date();
@@ -34,21 +35,42 @@ var explorer = {
         open : function() {
             var windowID = guid();
             var winid = '.window[windowID='+windowID+']';
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="min"></span><span id="max"></span><span class="exi"></span><div class="body"></div></div>');
+            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="minmaxclose"></span><div class="body"></div></div>');
             $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'">'+windowID+'</span>');
             $('#taskbar').sortable("refresh");
             $(winid).mousedown(function() {
-               explorer.window.front(windowID);
+                explorer.window.front(windowID);
+            });
+            $('#taskbar .button[windowID='+windowID+']').click(function() {
+                explorer.window.toggle(windowID);
             });
             explorer.window.front(windowID);
-            $(winid).draggable({handle: '.ttl', addClasses: false});
+            $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
             return windowID;
         },
         close : function(windowID) {
             
         },
         toggle : function(windowID) {
-            
+            var winid = '.window[windowID='+windowID+']';
+            if($(winid).hasClass('active') || $(winid).hasClass('minimized')) {
+                if($(winid).hasClass('minimized')) {
+                    $(winid).removeClass('minimized').addClass('restored');
+                } else {
+                    $(winid).removeClass('restored').addClass('minimized');
+                }
+                
+            }
+            explorer.window.front(windowID);
+            var topZ = -1;
+            var topID = winid;
+            $('.window').each(function() {
+                if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
+                    topZ = $(this).css('z-index');
+                    topID = this;
+                }
+            });
+            explorer.window.front($(topID).attr('windowID'));
         },
         resize : function(windowID, width, height) {
         

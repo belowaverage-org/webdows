@@ -98,17 +98,72 @@ width:300px;
 height:300px;
 top:10px;
 left:10px;
-position:absolute;
+position:absolute !important;
 border-radius:7px;
 border:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 0px 1px white, 0px 0px 20px black;
 background-color: rgba(0,0,0,.4);
-background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 background-size:600px, 100% 300px;
 background-repeat:repeat, no-repeat;
+min-height:38px;
+min-width:117px;
+}
+.window .minmaxclose {
+width:103px;
+height:20px;
+background-color:black;
+display:inline-block;
+position:absolute;
+top:0px;
+right:7px;
+}
+.window.minimized {
+animation-name: minimize;
+animation-duration: .5s;
+visibility:hidden;
+}
+.window.restored {
+animation-name: restore;
+animation-duration: .5s;
+visibility:visible;
+}
+@keyframes close {
+    from {
+        visibility:visible;
+        opacity:1;
+    }
+    to {
+        visibility:hidden;
+        opacity:0;
+        transform: scale(0.9) ;
+    }
+}
+@keyframes minimize {
+    from {
+        visibility:visible;
+        opacity:1;
+    }
+    to {
+        visibility:hidden;
+        opacity:0;
+        transform: translate(0px,100px) scale(0.9);
+    }
+}
+@keyframes restore {
+    from {
+        visibility:hidden;
+        opacity:0;
+        transform: translate(0px,100px) scale(0.9);
+    }
+    to {
+        visibility:visible;
+        opacity:1;
+    }
 }
 .window.active {
 background-color: rgba(0,0,0,.7);
+background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 }
 .window .ttl {
 color:black;
@@ -118,7 +173,7 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space: nowrap;
 display:inline-block;
-width:100%;
+width:calc(100% - 110px);
 height:28px;
 }
 .window .ttl::before {
@@ -143,4 +198,63 @@ bottom:6px;
 background-color:white;
 color:black;
 overflow:auto;
+}
+.window .ui-resizable-handle {
+position:absolute;
+}
+.window .ui-resizable-n {
+top:0px;
+width:100%;
+height:3px;
+left:0px;
+cursor:ns-resize;
+}
+.window .ui-resizable-e {
+height:100%;
+width:3px;
+right:0px;
+top:0px;
+cursor:ew-resize;
+}
+.window .ui-resizable-s {
+width:100%;
+height:3px;
+left:0px;
+bottom:0px;
+cursor:ns-resize;
+}
+.window .ui-resizable-w {
+height:100%;
+width:3px;
+left:0px;
+top:0px;
+cursor:ew-resize;
+}
+.window .ui-resizable-ne {
+width:3px;
+height:3px;
+cursor:ne-resize;
+right:0px;
+top:0px;
+}
+.window .ui-resizable-se {
+width:3px;
+height:3px;
+cursor:se-resize;
+right:0px;
+bottom:0px;
+}
+.window .ui-resizable-sw {
+width:3px;
+height:3px;
+cursor:sw-resize;
+left:0px;
+bottom:0px;
+}
+.window .ui-resizable-nw {
+width:3px;
+height:3px;
+cursor:nw-resize;
+left:0px;
+top:0px;
 }

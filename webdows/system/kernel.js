@@ -14,7 +14,7 @@ function boot() {
         $('body').attr('style','');
         $('body').html('');
         $('body').css({'background-color':'black','color':'white','font-size':'20px','font-family':'Trebuchet MS','text-align':'center','padding-top':'10%'});
-        $('body').append('<img src="webdows/resources/kernel/wsa.gif"><br>');
+        $('body').append('<img width="200" height="200" src="webdows/resources/kernel/wsa.gif"><br>');
         $('body').append('Starting Webdows<br><span style="font-size:15px;color:lightgray;">&copy;Below Average</span>');
     });
     $.getScript('webdows/system/system32.js').fail(function(xhr, s, e) {
