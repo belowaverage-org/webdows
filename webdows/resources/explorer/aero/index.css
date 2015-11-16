@@ -7,8 +7,7 @@ font-family:Segoe UI;
 height:29px;
 border-top:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 0px 1px white;
-background-image:url('glass.png');
-background-size:100%;
+background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%);
 background-color:rgba(0,0,0,.5);
 position:fixed;
 bottom:0px;
@@ -103,8 +102,8 @@ border-radius:7px;
 border:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 0px 1px white, 0px 0px 20px black;
 background-color: rgba(0,0,0,.4);
-background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
-background-size:600px, 100% 300px;
+background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+background-size:auto, 100% 300px;
 background-repeat:repeat, no-repeat;
 min-height:38px;
 min-width:117px;
@@ -163,7 +162,7 @@ visibility:visible;
 }
 .window.active {
 background-color: rgba(0,0,0,.7);
-background-image:url('glass.png'), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 }
 .window .ttl {
 color:black;
@@ -257,4 +256,56 @@ height:3px;
 cursor:nw-resize;
 left:0px;
 top:0px;
+}
+#startmenu {
+position:fixed;
+bottom:30px;
+left:0px;
+width:409px;
+height:474px;
+border:1px solid rgba(0,0,0,.5);
+box-shadow:inset 0px 0px 1px white;
+z-index:999;
+background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 50%,rgba(255,255,255,0) 100%);
+background-color:rgba(0,0,0,.5);
+border-top-left-radius:7px;
+border-top-right-radius:7px;
+}
+#startmenu .lllist {
+border:1px solid rgba(0,0,0,.7);
+box-shadow:0px 0px 1px white;
+width:250px;
+height:458px;
+position:absolute;
+left:7px;
+top:7px;
+border-radius:4px;
+background-color:white;
+}
+#startmenu .lllist .button {
+margin-left:2px;
+margin-right:2px;
+width:auto;
+height:34px;
+border:1px solid transparent;
+display:block;
+font-size:14px;
+margin-top:2px;
+}
+#startmenu .lllist .button:hover {
+border:1px solid #7da2ce;
+border-radius:3px;
+box-shadow:inset 0px 0px 1px white;
+background: linear-gradient(to bottom, rgba(221,236,253,1) 0%,rgba(194,220,253,1) 100%);
+}
+#startmenu .lllist .button::before {
+content:"";
+display:inline-block;
+width:32px;
+height:32px;
+vertical-align:-10px;
+margin-right:6px;
+}
+#startmenu .rllist .button {
+
 }

@@ -22,25 +22,10 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Ha
     blueScreen('Error detected @ '+settings.url+'<br><br>'+thrownError);
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Start UI Process */
 $('title').text('Webdows');
 $.getScript('webdows/system/shell.js').done(function() {
-    $.getScript('webdows/explorer.js');
+    $.getScript('webdows/explorer.js').done(function() {
+        $.getScript('webdows/startup.js');
+    });
 });

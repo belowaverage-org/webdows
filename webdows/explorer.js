@@ -8,13 +8,14 @@ var explorer = {
     initiate : function() {
         $('body').attr('style','background-color:black;');
         $('body').html('');
-        $('body').hide().show(0); //Redraw screen
+        $('body').hide().show(0);
         $('.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
         $('body').html('');
         $('body').append('<div class="explorer" id="desktop"></div>');
         $('#desktop').append('<div id="taskbar"></div>');
+        explorer.start.initiate();
         $('#taskbar').append('<span id="leftframe"></span>');
         $('#taskbar #leftframe').append('<div id="start"></div>');
         $('#taskbar').append('<span id="rightframe"></span>');
@@ -30,6 +31,18 @@ var explorer = {
             var date = new Date();
             $('#taskbar #time').html(formatAMPM(date));
         }, 500);
+    },
+    start : {
+        toggle : function() {
+        },
+        initiate : function() {
+            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="rllist"></div></div>');
+            $('#startmenu .lllist').append('<span class="button icon">Welcome to Webdows</span>');
+            $('#startmenu .lllist').append('<span class="button icon icon-cmd">CMD</span>');
+            $('#startmenu .lllist').append('<span class="button icon">Explorer</span>');
+            $('#startmenu .lllist').append('<span class="button icon">Program.js</span>');
+            $('#startmenu .lllist').append('<span class="button icon">Wow</span>');
+        }
     },
     window : {
         open : function() {
@@ -101,6 +114,4 @@ var explorer = {
 $(document).ready(function() {
     explorer.initiate();
     explorer.changeThemeName('aero');
-    explorer.window.open();
-    explorer.window.open();
 })
