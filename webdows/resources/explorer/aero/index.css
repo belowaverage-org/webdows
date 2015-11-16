@@ -109,13 +109,36 @@ min-height:38px;
 min-width:117px;
 }
 .window .minmaxclose {
-width:103px;
 height:20px;
-background-color:black;
 display:inline-block;
 position:absolute;
-top:0px;
-right:7px;
+top:-1px;
+right:6px;
+text-align:right;
+border-bottom-left-radius:5px;
+border-bottom-right-radius:5px;
+overflow:hidden;
+padding-right:1px;
+box-shadow:1px 0px 0px rgba(255,255,255,0.3), -1px 1px 0px rgba(255,255,255,0.3);
+}
+.window .minmaxclose span {
+display:inline-block;
+height:18px;
+margin-right:-1px;
+border:1px solid rgba(0,0,0,.8);
+box-shadow:inset 0px 0px 1px white;
+}
+.window .minmaxclose .min {
+width:25px;
+background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(181,181,181,0.5) 50%,rgba(76,76,76,0.5) 51%,rgba(140,140,140,0.5) 100%); 
+}
+.window .minmaxclose .max {
+background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(181,181,181,0.5) 50%,rgba(76,76,76,0.5) 51%,rgba(140,140,140,0.5) 100%); 
+width:25px;
+}
+.window .minmaxclose .close {
+background: linear-gradient(to bottom, rgba(255,71,71,0.5) 0%,rgba(255,0,0,0.5) 50%,rgba(201,0,0,0.5) 51%,rgba(255,94,94,0.5) 100%);
+width:42px;
 }
 .window.minimized {
 animation-name: minimize;

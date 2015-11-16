@@ -48,7 +48,7 @@ var explorer = {
         open : function() {
             var windowID = guid();
             var winid = '.window[windowID='+windowID+']';
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="minmaxclose"></span><div class="body"></div></div>');
+            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
             $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'">'+windowID+'</span>');
             $('#taskbar').sortable("refresh");
             $(winid).mousedown(function() {
@@ -114,4 +114,5 @@ var explorer = {
 $(document).ready(function() {
     explorer.initiate();
     explorer.changeThemeName('aero');
-})
+	explorer.window.open();
+});
