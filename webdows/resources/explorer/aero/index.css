@@ -127,6 +127,9 @@ border-right:1px solid rgba(0,0,0,.8);
 box-shadow:inset 0px 0px 1px white;
 transition:.3s;
 }
+.window.minimized .minmaxclose span {
+transition:none;
+}
 .window .minmaxclose span:last-child {
 border-right:none;
 border-bottom-right-radius:4px;

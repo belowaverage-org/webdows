@@ -27,10 +27,19 @@ var explorer = {
             distance: 5,
             helper : 'clone'
         });
-        var timeService = setInterval(function() { //Start clock
+        var timeService = setInterval(function() { //Start clock service
             var date = new Date();
             $('#taskbar #time').html(formatAMPM(date));
         }, 500);
+        $('#desktop').on('mousedown', function(e) { //Start active listener service
+            if((!$(e.target).parents('.window').length) && !$(e.target).is('.window') && !$(e.target).is('#taskbar .button') && !$(e.target).parents('#taskbar .button').length) {
+                $('.window').each(function() {
+                    if($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                    }
+                });
+            }
+        });
     },
     start : {
         toggle : function() {
@@ -52,29 +61,28 @@ var explorer = {
             $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'">'+windowID+'</span>');
             $('#taskbar').sortable("refresh");
             $(winid).mousedown(function() {
-                explorer.window.front(windowID);
+                explorer.window.front(winid);
             });
-            $('#taskbar .button[windowID='+windowID+']').click(function() {
-                explorer.window.toggle(windowID);
+            $('#taskbar .button[windowID='+windowID+'], '+winid+' .minmaxclose .min').click(function() {
+                explorer.window.toggle(winid);
             });
-            explorer.window.front(windowID);
+            explorer.window.front(winid);
             $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
-            return windowID;
+            return $(winid);
         },
-        close : function(windowID) {
+        close : function(window) {
             
         },
-        toggle : function(windowID) {
-            var winid = '.window[windowID='+windowID+']';
-            if($(winid).hasClass('active') || $(winid).hasClass('minimized')) {
-                if($(winid).hasClass('minimized')) {
-                    $(winid).removeClass('minimized').addClass('restored');
+        toggle : function(window) {
+            var winid = $(window);
+            if(winid.hasClass('active') || winid.hasClass('minimized')) {
+                if(winid.hasClass('minimized')) {
+                    winid.removeClass('minimized').addClass('restored');
                 } else {
-                    $(winid).removeClass('restored').addClass('minimized');
+                    winid.removeClass('restored').addClass('minimized');
                 }
-                
             }
-            explorer.window.front(windowID);
+            explorer.window.front(winid);
             var topZ = -1;
             var topID = winid;
             $('.window').each(function() {
@@ -83,22 +91,22 @@ var explorer = {
                     topID = this;
                 }
             });
-            explorer.window.front($(topID).attr('windowID'));
+            explorer.window.front(topID);
         },
-        resize : function(windowID, width, height) {
+        resize : function(window, width, height) {
         
         },
-        icon : function(windowID, idkyetlol) {
+        icon : function(window, idkyetlol) {
         
         },
-        title : function(windowID, title) {
+        title : function(window, title) {
         
         },
-        front : function(windowID) {
-            var winid = '.window[windowID='+windowID+']';
+        front : function(window) {
+            var winid = $(window);
             var count = $('.window').length;
-            var fronte = $(winid).css('z-index');
-            $(winid).css('z-index', count);
+            var fronte = winid.css('z-index');
+            winid.css('z-index', count);
             $(".window").each(function(index) {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
@@ -107,12 +115,16 @@ var explorer = {
                     $(this).css('z-index', minzin);
                 }
             });
-            $(winid).addClass('active');
+            winid.addClass('active');
         }
     }
 };
 $(document).ready(function() {
     explorer.initiate();
     explorer.changeThemeName('aero');
-	explorer.window.open();
+    
+    
+	var WINDOW = explorer.window.open();
+    WINDOW.find('.body').html('<iframe src="https://belowaverage.org/" style="position:absolute;top:0px;left:0px;width:100%;height:100%;border:none;"></ifame>');
+    
 });
