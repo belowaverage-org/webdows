@@ -117,28 +117,55 @@ right:6px;
 text-align:right;
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px;
-overflow:hidden;
-padding-right:1px;
+border:1px solid rgba(0,0,0,.8);
 box-shadow:1px 0px 0px rgba(255,255,255,0.3), -1px 1px 0px rgba(255,255,255,0.3);
 }
 .window .minmaxclose span {
 display:inline-block;
-height:18px;
-margin-right:-1px;
-border:1px solid rgba(0,0,0,.8);
+height:20px;
+border-right:1px solid rgba(0,0,0,.8);
 box-shadow:inset 0px 0px 1px white;
+transition:.3s;
+}
+.window .minmaxclose span:last-child {
+border-right:none;
+border-bottom-right-radius:4px;
+}
+.window .minmaxclose span:first-child {
+border-bottom-left-radius:4px;
+}
+.window.active .minmaxclose .min {
+background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.1) 51%,rgba(255,255,255,0.2) 100%);
+}
+.window.active .minmaxclose .max {
+background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.1) 51%,rgba(255,255,255,0.2) 100%);
+}
+.window.active .minmaxclose .close {
+background: linear-gradient(to bottom, rgba(218,154,144,1) 0%,rgba(200,109,92,1) 50%,rgba(200,109,92,1) 50%,rgba(180,52,28,1) 51%,rgba(192,109,85,1) 100%);
 }
 .window .minmaxclose .min {
-width:25px;
-background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(181,181,181,0.5) 50%,rgba(76,76,76,0.5) 51%,rgba(140,140,140,0.5) 100%); 
+background: none;
+width:27px;
 }
 .window .minmaxclose .max {
-background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(181,181,181,0.5) 50%,rgba(76,76,76,0.5) 51%,rgba(140,140,140,0.5) 100%); 
-width:25px;
+background: none;
+width:27px;
 }
 .window .minmaxclose .close {
-background: linear-gradient(to bottom, rgba(255,71,71,0.5) 0%,rgba(255,0,0,0.5) 50%,rgba(201,0,0,0.5) 51%,rgba(255,94,94,0.5) 100%);
-width:42px;
+background: none;
+width:46px;
+}
+.window .minmaxclose .min:hover {
+background: linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px #5cc4ef, 0px 0px 10px #5cc4ef;
+}
+.window .minmaxclose .max:hover {
+background: linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px #5cc4ef, 0px 0px 10px #5cc4ef;
+}
+.window .minmaxclose .close:hover {
+background: linear-gradient(to bottom, rgba(251,157,139,1) 0%,rgba(238,109,86,1) 50%,rgba(238,109,86,1) 50%,rgba(213,41,10,1) 51%,rgba(230,148,47,1) 100%);
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px #d86f54, 0px 0px 10px #d86f54;
 }
 .window.minimized {
 animation-name: minimize;
@@ -184,7 +211,7 @@ visibility:visible;
     }
 }
 .window.active {
-background-color: rgba(0,0,0,.7);
+background-color: rgba(0,0,0,.5);
 background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 }
 .window .ttl {
@@ -213,7 +240,7 @@ border:1px solid rgba(0,0,0,.8);
 position:absolute;
 left:6px;
 border-radius:2px;
-box-shadow:inset 0px 0px 1px black, 0px 0px 1px white;
+box-shadow:0px 0px 1px white;
 right:6px;
 top:28px;
 bottom:6px;
