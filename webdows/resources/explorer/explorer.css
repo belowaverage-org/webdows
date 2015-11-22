@@ -16,21 +16,3 @@ cursor:default;
 background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
 background-size:100% 100%;
 }
-.icon-explorer::before {
-background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
-}
-.icon-notepad::before {
-background-image:url('../icons/notepad_2.ico');
-}
-.icon-cmd::before {
-background-image:url('../icons/cmd_IDI_APPICON.ico');
-}
-.icon-explorer::before {
-background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
-}
-.icon-explorer::before {
-background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
-}
-.icon-explorer::before {
-background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
-}

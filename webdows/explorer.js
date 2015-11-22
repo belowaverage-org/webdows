@@ -62,19 +62,23 @@ var explorer = {
             $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="rllist"></div></div>');
 			explorer.start.toggle();
         },
-		appendRightButton : function() {
+		addRButton : function() {
 			
 		},
-		appendLeftButton : function() {
-			
+		addLButton : function(title, callback) {
+            var callbackID = system.guid();
+			$('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="icon button">'+title+'</div>');
+            $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
+                explorer.start.toggle();
+            });
 		}
     },
     window : {
         open : function() {
             var windowID = system.guid();
             var winid = '.window[windowID='+windowID+']';
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
-            $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'">'+windowID+'</span>');
+            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon"></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
+            $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'"></span>');
             $('#taskbar').sortable("refresh");
             $(winid).mousedown(function() {
                 explorer.window.front(winid);
@@ -85,12 +89,18 @@ var explorer = {
             $(winid+' .minmaxclose .max').click(function() {
                 explorer.window.toggleMax(winid);
             });
+            $(winid+' .minmaxclose .close').click(function() {
+                explorer.window.close(winid);
+            });
             explorer.window.front(winid);
             $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
             return $(winid);
         },
         close : function(window) {
-            
+            var winid = $(window);
+            var windowID = winid.attr('windowID');
+            winid.remove();
+            $('#taskbar .button[windowID='+windowID+']').remove();
         },
         toggleMin : function(window) {
             var winid = $(window);
@@ -123,13 +133,17 @@ var explorer = {
             }
         },
         resize : function(window, width, height) {
-        
+            var winid = $(window);
+            winid.css({'width':width+'px','height':height+'px'});
         },
-        icon : function(window, idkyetlol) {
-        
+        icon : function(window, icon) {
+            //needs work
         },
         title : function(window, title) {
-        
+            var winid = $(window);
+            var windowID = winid.attr('windowID');
+            winid.children('.ttl').text(title);
+            $('#taskbar .button[windowID='+windowID+']').text(title);
         },
         front : function(window) {
             var winid = $(window);
@@ -151,8 +165,4 @@ var explorer = {
 $(document).ready(function() {
     explorer.initiate();
     explorer.changeThemeName('aero');
-    
-    
-	
-    
 });
