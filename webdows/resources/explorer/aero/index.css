@@ -107,6 +107,7 @@ background-size:auto, 100% 300px;
 background-repeat:repeat, no-repeat;
 min-height:38px;
 min-width:117px;
+transition:opacity .5s, transform .5s;
 }
 .window .minmaxclose {
 height:20px;
@@ -143,6 +144,9 @@ background-image:url('min.png'), linear-gradient(to bottom, rgba(255,255,255,0.3
 .window.active .minmaxclose .max {
 background-image:url('max.png'), linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.1) 51%,rgba(255,255,255,0.2) 100%);
 }
+.window.active.maximized .minmaxclose .max {
+background-image:url('mmax.png'), linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.1) 51%,rgba(255,255,255,0.2) 100%);
+}
 .window.active .minmaxclose .close {
 background-image:url('exi.png'), linear-gradient(to bottom, rgba(218,154,144,1) 0%,rgba(200,109,92,1) 50%,rgba(200,109,92,1) 50%,rgba(180,52,28,1) 51%,rgba(192,109,85,1) 100%);
 }
@@ -158,6 +162,9 @@ background-image:url('max.png'), none;
 background-position:50% 50%, 0;
 background-repeat:no-repeat, repeat;
 }
+.window.maximized .minmaxclose .max {
+background-image:url('mmax.png'), none;
+}
 .window .minmaxclose .close {
 width:46px;
 background-image:url('exi.png'), none;
@@ -172,52 +179,38 @@ box-shadow:inset 0px 0px 1px white, 0px 0px 20px #5cc4ef, 0px 0px 10px #5cc4ef;
 background-image:url('max.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
 box-shadow:inset 0px 0px 1px white, 0px 0px 20px #5cc4ef, 0px 0px 10px #5cc4ef;
 }
+.window.maximized .minmaxclose .max:hover {
+background-image:url('mmax.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+}
 .window .minmaxclose .close:hover {
 background-image:url('exi.png'), linear-gradient(to bottom, rgba(251,157,139,1) 0%,rgba(238,109,86,1) 50%,rgba(238,109,86,1) 50%,rgba(213,41,10,1) 51%,rgba(230,148,47,1) 100%);
 box-shadow:inset 0px 0px 1px white, 0px 0px 20px #d86f54, 0px 0px 10px #d86f54;
 }
 .window.minimized {
-animation-name: minimize;
-animation-duration: .5s;
 visibility:hidden;
+opacity:0;
+transform: translate(0px,100px) scale(0.9);
+transition:.5s;
 }
-.window.restored {
-animation-name: restore;
-animation-duration: .5s;
-visibility:visible;
+.window.maximized {
+width:100% !important;
+height:calc(100% - 30px) !important;
+top:0px !important;
+left:0px !important;
+border:none;
+border-radius:0px;
+box-shadow:none;
 }
-@keyframes close {
-    from {
-        visibility:visible;
-        opacity:1;
-    }
-    to {
-        visibility:hidden;
-        opacity:0;
-        transform: scale(0.9) ;
-    }
+.window.maximized .body {
+left:0px;
+right:0px;
+bottom:0px;
+box-shadow:none;
+border:none;
+border-radius:0px;
 }
-@keyframes minimize {
-    from {
-        visibility:visible;
-        opacity:1;
-    }
-    to {
-        visibility:hidden;
-        opacity:0;
-        transform: translate(0px,100px) scale(0.9);
-    }
-}
-@keyframes restore {
-    from {
-        visibility:hidden;
-        opacity:0;
-        transform: translate(0px,100px) scale(0.9);
-    }
-    to {
-        visibility:visible;
-        opacity:1;
-    }
+.window.maximized .minmaxclose {
+right:3px;
 }
 .window.active {
 background-color: rgba(0,0,0,.5);
@@ -269,49 +262,49 @@ cursor:ns-resize;
 }
 .window .ui-resizable-e {
 height:100%;
-width:3px;
+width:5px;
 right:0px;
 top:0px;
 cursor:ew-resize;
 }
 .window .ui-resizable-s {
 width:100%;
-height:3px;
+height:5px;
 left:0px;
 bottom:0px;
 cursor:ns-resize;
 }
 .window .ui-resizable-w {
 height:100%;
-width:3px;
+width:5px;
 left:0px;
 top:0px;
 cursor:ew-resize;
 }
 .window .ui-resizable-ne {
-width:3px;
-height:3px;
+width:5px;
+height:5px;
 cursor:ne-resize;
 right:0px;
 top:0px;
 }
 .window .ui-resizable-se {
-width:3px;
-height:3px;
+width:5px;
+height:5px;
 cursor:se-resize;
 right:0px;
 bottom:0px;
 }
 .window .ui-resizable-sw {
-width:3px;
-height:3px;
+width:5px;
+height:5px;
 cursor:sw-resize;
 left:0px;
 bottom:0px;
 }
 .window .ui-resizable-nw {
-width:3px;
-height:3px;
+width:5px;
+height:5px;
 cursor:nw-resize;
 left:0px;
 top:0px;
@@ -332,8 +325,6 @@ border-top-right-radius:7px;
 }
 #startmenu.minimized {
 visibility:hidden;
-}
-#startmenu.restored {
 }
 #startmenu .lllist {
 border:1px solid rgba(0,0,0,.7);

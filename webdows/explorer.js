@@ -53,9 +53,9 @@ var explorer = {
         toggle : function() {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
-				start.removeClass('minimized').addClass('restored');
+				start.removeClass('minimized');
 			} else {
-				start.removeClass('restored').addClass('minimized');
+				start.addClass('minimized');
 			}
         },
         initiate : function() {
@@ -80,7 +80,10 @@ var explorer = {
                 explorer.window.front(winid);
             });
             $('#taskbar .button[windowID='+windowID+'], '+winid+' .minmaxclose .min').click(function() {
-                explorer.window.toggle(winid);
+                explorer.window.toggleMin(winid);
+            });
+            $(winid+' .minmaxclose .max').click(function() {
+                explorer.window.toggleMax(winid);
             });
             explorer.window.front(winid);
             $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
@@ -89,13 +92,13 @@ var explorer = {
         close : function(window) {
             
         },
-        toggle : function(window) {
+        toggleMin : function(window) {
             var winid = $(window);
             if(winid.hasClass('active') || winid.hasClass('minimized')) {
                 if(winid.hasClass('minimized')) {
-                    winid.removeClass('minimized').addClass('restored');
+                    winid.removeClass('minimized');
                 } else {
-                    winid.removeClass('restored').addClass('minimized');
+                    winid.addClass('minimized');
                 }
             }
             explorer.window.front(winid);
@@ -108,6 +111,16 @@ var explorer = {
                 }
             });
             explorer.window.front(topID);
+        },
+        toggleMax : function(window) {
+            var winid = $(window);
+            if(winid.hasClass('active') || winid.hasClass('maximized')) {
+                if(winid.hasClass('maximized')) {
+                    winid.removeClass('maximized');
+                } else {
+                    winid.addClass('maximized');
+                }
+            }
         },
         resize : function(window, width, height) {
         
