@@ -29,33 +29,49 @@ var explorer = {
         });
         var timeService = setInterval(function() { //Start clock service
             var date = new Date();
-            $('#taskbar #time').html(formatAMPM(date));
+            $('#taskbar #time').html(system.formatAMPM(date));
         }, 500);
         $('#desktop').on('mousedown', function(e) { //Start active listener service
-            if((!$(e.target).parents('.window').length) && !$(e.target).is('.window') && !$(e.target).is('#taskbar .button') && !$(e.target).parents('#taskbar .button').length) {
+            if(!$(e.target).parents('.window').length && !$(e.target).is('.window') && !$(e.target).is('#taskbar .button') && !$(e.target).parents('#taskbar .button').length) {
                 $('.window').each(function() {
                     if($(this).hasClass('active')) {
                         $(this).removeClass('active');
                     }
                 });
             }
+			if(!$(e.target).parents('#desktop #startmenu').length && !$(e.target).is('#desktop #startmenu') && !$(e.target).parents('#taskbar #start').length && !$(e.target).is('#taskbar #start')) {
+				if(!$('#desktop #startmenu').hasClass('minimized')) {
+					explorer.start.toggle();
+				}
+			}
         });
+		$('#taskbar #start').click(function() {
+			explorer.start.toggle();
+		});
     },
     start : {
         toggle : function() {
+			var start = $('#desktop #startmenu');
+			if(start.hasClass('minimized')) {
+				start.removeClass('minimized').addClass('restored');
+			} else {
+				start.removeClass('restored').addClass('minimized');
+			}
         },
         initiate : function() {
             $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="rllist"></div></div>');
-            $('#startmenu .lllist').append('<span class="button icon">Welcome to Webdows</span>');
-            $('#startmenu .lllist').append('<span class="button icon icon-cmd">CMD</span>');
-            $('#startmenu .lllist').append('<span class="button icon">Explorer</span>');
-            $('#startmenu .lllist').append('<span class="button icon">Program.js</span>');
-            $('#startmenu .lllist').append('<span class="button icon">Wow</span>');
-        }
+			explorer.start.toggle();
+        },
+		appendRightButton : function() {
+			
+		},
+		appendLeftButton : function() {
+			
+		}
     },
     window : {
         open : function() {
-            var windowID = guid();
+            var windowID = system.guid();
             var winid = '.window[windowID='+windowID+']';
             $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon icon-explorer">'+windowID+'</span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
             $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'">'+windowID+'</span>');
@@ -124,7 +140,6 @@ $(document).ready(function() {
     explorer.changeThemeName('aero');
     
     
-	var WINDOW = explorer.window.open();
-    WINDOW.find('.body').html('<iframe src="https://belowaverage.org/" style="position:absolute;top:0px;left:0px;width:100%;height:100%;border:none;"></ifame>');
+	
     
 });
