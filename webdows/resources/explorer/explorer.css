@@ -12,7 +12,16 @@ height:100%;
 user-select: none;
 cursor:default;
 }
+@font-face {
+font-family: NotoSans;
+src: url('notosans.ttf');
+}
 .icon::before {
 background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
+background-image:url(attr(icon)); /* This might work some day... */
 background-size:100% 100%;
+content:"";
+width:16px;
+height:16px;
+display:inline-block;
 }

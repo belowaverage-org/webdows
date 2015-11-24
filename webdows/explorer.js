@@ -59,19 +59,34 @@ var explorer = {
 			}
         },
         initiate : function() {
-            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="rllist"></div></div>');
+            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="ap"></div><div class="rllist"></div></div>');
 			explorer.start.toggle();
+            $('#startmenu .ap').click(function() {
+               explorer.start.showAllToggle(); 
+            });
         },
 		addRButton : function() {
 			
 		},
 		addLButton : function(title, callback) {
             var callbackID = system.guid();
-			$('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="icon button">'+title+'</div>');
+            $('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="icon button">'+title+'</div>');
             $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
+                if($('#startmenu .lllist').hasClass('all')) {
+                    explorer.start.showAllToggle(); 
+                }
             });
-		}
+		},
+        showAllToggle : function() {
+            var start = $('#startmenu .lllist');
+            if(start.hasClass('all')) {
+                start.removeClass('all');
+            } else {
+                start.addClass('all');
+            }
+            start.scrollTop(0);
+        }
     },
     window : {
         open : function() {
