@@ -59,7 +59,7 @@ display:inline-block;
 #taskbar .button {
 width:157px;
 height:30px;
-background:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%);
 background-position:0, 0px 30px;
 background-repeat:no-repeat, no-repeat;
 display:inline-block;
@@ -73,8 +73,12 @@ font-size:14px;
 padding-right:3px;
 text-overflow:ellipsis;
 overflow:hidden;
-white-space: nowrap;
+white-space:nowrap;
 transition:.5s;
+}
+#taskbar .button.active {
+background-position:0, 0px 0px;
+background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
 }
 #taskbar .button:hover {
 background-position:0, 0px 0px;
@@ -82,8 +86,7 @@ background-position:0, 0px 0px;
 #taskbar .button.ui-sortable-helper {
 transition:none;
 }
-#taskbar .button::before {
-content:"";
+#taskbar .button .icon {
 width:18px;
 margin-left:10px;
 margin-top:6px;
@@ -229,8 +232,7 @@ display:inline-block;
 width:calc(100% - 110px);
 height:28px;
 }
-.window .ttl::before {
-content:"";
+.window .ttl .icon {
 width:18px;
 margin-left:6px;
 margin-top:6px;
@@ -365,6 +367,7 @@ border-right:1px solid rgba(0,0,0,.7);
 #startmenu .lllist.all .button {
 height:18px;
 line-height:16px;
+font-size:13px;
 }
 #startmenu  .ap::after {
 top:12px;
@@ -383,6 +386,9 @@ border:1px solid transparent;
 display:block;
 font-size:14px;
 margin-top:2px;
+text-overflow:ellipsis;
+overflow:hidden;
+white-space: nowrap;
 }
 #startmenu .lllist .button:hover, #startmenu  .ap:hover::after {
 border:1px solid #7da2ce;
@@ -390,19 +396,41 @@ border-radius:3px;
 box-shadow:inset 0px 0px 1px white;
 background: linear-gradient(to bottom, rgba(221,236,253,1) 0%,rgba(194,220,253,1) 100%);
 }
-#startmenu .lllist .button::before {
-content:"";
+#startmenu .lllist .button .icon {
 display:inline-block;
 width:32px;
 height:32px;
 vertical-align:-10px;
 margin-right:6px;
 }
-#startmenu .lllist.all .button::before {
+#startmenu .lllist.all .button .icon {
 width:16px;
 height:16px;
-vertical-align:0px;
+vertical-align: -3px;
+}
+#startmenu .rllist {
+right:7px;
+top:50px;
+position:absolute;
+left:265px;
 }
 #startmenu .rllist .button {
-
+border:1px solid transparent;
+color:white;
+border-radius:4px;
+height:29px;
+width:calc(100% - 12px);
+font-size:13px;
+line-height:28px;
+padding-left:6px;
+padding-right:6px;
+text-overflow:ellipsis;
+overflow:hidden;
+white-space: nowrap;
+margin-bottom:5px;
+}
+#startmenu .rllist .button:hover {
+border:1px solid rgba(0,0,0,.9);
+box-shadow:inset 0px 0px 1px white, 0px 0px 1px white;
+background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.2) 100%);
 }

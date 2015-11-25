@@ -16,11 +16,9 @@ cursor:default;
 font-family: NotoSans;
 src: url('notosans.ttf');
 }
-.icon::before {
+.icon {
 background-image:url('../icons/explorer_ICO_MYCOMPUTER.ico');
-background-image:url(attr(icon)); /* This might work some day... */
 background-size:100% 100%;
-content:"";
 width:16px;
 height:16px;
 display:inline-block;

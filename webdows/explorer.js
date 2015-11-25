@@ -33,7 +33,7 @@ var explorer = {
         }, 500);
         $('#desktop').on('mousedown', function(e) { //Start active listener service
             if(!$(e.target).parents('.window').length && !$(e.target).is('.window') && !$(e.target).is('#taskbar .button') && !$(e.target).parents('#taskbar .button').length) {
-                $('.window').each(function() {
+                $('.window, #taskbar .button').each(function() {
                     if($(this).hasClass('active')) {
                         $(this).removeClass('active');
                     }
@@ -65,18 +65,31 @@ var explorer = {
                explorer.start.showAllToggle(); 
             });
         },
-		addRButton : function() {
-			
-		},
-		addLButton : function(title, callback) {
-            var callbackID = system.guid();
-            $('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="icon button">'+title+'</div>');
-            $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
+		addRButton : function(title, callback) {
+			var callbackID = system.guid();
+            $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" class="button">'+title+'</div>');
+            $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
                 if($('#startmenu .lllist').hasClass('all')) {
                     explorer.start.showAllToggle(); 
                 }
             });
+            return $('#startmenu .rllist .button[callbackID='+callbackID+']');
+		},
+		addLButton : function(title, icon, callback) {
+            var callbackID = system.guid();
+            $('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="button"><span class="icon"></span>'+title+'</div>');
+            if(typeof icon !== 'undefined') {
+                $('#startmenu .lllist .button[callbackID='+callbackID+'] .icon').css("background-image","url('"+icon+"')");
+            }
+            $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
+                explorer.start.toggle();
+                $(this).prependTo('#startmenu .lllist');
+                if($('#startmenu .lllist').hasClass('all')) {
+                    explorer.start.showAllToggle(); 
+                }
+            });
+            return $('#startmenu .lllist .button[callbackID='+callbackID+']');
 		},
         showAllToggle : function() {
             var start = $('#startmenu .lllist');
@@ -92,8 +105,8 @@ var explorer = {
         open : function() {
             var windowID = system.guid();
             var winid = '.window[windowID='+windowID+']';
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl icon"></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
-            $('#taskbar').append('<span class="button icon icon-explorer" windowID="'+windowID+'"></span>');
+            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
+            $('#taskbar').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
             $('#taskbar').sortable("refresh");
             $(winid).mousedown(function() {
                 explorer.window.front(winid);
@@ -116,6 +129,15 @@ var explorer = {
             var windowID = winid.attr('windowID');
             winid.remove();
             $('#taskbar .button[windowID='+windowID+']').remove();
+            var topZ = -1;
+            var topID = winid;
+            $('.window').each(function() {
+                if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
+                    topZ = $(this).css('z-index');
+                    topID = this;
+                }
+            });
+            explorer.window.front(topID);
         },
         toggleMin : function(window) {
             var winid = $(window);
@@ -151,14 +173,18 @@ var explorer = {
             var winid = $(window);
             winid.css({'width':width+'px','height':height+'px'});
         },
-        icon : function(window, icon) {
-            //needs work
+        icon : function(window, url) {
+            var winid = $(window);
+            var windowid = winid.attr('WindowID');
+            var css = {'background-image':"url('"+url+"')"};
+            winid.find('.ttl .icon').css(css);
+            $('#taskbar .button[windowID="'+windowid+'"] .icon').css(css);
         },
         title : function(window, title) {
             var winid = $(window);
             var windowID = winid.attr('windowID');
-            winid.children('.ttl').text(title);
-            $('#taskbar .button[windowID='+windowID+']').text(title);
+            winid.find('.ttl .title').text(title);
+            $('#taskbar .button[windowID='+windowID+'] .title').text(title);
         },
         front : function(window) {
             var winid = $(window);
@@ -168,12 +194,16 @@ var explorer = {
             $(".window").each(function(index) {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
+                $('#taskbar .button[windowID="'+$(this).attr('windowID')+'"]').removeClass('active');
                 if(looped >= fronte) {
                     var minzin = $(this).css('z-index') - 1;
                     $(this).css('z-index', minzin);
                 }
             });
-            winid.addClass('active');
+            if(!winid.hasClass('minimized')) {
+                winid.addClass('active');
+                $('#taskbar .button[windowID="'+winid.attr('windowID')+'"]').addClass('active');
+            }
         }
     }
 };
