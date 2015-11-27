@@ -59,10 +59,10 @@ var explorer = {
 			}
         },
         initiate : function() {
-            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="ap"></div><div class="rllist"></div></div>');
+            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input></div><div class="rllist"></div></div>');
 			explorer.start.toggle();
-            $('#startmenu .ap').click(function() {
-               explorer.start.showAllToggle(); 
+            $('#startmenu .apb').click(function() {
+               explorer.start.allProgramsToggle(); 
             });
         },
 		addRButton : function(title, callback) {
@@ -71,7 +71,7 @@ var explorer = {
             $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
                 if($('#startmenu .lllist').hasClass('all')) {
-                    explorer.start.showAllToggle(); 
+                    explorer.start.allProgramsToggle(); 
                 }
             });
             return $('#startmenu .rllist .button[callbackID='+callbackID+']');
@@ -86,12 +86,12 @@ var explorer = {
                 explorer.start.toggle();
                 $(this).prependTo('#startmenu .lllist');
                 if($('#startmenu .lllist').hasClass('all')) {
-                    explorer.start.showAllToggle(); 
+                    explorer.start.allProgramsToggle(); 
                 }
             });
             return $('#startmenu .lllist .button[callbackID='+callbackID+']');
 		},
-        showAllToggle : function() {
+        allProgramsToggle : function() {
             var start = $('#startmenu .lllist');
             if(start.hasClass('all')) {
                 start.removeClass('all');

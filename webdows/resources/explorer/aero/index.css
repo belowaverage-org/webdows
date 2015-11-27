@@ -59,8 +59,8 @@ display:inline-block;
 #taskbar .button {
 width:157px;
 height:30px;
-background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%);
-background-position:0, 0px 30px;
+background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+background-position:0, 0px 30px, 0px 30px;
 background-repeat:no-repeat, no-repeat;
 display:inline-block;
 position:relative;
@@ -76,12 +76,11 @@ overflow:hidden;
 white-space:nowrap;
 transition:.5s;
 }
-#taskbar .button.active {
-background-position:0, 0px 0px;
-background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+#taskbar .button.active, #taskbar .button.active:hover {
+background-position:0, 0px 30px, 0px 0px;
 }
 #taskbar .button:hover {
-background-position:0, 0px 0px;
+background-position:0, 0px 0px, 0px 30px;
 }
 #taskbar .button.ui-sortable-helper {
 transition:none;
@@ -103,7 +102,7 @@ left:10px;
 position:absolute !important;
 border-radius:7px;
 border:1px solid rgba(0,0,0,.5);
-box-shadow:inset 0px 0px 1px white, 0px 0px 20px black;
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px rgba(1,1,1,.5);
 background-color: rgba(0,0,0,.4);
 background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 background-size:auto, 100% 300px;
@@ -220,6 +219,7 @@ right:3px;
 .window.active {
 background-color: rgba(0,0,0,.5);
 background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+box-shadow:inset 0px 0px 1px white, 0px 0px 20px rgba(1,1,1,1);
 }
 .window .ttl {
 color:black;
@@ -336,20 +336,19 @@ border-left:1px solid rgba(0,0,0,.7);
 border-right:1px solid rgba(0,0,0,.7);
 box-shadow:0px 0px 1px white;
 width:250px;
-height:368px;
+height:382px;
 position:absolute;
 left:7px;
 top:7px;
 border-top-left-radius:4px;
 border-top-right-radius:4px;
 background-color:white;
-padding-bottom:45px;
 overflow:hidden;
 }
 #startmenu .lllist.all {
 overflow-y:scroll;
 }
-#startmenu  .ap {
+#startmenu .search {
 position:absolute;
 bottom:8px;
 border-bottom-left-radius:4px;
@@ -369,13 +368,38 @@ height:18px;
 line-height:16px;
 font-size:13px;
 }
-#startmenu  .ap::after {
-top:12px;
-left:10px;
+#startmenu .apb {
+bottom:54px;
+left:7px;
+position:absolute;
+right:10px;
+height:30px;
+background-color:white;
+width:250px;
+border-left:1px solid rgba(0,0,0,.7);
+border-right:1px solid rgba(0,0,0,.7);
+box-shadow:0px 0px 1px white;
+}
+#startmenu .apb::after {
+top:4px;
+left:2px;
 position:absolute;
 content:"\25B6 \20 All Programs";
 border:1px solid transparent;
-right:10px;
+right:2px;
+font-size:13px;
+padding-left:5px;
+padding-right:5px;
+}
+#startmenu .lllist.all + .apb::after {
+content:"\25c0 \20 Back";
+}
+#startmenu .apb::before {
+border-top:1px solid lightgray;
+content:"";
+width:calc(100% - 14px);
+position:absolute;
+margin-left:7px;
 }
 #startmenu .lllist .button {
 margin-left:2px;
@@ -390,7 +414,7 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space: nowrap;
 }
-#startmenu .lllist .button:hover, #startmenu  .ap:hover::after {
+#startmenu .lllist .button:hover, #startmenu  .apb:hover::after {
 border:1px solid #7da2ce;
 border-radius:3px;
 box-shadow:inset 0px 0px 1px white;
@@ -410,7 +434,7 @@ vertical-align: -3px;
 }
 #startmenu .rllist {
 right:7px;
-top:50px;
+top:40px;
 position:absolute;
 left:265px;
 }
@@ -433,4 +457,15 @@ margin-bottom:5px;
 border:1px solid rgba(0,0,0,.9);
 box-shadow:inset 0px 0px 1px white, 0px 0px 1px white;
 background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.2) 100%);
+}
+#startmenu::after {
+content:"";
+position:absolute;
+display:block;
+width:70px;
+height:70px;
+background-image:url('../../icons/netcenter_8.ico');
+background-size:100% 100%;
+right:40px;
+top:-40px;
 }
