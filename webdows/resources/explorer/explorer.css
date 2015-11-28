@@ -12,6 +12,9 @@ height:100%;
 user-select: none;
 cursor:default;
 }
+* {
+outline:none;
+}
 @font-face {
 font-family: NotoSans;
 src: url('notosans.ttf');
