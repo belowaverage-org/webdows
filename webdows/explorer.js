@@ -99,7 +99,10 @@ var explorer = {
                 start.addClass('all');
             }
             start.scrollTop(0);
-        }
+        },
+		searchProgramsToggle : function() {
+			//This
+		}
     },
     window : {
         open : function() {
@@ -120,10 +123,18 @@ var explorer = {
             $(winid+' .minmaxclose .close').click(function() {
                 explorer.window.close(winid);
             });
-            explorer.window.front(winid);
             $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+			explorer.window.resize(winid, 300, 200);
+			explorer.window.front(winid);
             return $(winid);
         },
+		center : function(window) {
+			var winid = $(window);
+			var explorer = $('#desktop.explorer');
+			var top = (explorer.height() - winid.outerHeight()) / 2;
+			var left = (explorer.width() - winid.outerWidth()) / 2;
+			winid.css({'position':'absolute', 'margin':0, 'top': (top > 0 ? top : 0)+'px', 'left': (left > 0 ? left : 0)+'px'});
+		},
         close : function(window) {
             var winid = $(window);
             var windowID = winid.attr('windowID');
@@ -195,7 +206,7 @@ var explorer = {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
                 $('#taskbar .button[windowID="'+$(this).attr('windowID')+'"]').removeClass('active');
-                if(looped >= fronte) {
+                if(looped >= fronte && $(this)[0] !== winid[0]) {
                     var minzin = $(this).css('z-index') - 1;
                     $(this).css('z-index', minzin);
                 }

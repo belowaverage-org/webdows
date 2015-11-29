@@ -1,6 +1,7 @@
 function winver() {
     var WINDOW = explorer.window.open();
     explorer.window.resize(WINDOW, 450, 400);
+	explorer.window.center(WINDOW);
     explorer.window.title(WINDOW, 'About Webdows');
     explorer.window.icon(WINDOW, 'webdows/resources/icons/DxpTaskSync_60.ico');
     WINDOW.find('.body').css({'font-size':'11px'});
