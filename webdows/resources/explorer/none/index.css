@@ -1,7 +1,7 @@
 #desktop {
-background-color:white;
 background-size:100% 100%;
 font-family:NotoSans;
+background-color:white;
 }
 #taskbar  {
 height:29px;
@@ -11,7 +11,6 @@ bottom:0px;
 left:0px;
 width:100%;
 z-index:1000;
-background-color:lightgray;
 }
 #taskbar #leftframe {
 width:50px;
@@ -34,7 +33,6 @@ text-align:center;
 line-height:30px;
 }
 #taskbar #leftframe #start:hover {
-background-color:gray;
 }
 #taskbar #leftframe #start::before {
 content:"Start";
@@ -66,7 +64,6 @@ overflow:hidden;
 white-space:nowrap;
 }
 #taskbar .button.active {
-background-color:gray;
 }
 #taskbar .button .icon {
 width:18px;
@@ -86,10 +83,8 @@ position:absolute !important;
 border:1px solid black;
 min-height:38px;
 min-width:117px;
-background-color:lightgray;
 }
 .window.active {
-background-color:gray;
 }
 .window .minmaxclose {
 height:20px;
@@ -239,7 +234,6 @@ width:409px;
 height:474px;
 border:1px solid black;
 z-index:999;
-background-color:lightgray;
 }
 #startmenu.minimized {
 visibility:hidden;

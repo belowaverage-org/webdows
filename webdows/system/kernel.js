@@ -17,15 +17,40 @@ function boot() {
         $('body').append('<img width="200" height="200" src="webdows/resources/kernel/wsa.gif"><br>');
         $('body').append('Starting Webdows<br><span style="font-size:15px;color:lightgray;">&copy;Below Average</span>');
     });
-    $.getScript('webdows/system/system32.js').fail(function(xhr, s, e) {
-        $(document).ready(function() {
-            if(xhr.status == 0) {
-                blueScreen('Fatal Error: Your network has failed to retrieve the resource located here: '+'webdows/system/system32.js'+'<br> Please check your connection. Check the console for more information.');
-            } else {
-                blueScreen('The resource "'+'webdows/system/system32.js'+'" has failed due to HTTP status: '+xhr.status);
-            }
-        });
+    $(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Handle
+        blueScreen('Error detected @ '+settings.url+'<br><br>'+thrownError);
+    });
+    
+    $('title').text('Webdows');
+    $.getScript('webdows/system/shell.js').done(function() {
+        $.getScript('webdows/explorer.js');
     });
 }
 /*! Passoff to system32.js */
+var system = { //Load system functions
+    formatAMPM : function(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    },
+    guid : function() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4()+s4()+'-'+s4()+'-'+s4()+'-'+s4()+'-'+s4()+s4()+s4();
+    },
+    loader : function(path) {
+        $.ajax({
+            type: "GET",
+            url: path,
+            dataType: "script",
+            cache: true
+        });
+    }
+};
 boot();
