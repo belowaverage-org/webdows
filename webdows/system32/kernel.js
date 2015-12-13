@@ -17,16 +17,31 @@ function boot() {
         $('body').append('<img width="200" height="200" src="webdows/resources/kernel/wsa.gif"><br>');
         $('body').append('Starting Webdows<br><span style="font-size:15px;color:lightgray;">&copy;Below Average</span>');
     });
-    $(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Handle
-        blueScreen('Error detected @ '+settings.url+'<br><br>'+thrownError);
-    });
-    
     $('title').text('Webdows');
-    $.getScript('webdows/system/shell.js').done(function() {
-        $.getScript('webdows/explorer.js');
+    $.getScript('webdows/system32/shell.js').done(function() {
+        $.getScript('webdows/explorer.js').done(function() {
+            $.getScript('startup.js');
+        });
     });
 }
-/*! Passoff to system32.js */
+$(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Handle
+    if(typeof explorer !== 'undefined') { //Test if explorer is loaded
+        var errorWin = explorer.window.open();
+        explorer.window.center(errorWin);
+        explorer.window.title(errorWin, 'System Error');
+        explorer.window.icon(errorWin, 'webdows/resources/icons/DxpTaskSync_61.ico')
+        errorWin.find('.body').html('The file: '+settings.url+', Has thrown the following error...<br><br>'+thrownError);
+        errorWin.find('.body').css({'padding':'10px'});
+    } else {
+        if(thrownError == 'Not Acceptable') {
+            blueScreen('A recent system call to "'+settings.url+'" has failed due to the method not existing...<br><br>'+thrownError);
+        } else if(thrownError == 'Not Found') {
+            blueScreen('A recent file request to "'+settings.url+'" has failed due to the file not existing...<br><br>'+thrownError);
+        } else {
+            blueScreen('SYSTEMHALT @ '+settings.url+'<br><br>'+thrownError);
+        }
+    }
+});
 var system = { //Load system functions
     formatAMPM : function(date) {
         var hours = date.getHours();
