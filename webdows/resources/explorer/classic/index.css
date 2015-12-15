@@ -2,29 +2,44 @@
 background-size:100% 100%;
 font-family:NotoSans;
 background-color:#3C6DA3;
+cursor: url('cur.png'), default;
 }
-.window  {
-box-shadow:0px -1px #D2CEC6, -1px 0px #D2CEC6, -1px -1px #D2CEC6, 1px 0px #404040, -1px 1px #404040, 1px -1px #404040, 0px 1px #404040, 1px 1px #404040;
+#startmenu, .window  {
+box-shadow: inset -1px -1px 0px #808080, inset 1px 1px 0px #fff;
+border-top: 1px solid #D2CEC6;
+border-left: 1px solid #D2CEC6;
+border-right: 1px solid #424242;
+border-bottom: 1px solid #424242;
+}
+input {
+box-shadow: inset 1px 1px 0px #424242, inset -1px -1px #D2CEC6;
+border-top: 1px solid #808080;
+border-left: 1px solid #808080;
+border-right: 1px solid #fff;
+border-bottom: 1px solid #fff;
+}
+button, #start, #taskbar .button, .window .minmaxclose span {
+box-shadow: inset -1px -1px 0px #808080, inset 1px 1px 0px #D2CEC6;
 border-top: 1px solid #fff;
 border-left: 1px solid #fff;
-border-right: 1px solid #808080;
-border-bottom: 1px solid #808080;
+border-right: 1px solid #424242;
+border-bottom: 1px solid #424242;
 }
-
-#startmenu, button, #start, #taskbar .button, .window .minmaxclose span  {
-box-shadow: 1px 0px #424242, 0px 1px #424242, 1px 1px #424242;
-border-top: 1px solid #fff;
-border-left: 1px solid #fff;
-border-right: 1px solid #808080;
-border-bottom: 1px solid #808080;
+button:active, #start:active, #taskbar .button:active, .window .minmaxclose span:active {
+box-shadow: inset 1px 1px 0px #808080, inset -1px -1px 0px #D2CEC6;
+border-top: 1px solid #424242;
+border-left: 1px solid #424242;
+border-right: 1px solid #fff;
+border-bottom: 1px solid #fff;
 }
-
-button:active, #start:active, input, #taskbar .button:active, .window .minmaxclose span:active{
-box-shadow: 1px 0px #424242, 0px 1px #424242, 1px 1px #424242;
-border-top: 1px solid #fff;
-border-left: 1px solid #fff;
-border-right: 1px solid #808080;
-border-bottom: 1px solid #808080;
+button:focus {
+box-shadow:inset -1px -1px 0px #404040, inset 1px 1px 0px #fff, inset -2px -2px 0px #808080;
+border:1px solid black;
+outline:1px dotted black;
+outline-offset:-4px;
+}
+button:focus:active {
+box-shadow: inset 1px 1px 0px #808080, inset -1px -1px 0px #808080;
 }
 #taskbar  {
 height:29px;
@@ -59,18 +74,32 @@ line-height:21px;
 font-size:12px;
 font-weight:bold;
 }
-#taskbar #leftframe #start::before {
+#taskbar #leftframe #start::after {
 content:"Start";
+}
+#taskbar #leftframe #start::before {
+content:"";
+display:inline-block;
+background-image:url('sta.png');
+width:16px;
+height:14px;
+vertical-align:-2px;
+margin-left:-2px;
+margin-right:2px;
 }
 #taskbar #rightframe #time {
 font-size:14px;
-line-height:30px;
-height:30px;
+line-height:21px;
+height:21px;
 padding-right:10px;
 display:inline-block;
-border-left:1px solid black;
-margin-top:-1px;
+border-top: 1px solid #808080;
+border-left: 1px solid #808080;
+border-right: 1px solid #fff;
+border-bottom: 1px solid #fff;
+margin-top:3px;
 padding-left:10px;
+margin-right:3px;
 }
 button {
 background-color:#D2CEC6;
@@ -118,24 +147,30 @@ background-color:#D2CEC6;
 height:20px;
 display:inline-block;
 position:absolute;
-top:0px;
-right:6px;
+top:1px;
+right:5px;
 text-align:right;
 }
 .window .minmaxclose span {
 display:inline-block;
-height:11px;
-margin-left:1px;
+height:12px;
 background-color:#D2CEC6;
+width:14px;
+background-repeat:no-repeat;
+background-position:2px 1px;
 }
 .window .minmaxclose .min {
-width:27px;
+background-image:url('min.png');
 }
 .window .minmaxclose .max {
-width:27px;
+background-image:url('max.png');
 }
 .window .minmaxclose .close {
-width:46px;
+background-image:url('clo.png');
+margin-left:2px;
+}
+.window.maximized .minmaxclose .max {
+background-image:url('mmax.png');
 }
 .window.minimized {
 visibility:hidden;
@@ -161,7 +196,7 @@ right:3px;
 .window .ttl {
 margin-top:2px;
 margin-left:2px;
-margin-right:2px;
+margin-right:3px;
 color:white;
 font-size:14px;
 text-overflow:ellipsis;
@@ -252,7 +287,7 @@ top:0px;
 }
 #startmenu {
 position:fixed;
-bottom:32px;
+bottom:31px;
 left:0px;
 width:409px;
 height:474px;

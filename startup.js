@@ -5,6 +5,9 @@ explorer.start.addLButton('webver.js', 'webdows/resources/icons/DxpTaskSync_60.i
 explorer.start.addLButton('Personalize', 'webdows/resources/icons/imageres_27.ico', function() {
    system.loader('webdows/personalize.js');
 });
+explorer.start.addLButton('CMD', 'webdows/resources/icons/cmd_IDI_APPICON.ico', function() {
+   system.loader('webdows/cmd.js');
+});
 explorer.start.addRButton('Webdows');
 explorer.start.addRButton('Documents');
 explorer.start.addRButton('Pictures');

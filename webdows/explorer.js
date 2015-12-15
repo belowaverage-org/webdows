@@ -117,7 +117,7 @@ var explorer = {
         }
         this.body = this.winid.find('.body');
         this.callback = function(callback) {
-            callback(this);
+            callback(this, this.body);
             return this;
         }
         /** NS functs **/
