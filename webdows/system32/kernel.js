@@ -26,12 +26,13 @@ function boot() {
 }
 $(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Handle
     if(typeof explorer !== 'undefined') { //Test if explorer is loaded
-        var errorWin = explorer.window.open();
-        explorer.window.center(errorWin);
-        explorer.window.title(errorWin, 'System Error');
-        explorer.window.icon(errorWin, 'webdows/resources/icons/DxpTaskSync_61.ico')
-        errorWin.find('.body').html('The file: '+settings.url+', Has thrown the following error...<br><br>'+thrownError);
-        errorWin.find('.body').css({'padding':'10px'});
+        var errorWin = new explorer.window()
+        .center()
+        .title('System Error')
+        .icon('webdows/resources/icons/DxpTaskSync_61.ico')
+        .body
+        .html('The file: '+settings.url+', Has thrown the following error...<br><br>'+thrownError)
+        .css({'padding':'10px'});
     } else {
         if(thrownError == 'Not Acceptable') {
             blueScreen('A recent system call to "'+settings.url+'" has failed due to the method not existing...<br><br>'+thrownError);

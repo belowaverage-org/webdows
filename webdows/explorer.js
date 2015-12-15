@@ -1,3 +1,4 @@
+//Explorer.js//Webdows//
 var explorer = {
     changeThemeName : function(themeName) {
         $('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
@@ -104,104 +105,96 @@ var explorer = {
 			//This
 		}
     },
-    window : {
-        open : function() {
+    window : function(winObj) {
+        /** init **/
+        if(typeof winObj == 'undefined') {
             var windowID = system.guid();
-            var winid = '.window[windowID='+windowID+']';
             $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
             $('#taskbar').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
-            $('#taskbar').sortable("refresh");
-            $(winid).mousedown(function() {
-                explorer.window.front(winid);
-            });
-            $('#taskbar .button[windowID='+windowID+'], '+winid+' .minmaxclose .min').click(function() {
-                explorer.window.toggleMin(winid);
-            });
-            $(winid+' .minmaxclose .max').click(function() {
-                explorer.window.toggleMax(winid);
-            });
-            $(winid+' .minmaxclose .close').click(function() {
-                explorer.window.close(winid);
-            });
-            $(winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
-			explorer.window.resize(winid, 300, 200);
-			explorer.window.front(winid);
-            return $(winid);
-        },
-		center : function(window) {
-			var winid = $(window);
+            this.winid = $('.window[windowID='+windowID+']');
+        } else {
+            this.winid = $(winObj);
+        }
+        this.body = this.winid.find('.body');
+        this.callback = function(callback) {
+            callback(this);
+            return this;
+        }
+        /** NS functs **/
+		this.center = function() {
 			var explorer = $('#desktop.explorer');
-			var top = (explorer.height() - winid.outerHeight()) / 2;
-			var left = (explorer.width() - winid.outerWidth()) / 2;
-			winid.css({'position':'absolute', 'margin':0, 'top': (top > 0 ? top : 0)+'px', 'left': (left > 0 ? left : 0)+'px'});
-		},
-        close : function(window) {
-            var winid = $(window);
-            var windowID = winid.attr('windowID');
-            winid.remove();
+			var top = (explorer.height() - this.winid.outerHeight()) / 2;
+			var left = (explorer.width() - this.winid.outerWidth()) / 2;
+			this.winid.css({'position':'absolute', 'margin':0, 'top': (top > 0 ? top : 0)+'px', 'left': (left > 0 ? left : 0)+'px'});
+            return this;
+		};
+        this.close = function() {
+            var windowID = this.winid.attr('windowID');
+            this.winid.remove();
             $('#taskbar .button[windowID='+windowID+']').remove();
             var topZ = -1;
-            var topID = winid;
+            var topID = this.winid;
             $('.window').each(function() {
                 if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
                     topZ = $(this).css('z-index');
                     topID = this;
                 }
             });
-            explorer.window.front(topID);
-        },
-        toggleMin : function(window) {
-            var winid = $(window);
-            if(winid.hasClass('active') || winid.hasClass('minimized')) {
-                if(winid.hasClass('minimized')) {
-                    winid.removeClass('minimized');
+            explorer.window(topID).front();
+            return this;
+        };
+        this.toggleMin = function() {
+            if(this.winid.hasClass('active') || this.winid.hasClass('minimized')) {
+                if(this.winid.hasClass('minimized')) {
+                    this.winid.removeClass('minimized');
                 } else {
-                    winid.addClass('minimized');
+                    this.winid.addClass('minimized');
                 }
             }
-            explorer.window.front(winid);
+            this.front();
             var topZ = -1;
-            var topID = winid;
+            var topID = this.winid;
             $('.window').each(function() {
                 if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
                     topZ = $(this).css('z-index');
                     topID = this;
                 }
             });
-            explorer.window.front(topID);
-        },
-        toggleMax : function(window) {
-            var winid = $(window);
-            if(winid.hasClass('active') || winid.hasClass('maximized')) {
-                if(winid.hasClass('maximized')) {
-                    winid.removeClass('maximized');
+            this.front();
+            return this;
+        };
+        this.toggleMax = function() {
+            if(this.winid.hasClass('active') || this.winid.hasClass('maximized')) {
+                if(this.winid.hasClass('maximized')) {
+                    this.winid.removeClass('maximized');
                 } else {
-                    winid.addClass('maximized');
+                    this.winid.addClass('maximized');
                 }
             }
-        },
-        resize : function(window, width, height) {
-            var winid = $(window);
-            winid.css({'width':width+'px','height':height+'px'});
-        },
-        icon : function(window, url) {
-            var winid = $(window);
-            var windowid = winid.attr('WindowID');
+            return this;
+        };
+        this.resize = function(width, height) {
+            this.winid.css({'width':width+'px','height':height+'px'});
+            return this;
+        };
+        this.icon = function(url) {
+            var windowID = this.winid.attr('windowID');
             var css = {'background-image':"url('"+url+"')"};
-            winid.find('.ttl .icon').css(css);
-            $('#taskbar .button[windowID="'+windowid+'"] .icon').css(css);
-        },
-        title : function(window, title) {
-            var winid = $(window);
-            var windowID = winid.attr('windowID');
-            winid.find('.ttl .title').text(title);
+            this.winid.find('.ttl .icon').css(css);
+            $('#taskbar .button[windowID="'+windowID+'"] .icon').css(css);
+            return this;
+        };
+        this.title = function(title) {
+            var windowID = this.winid.attr('windowID');
+            this.winid.find('.ttl .title').text(title);
             $('#taskbar .button[windowID='+windowID+'] .title').text(title);
-        },
-        front : function(window) {
-            var winid = $(window);
+            return this;
+        };
+        this.front = function() {
             var count = $('.window').length;
-            var fronte = winid.css('z-index');
-            winid.css('z-index', count);
+            var fronte = this.winid.css('z-index');
+            this.winid.css('z-index', count);
+            var winid = this.winid;
             $(".window").each(function(index) {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
@@ -211,11 +204,35 @@ var explorer = {
                     $(this).css('z-index', minzin);
                 }
             });
-            if(!winid.hasClass('minimized')) {
-                winid.addClass('active');
-                $('#taskbar .button[windowID="'+winid.attr('windowID')+'"]').addClass('active');
+            if(!this.winid.hasClass('minimized')) {
+                this.winid.addClass('active');
+                $('#taskbar .button[windowID="'+this.winid.attr('windowID')+'"]').addClass('active');
             }
+            return this;
+        };
+        /**Window INIT ajustments**/
+        if(typeof winObj == 'undefined') {
+            $('#taskbar').sortable("refresh");
+            $(this.winid).mousedown({window: this}, function(e) {
+                e.data.window.front();
+            });
+            $('#taskbar .button[windowID='+windowID+'], .window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
+                e.data.window.toggleMin();
+            });
+            $('.window[windowID='+windowID+'] .minmaxclose .max').click({window: this}, function(e) {
+                e.data.window.toggleMax();
+            });
+            $('.window[windowID='+windowID+'] .ttl').dblclick({window: this}, function(e) {
+                e.data.window.toggleMax();
+            });
+            $('.window[windowID='+windowID+'] .minmaxclose .close').click({window: this}, function(e) {
+                e.data.window.close();
+            });
+            $(this.winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+            this.resize(300, 200);
+            this.front();
         }
+        return this;
     }
 };
 $(document).ready(function() {

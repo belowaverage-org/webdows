@@ -1,10 +1,10 @@
-function personalize() {
-    var WINDOW = explorer.window.open();
-    explorer.window.resize(WINDOW, 164, 57);
-    explorer.window.center(WINDOW);
-    explorer.window.title(WINDOW, 'Personalize');
-    explorer.window.icon(WINDOW, 'webdows/resources/icons/imageres_27.ico');
-    WINDOW.find('.body').css({'font-size':'11px'});
-    WINDOW.find('.body').html('<button onclick="explorer.changeThemeName(\'aero\');">Aero</button><button onclick="explorer.changeThemeName(\'classic\');">Classic</button><button onclick="explorer.changeThemeName(\'none\');">None</button>');
-}
-personalize();
+new explorer.window()
+.resize(164, 57)
+.center()
+.title('Personalize')
+.icon('webdows/resources/icons/imageres_27.ico')
+.callback(function(w) {
+    w.body
+    .css({'font-size':'11px'})
+    .html('<button onclick="explorer.changeThemeName(\'aero\');">Aero</button><button onclick="explorer.changeThemeName(\'classic\');">Classic</button><button onclick="explorer.changeThemeName(\'none\');">None</button>');
+});

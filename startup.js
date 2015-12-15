@@ -1,6 +1,6 @@
 explorer.changeThemeName('classic');
-explorer.start.addLButton('winver.js', 'webdows/resources/icons/DxpTaskSync_60.ico', function() {
-   system.loader('webdows/winver.js');
+explorer.start.addLButton('webver.js', 'webdows/resources/icons/DxpTaskSync_60.ico', function() {
+   system.loader('webdows/webver.js');
 });
 explorer.start.addLButton('Personalize', 'webdows/resources/icons/imageres_27.ico', function() {
    system.loader('webdows/personalize.js');
