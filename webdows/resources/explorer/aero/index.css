@@ -15,10 +15,13 @@ left:0px;
 width:100%;
 z-index:1000;
 }
-#taskbar #leftframe {
-width:50px;
-height:30px;
-display:inline-block;
+#taskbar #middleframe {
+position:absolute;
+top:0px;
+left:50px;
+overflow:hidden;
+right:80px;
+display:flex;
 }
 #taskbar #rightframe {
 position:absolute;
@@ -51,17 +54,18 @@ color:white;
 font-size:14px;
 line-height:28px;
 height:30px;
-padding-right:10px;
-padding-left:50px;
 background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 52%,rgba(0,0,0,.3) 100%);
 display:inline-block;
+width:75px;
+text-align:center;
 }
-#taskbar .button {
+#taskbar #middleframe .button {
 width:157px;
 height:30px;
 background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
 background-position:0, 0px 30px, 0px 30px;
 background-repeat:no-repeat, no-repeat;
+background-size:100% 100%;
 display:inline-block;
 position:relative;
 top:-1px;
@@ -76,16 +80,16 @@ overflow:hidden;
 white-space:nowrap;
 transition:.5s;
 }
-#taskbar .button.active, #taskbar .button.active:hover {
+#taskbar #middleframe .button.active, #taskbar #middleframe .button.active:hover {
 background-position:0, 0px 30px, 0px 0px;
 }
-#taskbar .button:hover {
+#taskbar #middleframe .button:hover {
 background-position:0, 0px 0px, 0px 30px;
 }
-#taskbar .button.ui-sortable-helper {
+#taskbar #middleframe .button.ui-sortable-helper {
 transition:none;
 }
-#taskbar .button .icon {
+#taskbar #middleframe .button .icon {
 width:18px;
 margin-left:10px;
 margin-top:6px;

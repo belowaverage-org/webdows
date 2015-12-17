@@ -14,14 +14,9 @@ var explorer = {
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
         $('body').html('');
-        $('body').append('<div class="explorer" id="desktop"></div>');
-        $('#desktop').append('<div id="taskbar"></div>');
+        $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         explorer.start.initiate();
-        $('#taskbar').append('<span id="leftframe"></span>');
-        $('#taskbar #leftframe').append('<div id="start"></div>');
-        $('#taskbar').append('<span id="rightframe"></span>');
-        $('#taskbar #rightframe').append('<span id="time"></span>');
-        $("#taskbar").sortable({
+        $("#taskbar #middleframe").sortable({
             revert: true,
             axis: "x",
             items: ".button",
@@ -33,8 +28,8 @@ var explorer = {
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 500);
         $('#desktop').on('mousedown', function(e) { //Start active listener service
-            if(!$(e.target).parents('.window').length && !$(e.target).is('.window') && !$(e.target).is('#taskbar .button') && !$(e.target).parents('#taskbar .button').length) {
-                $('.window, #taskbar .button').each(function() {
+            if(!$(e.target).parents('.window').length && !$(e.target).is('.window') && !$(e.target).is('#taskbar #middleframe .button') && !$(e.target).parents('#taskbar #middleframe .button').length) {
+                $('.window, #taskbar #middleframe .button').each(function() {
                     if($(this).hasClass('active')) {
                         $(this).removeClass('active');
                     }
@@ -70,6 +65,10 @@ var explorer = {
 			explorer.start.toggle();
             $('#startmenu .apb').click(function() {
                 explorer.start.allProgramsToggle(); 
+                if($('#startmenu .search input').val() !== '') {
+                    $('#startmenu .search input').val('');
+                    explorer.start.allProgramsSearch('');
+                }
             });
             $('#startmenu .search input').on('input', function() {
                 explorer.start.allProgramsSearch($(this).val());
@@ -140,7 +139,7 @@ var explorer = {
         if(typeof winObj == 'undefined') {
             var windowID = system.guid();
             $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
-            $('#taskbar').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
+            $('#taskbar #middleframe').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
             this.winid = $('.window[windowID='+windowID+']');
         } else {
             this.winid = $(winObj);
@@ -161,7 +160,7 @@ var explorer = {
         this.close = function() {
             var windowID = this.winid.attr('windowID');
             this.winid.remove();
-            $('#taskbar .button[windowID='+windowID+']').remove();
+            $('#taskbar #middleframe .button[windowID='+windowID+']').remove();
             var topZ = -1;
             var topID = this.winid;
             $('.window').each(function() {
@@ -211,13 +210,13 @@ var explorer = {
             var windowID = this.winid.attr('windowID');
             var css = {'background-image':"url('"+url+"')"};
             this.winid.find('.ttl .icon').css(css);
-            $('#taskbar .button[windowID="'+windowID+'"] .icon').css(css);
+            $('#taskbar #middleframe .button[windowID="'+windowID+'"] .icon').css(css);
             return this;
         };
         this.title = function(title) {
             var windowID = this.winid.attr('windowID');
             this.winid.find('.ttl .title').text(title);
-            $('#taskbar .button[windowID='+windowID+'] .title').text(title);
+            $('#taskbar #middleframe .button[windowID='+windowID+'] .title').text(title);
             return this;
         };
         this.front = function() {
@@ -228,7 +227,7 @@ var explorer = {
             $(".window").each(function(index) {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
-                $('#taskbar .button[windowID="'+$(this).attr('windowID')+'"]').removeClass('active');
+                $('#taskbar #middleframe .button[windowID="'+$(this).attr('windowID')+'"]').removeClass('active');
                 if(looped >= fronte && $(this)[0] !== winid[0]) {
                     var minzin = $(this).css('z-index') - 1;
                     $(this).css('z-index', minzin);
@@ -236,17 +235,17 @@ var explorer = {
             });
             if(!this.winid.hasClass('minimized')) {
                 this.winid.addClass('active');
-                $('#taskbar .button[windowID="'+this.winid.attr('windowID')+'"]').addClass('active');
+                $('#taskbar #middleframe .button[windowID="'+this.winid.attr('windowID')+'"]').addClass('active');
             }
             return this;
         };
         /**Window INIT ajustments**/
         if(typeof winObj == 'undefined') {
-            $('#taskbar').sortable("refresh");
+            $('#taskbar #middleframe').sortable("refresh");
             $(this.winid).mousedown({window: this}, function(e) {
                 e.data.window.front();
             });
-            $('#taskbar .button[windowID='+windowID+'], .window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
+            $('#taskbar #middleframe .button[windowID='+windowID+'], .window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
                 e.data.window.toggleMin();
             });
             $('.window[windowID='+windowID+'] .minmaxclose .max').click({window: this}, function(e) {
@@ -258,7 +257,7 @@ var explorer = {
             $('.window[windowID='+windowID+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
-            $(this.winid).draggable({handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+            $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
             this.resize(300, 200);
             this.front();
         }

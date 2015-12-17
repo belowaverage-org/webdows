@@ -12,10 +12,13 @@ left:0px;
 width:100%;
 z-index:1000;
 }
-#taskbar #leftframe {
-width:50px;
-height:30px;
-display:inline-block;
+#taskbar #middleframe {
+position:absolute;
+top:0px;
+display:flex;
+left:51px;
+right:80px;
+overflow:hidden;
 }
 #taskbar #rightframe {
 position:absolute;
@@ -32,8 +35,6 @@ border-right:1px solid black;
 text-align:center;
 line-height:30px;
 }
-#taskbar #leftframe #start:hover {
-}
 #taskbar #leftframe #start::before {
 content:"Start";
 }
@@ -41,13 +42,13 @@ content:"Start";
 font-size:14px;
 line-height:30px;
 height:30px;
-padding-right:10px;
+width:77px;
 display:inline-block;
 border-left:1px solid black;
 margin-top:-1px;
-padding-left:10px;
+text-align:center;
 }
-#taskbar .button {
+#taskbar #middleframe .button {
 width:157px;
 height:29px;
 border-left:1px solid black;
@@ -63,9 +64,9 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space:nowrap;
 }
-#taskbar .button.active {
+#taskbar #middleframe .button.active {
 }
-#taskbar .button .icon {
+#taskbar #middleframe .button .icon {
 width:18px;
 margin-left:10px;
 margin-top:6px;
