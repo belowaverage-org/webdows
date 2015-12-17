@@ -1,4 +1,4 @@
-explorer.changeThemeName('classic');
+
 explorer.start.addLButton('webver.js', 'webdows/resources/icons/DxpTaskSync_60.ico', function() {
    system.loader('webdows/webver.js');
 });

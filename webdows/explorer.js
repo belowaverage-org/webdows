@@ -55,15 +55,29 @@ var explorer = {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
 				start.removeClass('minimized');
+                $('#startmenu .search input').focus();
 			} else {
 				start.addClass('minimized');
+                $('#startmenu .search input').val('');
+                explorer.start.allProgramsSearch('');
 			}
+            if($('#startmenu .lllist').hasClass('all')) {
+                explorer.start.allProgramsToggle();
+            }
         },
         initiate : function() {
             $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input></div><div class="rllist"></div></div>');
 			explorer.start.toggle();
             $('#startmenu .apb').click(function() {
-               explorer.start.allProgramsToggle(); 
+                explorer.start.allProgramsToggle(); 
+            });
+            $('#startmenu .search input').on('input', function() {
+                explorer.start.allProgramsSearch($(this).val());
+            });
+            $('#startmenu .search input').keyup(function(e) {
+                if(e.keyCode == 13) {
+                    explorer.start.allProgramsSearch($(this).val()).click();
+                }
             });
         },
 		addRButton : function(title, callback) {
@@ -71,9 +85,6 @@ var explorer = {
             $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" class="button">'+title+'</div>');
             $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
-                if($('#startmenu .lllist').hasClass('all')) {
-                    explorer.start.allProgramsToggle(); 
-                }
             });
             return $('#startmenu .rllist .button[callbackID='+callbackID+']');
 		},
@@ -86,9 +97,6 @@ var explorer = {
             $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
                 $(this).prependTo('#startmenu .lllist');
-                if($('#startmenu .lllist').hasClass('all')) {
-                    explorer.start.allProgramsToggle(); 
-                }
             });
             return $('#startmenu .lllist .button[callbackID='+callbackID+']');
 		},
@@ -101,9 +109,31 @@ var explorer = {
             }
             start.scrollTop(0);
         },
-		searchProgramsToggle : function() {
-			//This
-		}
+        allProgramsSearch : function(searchterm) {
+            var searchTerm = searchterm.toLowerCase();
+            if(searchTerm !== '') {
+                var returned = null;
+                $('#startmenu .lllist div').hide();
+                if(!$('#startmenu .lllist').hasClass('all')) {
+                    explorer.start.allProgramsToggle();
+                }
+                $.each($('#startmenu .lllist .button'), function() {
+                    var str = $(this).text();
+                    if(str.toLowerCase().includes(searchTerm)) {
+                        if(returned == null) {
+                            returned = $(this);
+                        }
+                        $(this).show();
+                    }
+                });
+                return returned;
+            } else {
+                $('#startmenu .lllist div').show();
+                if($('#startmenu .lllist').hasClass('all')) {
+                    explorer.start.allProgramsToggle();
+                }
+            }
+        }
     },
     window : function(winObj) {
         /** init **/
@@ -237,5 +267,5 @@ var explorer = {
 };
 $(document).ready(function() {
     explorer.initiate();
-    explorer.changeThemeName('aero');
+    explorer.changeThemeName('classic');
 });
