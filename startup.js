@@ -8,6 +8,9 @@ explorer.start.addLButton('Personalize', 'webdows/resources/icons/imageres_27.ic
 explorer.start.addLButton('CMD', 'webdows/resources/icons/cmd_IDI_APPICON.ico', function() {
    system.loader('webdows/cmd.js');
 });
+explorer.start.addLButton('Test', 'webdows/resources/icons/shell32_153.ico', function() {
+   system.loader('programs/test.js');
+});
 explorer.start.addRButton('Webdows');
 explorer.start.addRButton('Documents');
 explorer.start.addRButton('Pictures');

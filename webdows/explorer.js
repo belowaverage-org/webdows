@@ -1,10 +1,16 @@
 //Explorer.js//Webdows//
 var explorer = {
-    changeThemeName : function(themeName) {
+    theme : function(themeName) {
+        if(typeof themeName == 'undefined') {
+            if(localStorage.getItem("theme") == null) {
+                var themeName = 'aero';
+            } else {
+                var themeName = localStorage.getItem("theme");
+            }
+        }
+        localStorage.setItem("theme", themeName);
         $('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
-    },
-    changeTheme : function(theme) {
-        $('#theme').attr('href',themeName);
+        return themeName;
     },
     initiate : function() {
         $('body').attr('style','background-color:black;');
@@ -44,6 +50,7 @@ var explorer = {
 		$('#taskbar #start').click(function() {
 			explorer.start.toggle();
 		});
+        explorer.theme();
     },
     start : {
         toggle : function() {
@@ -138,7 +145,7 @@ var explorer = {
         /** init **/
         if(typeof winObj == 'undefined') {
             var windowID = system.guid();
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="min"></span><span class="max"></span><span class="close"></span></span><div class="body"></div></div>');
+            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
             $('#taskbar #middleframe').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
             this.winid = $('.window[windowID='+windowID+']');
         } else {
@@ -146,10 +153,9 @@ var explorer = {
         }
         this.body = this.winid.find('.body');
         this.callback = function(callback) {
-            callback(this, this.body);
+            callback.call(this);
             return this;
         }
-        /** NS functs **/
 		this.center = function() {
 			var explorer = $('#desktop.explorer');
 			var top = (explorer.height() - this.winid.outerHeight()) / 2;
@@ -172,6 +178,34 @@ var explorer = {
             explorer.window(topID).front();
             return this;
         };
+        this.controls = function(array) {
+            $.each(this.winid.find('.minmaxclose span'), function() {
+                if(!$(this).hasClass('close')) {
+                    $(this).remove();
+                }
+            });
+            if($.inArray('max', array) !== -1) {
+                this.winid.find('.minmaxclose').prepend('<span class="max"></span>');
+                this.winid.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+                this.winid.find('.ttl, .minmaxclose .max').off();
+                $('.window[windowID='+windowID+'] .minmaxclose .max').click({window: this}, function(e) {
+                    e.data.window.toggleMax();
+                });
+                $('.window[windowID='+windowID+'] .ttl').dblclick({window: this}, function(e) {
+                    e.data.window.toggleMax();
+                });
+            } else if(typeof this.winid.resizable('instance') !== 'undefined') {
+                this.winid.resizable('destroy');
+                this.winid.find('.ttl').off();
+            }
+            if($.inArray('min', array) !== -1) {
+                this.winid.find('.minmaxclose').prepend('<span class="min"></span>');
+                $('.window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
+                    e.data.window.toggleMin();
+                });
+            }
+            return this;
+        }
         this.toggleMin = function() {
             if(this.winid.hasClass('active') || this.winid.hasClass('minimized')) {
                 if(this.winid.hasClass('minimized')) {
@@ -245,19 +279,14 @@ var explorer = {
             $(this.winid).mousedown({window: this}, function(e) {
                 e.data.window.front();
             });
-            $('#taskbar #middleframe .button[windowID='+windowID+'], .window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
+            $('#taskbar #middleframe .button[windowID='+windowID+']').click({window: this}, function(e) {
                 e.data.window.toggleMin();
-            });
-            $('.window[windowID='+windowID+'] .minmaxclose .max').click({window: this}, function(e) {
-                e.data.window.toggleMax();
-            });
-            $('.window[windowID='+windowID+'] .ttl').dblclick({window: this}, function(e) {
-                e.data.window.toggleMax();
             });
             $('.window[windowID='+windowID+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
-            $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true}).resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+            $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
+            this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
         }
@@ -266,5 +295,4 @@ var explorer = {
 };
 $(document).ready(function() {
     explorer.initiate();
-    explorer.changeThemeName('classic');
 });

@@ -80,6 +80,36 @@ overflow:hidden;
 white-space:nowrap;
 transition:.5s;
 }
+button {
+background-image: linear-gradient(to bottom, #f2f2f2 0%,#ebebeb 50%,#ebebeb 50%,#dddddd 51%,#cfcfcf 100%);
+border:1px solid #707070;
+border-radius:3px;
+box-shadow:inset 0px 0px 1px white;
+transition: .5s;
+outline-offset:-3px;
+outline-style:inset;
+outline:1px dotted transparent;
+}
+button:hover {
+border:1px solid #3c7fb1;
+background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#dddddd 51%,#a7d9f5 100%);
+}
+button:focus {
+border:1px solid #3c7fb1;
+background-image: linear-gradient(to bottom, #f2f2f2 0%,#ebebeb 50%,#ebebeb 50%,#dddddd 51%,#cfcfcf 100%);
+outline:1px dotted black;
+box-shadow:inset 0px 0px 1px #63ddfb;
+}
+button:focus:hover {
+background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#dddddd 51%,#a7d9f5 100%);
+box-shadow:inset 0px 0px 1px white;
+transition: 0s;
+}
+button:focus:active {
+border:1px solid #2c628b;
+background-image: linear-gradient(to bottom, #e5f4fc 0%,#c4e5f6 50%,#c4e5f6 50%,#98d1ef 51%,#68b3db 100%);
+box-shadow:inset 0px 0px 1px black;
+}
 #taskbar #middleframe .button.active, #taskbar #middleframe .button.active:hover {
 background-position:0, 0px 30px, 0px 0px;
 }
