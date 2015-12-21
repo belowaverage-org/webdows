@@ -12,6 +12,12 @@ height:100%;
 user-select: none;
 cursor:default;
 }
+button {
+height:20px;
+line-height:15px;
+padding-left:5px;
+padding-right:5px;
+}
 * {
 outline:none;
 }

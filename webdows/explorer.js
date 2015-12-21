@@ -1,6 +1,6 @@
 //Explorer.js//Webdows//
 var explorer = {
-    theme : function(themeName) {
+    theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
             if(localStorage.getItem("theme") == null) {
                 var themeName = 'aero';
@@ -8,7 +8,16 @@ var explorer = {
                 var themeName = localStorage.getItem("theme");
             }
         }
+        if(typeof extraCSS == 'undefined') {
+            if(localStorage.getItem("themeCSS") == null) {
+                var extraCSS = '';
+            } else {
+                var extraCSS = localStorage.getItem("themeCSS");
+            }
+        }
         localStorage.setItem("theme", themeName);
+        localStorage.setItem("themeCSS", extraCSS);
+        $('head style').html(extraCSS);
         $('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
         return themeName;
     },
@@ -68,7 +77,7 @@ var explorer = {
             }
         },
         initiate : function() {
-            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input></div><div class="rllist"></div></div>');
+            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input type="text"/></div><div class="rllist"></div></div>');
 			explorer.start.toggle();
             $('#startmenu .apb').click(function() {
                 explorer.start.allProgramsToggle(); 

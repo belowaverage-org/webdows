@@ -144,6 +144,15 @@ background-repeat:repeat, no-repeat;
 min-height:38px;
 min-width:117px;
 transition:opacity .5s, transform .5s;
+animation:open .5s;
+}
+@keyframes open {
+    from {
+        transform: perspective(1000px) scale(.8) rotateX(-15deg);
+    }
+    to {
+        transform: perspective(1000px) scale(1) rotateX(0deg);
+    }
 }
 .window .minmaxclose {
 height:20px;

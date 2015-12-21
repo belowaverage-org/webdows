@@ -11,6 +11,9 @@ explorer.start.addLButton('CMD', 'webdows/resources/icons/cmd_IDI_APPICON.ico', 
 explorer.start.addLButton('Test', 'webdows/resources/icons/shell32_153.ico', function() {
    system.loader('programs/test.js');
 });
+explorer.start.addLButton('Calculator', 'webdows/resources/icons/shell32_153.ico', function() {
+   system.loader('webdows/calc.js');
+});
 explorer.start.addRButton('Webdows');
 explorer.start.addRButton('Documents');
 explorer.start.addRButton('Pictures');
