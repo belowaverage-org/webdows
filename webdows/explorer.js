@@ -27,7 +27,7 @@ var explorer = {
         $('body').hide().show(0);
         $('.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
-        $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
+        $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
         $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         explorer.start.initiate();
@@ -172,10 +172,20 @@ var explorer = {
 			this.winid.css({'position':'absolute', 'margin':0, 'top': (top > 0 ? top : 0)+'px', 'left': (left > 0 ? left : 0)+'px'});
             return this;
 		};
+        this.closeWith = function(parent) {
+            var child = this;
+            parent.close = (function() {
+                var cache = parent.close;
+                return function() {
+                    cache.call(parent);
+                    child.close();
+                }
+            })();
+            return this;
+        };
         this.close = function() {
-            var windowID = this.winid.attr('windowID');
             this.winid.remove();
-            $('#taskbar #middleframe .button[windowID='+windowID+']').remove();
+            $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+']').remove();
             var topZ = -1;
             var topID = this.winid;
             $('.window').each(function() {
@@ -197,10 +207,10 @@ var explorer = {
                 this.winid.find('.minmaxclose').prepend('<span class="max"></span>');
                 this.winid.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
                 this.winid.find('.ttl, .minmaxclose .max').off();
-                $('.window[windowID='+windowID+'] .minmaxclose .max').click({window: this}, function(e) {
+                $('.window[windowID='+this.winid.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
                     e.data.window.toggleMax();
                 });
-                $('.window[windowID='+windowID+'] .ttl').dblclick({window: this}, function(e) {
+                $('.window[windowID='+this.winid.attr('windowID')+'] .ttl').dblclick({window: this}, function(e) {
                     e.data.window.toggleMax();
                 });
             } else if(typeof this.winid.resizable('instance') !== 'undefined') {
@@ -209,7 +219,7 @@ var explorer = {
             }
             if($.inArray('min', array) !== -1) {
                 this.winid.find('.minmaxclose').prepend('<span class="min"></span>');
-                $('.window[windowID='+windowID+'] .minmaxclose .min').click({window: this}, function(e) {
+                $('.window[windowID='+this.winid.attr('windowID')+'] .minmaxclose .min').click({window: this}, function(e) {
                     e.data.window.toggleMin();
                 });
             }
@@ -250,16 +260,14 @@ var explorer = {
             return this;
         };
         this.icon = function(url) {
-            var windowID = this.winid.attr('windowID');
             var css = {'background-image':"url('"+url+"')"};
             this.winid.find('.ttl .icon').css(css);
-            $('#taskbar #middleframe .button[windowID="'+windowID+'"] .icon').css(css);
+            $('#taskbar #middleframe .button[windowID="'+this.winid.attr('windowID')+'"] .icon').css(css);
             return this;
         };
         this.title = function(title) {
-            var windowID = this.winid.attr('windowID');
             this.winid.find('.ttl .title').text(title);
-            $('#taskbar #middleframe .button[windowID='+windowID+'] .title').text(title);
+            $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+'] .title').text(title);
             return this;
         };
         this.front = function() {

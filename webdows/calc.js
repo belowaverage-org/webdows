@@ -3,10 +3,12 @@ new explorer.window()
 .center()
 .title('Calculator')
 .controls(['min'])
+.icon('webdows/resources/icons/calc.png')
 .callback(function() {
     var b = this.body;
+    var dis = this;
     b.attr('style', 'background: linear-gradient(to bottom, #F5F8FE 0%,#d9e4f1 100%);text-align:center;');
-    b.html('<div id="wrap"><div id="peek">0</div><button></button><button></button><button id="c">C</button><button></button><button></button><br><button>7</button><button>8</button><button>9</button><button>/</button><button></button><br><button>4</button><button>5</button><button>6</button><button>*</button><button></button><br><button>1</button><button>2</button><button>3</button><button>-</button><button></button><br><button id="0">0</button><button>.</button><button>+</button><button id="eq">=</button></div>');
+    b.html('<div id="wrap"><div id="peek">0</div><button></button><button></button><button id="c">C</button><button></button><button></button><br><button>7</button><button>8</button><button>9</button><button>/</button><button></button><br><button>4</button><button>5</button><button>6</button><button>*</button><button id="easteregg"></button><br><button>1</button><button>2</button><button>3</button><button>-</button><button></button><br><button id="0">0</button><button>.</button><button>+</button><button id="eq">=</button></div>');
     var peek = b.find('#peek');
     b.find('button').attr('style', 'width:32px;height:25px;margin-right:5px;margin-top:5px;vertical-align:top;');
     b.find('#0').css('width', '69px');
@@ -15,11 +17,26 @@ new explorer.window()
     b.find('button').click(function() {
         switch($(this).attr('id')) {
             case 'eq':
-                peek.text(eval(peek.text()));
+                try {
+                    var ans = eval(peek.text());
+                } catch(e) {
+                    new explorer.window()
+                    .title('Error')
+                    .closeWith(dis)
+                    .icon('webdows/resources/icons/calc.png')
+                    .resize(200, 100)
+                    .center()
+                    .controls([])
+                    .body
+                    .html(e.message);
+                }
+                peek.text(ans);
                 break;
             case 'c':
                 peek.text('0');
                 break;
+            case 'easteregg':
+                blueScreen('Don\'t push my buttons. -Calculator');
             default:
                 if($(this).text() !== '') {
                     if(peek.text() == '0') {

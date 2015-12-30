@@ -10,11 +10,23 @@ new explorer.window()
     body.find('div').attr('style', 'position:absolute;top:0px;left:0px;width:100%;height:calc(100% - 20px);overflow-y:auto;overflow-x:hidden;');
     body.find('span').attr('style', 'position:absolute;bottom:0px;left:0px;');
     body.find('input').css({'position':'absolute','bottom':'0px','left':'20px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
-    body.find('input').on("keypress", function(event) {
-        if (event.which == 13 && !event.shiftKey) {
+    var history = [];
+    body.find('input').keydown(function(event) {
+        var dis = $(event.target);
+        if(event.which == 38) { 
             event.preventDefault();
-            var dis = $(event.target);
+            history.unshift(history.pop());
+            dis.val(history[0]);
+        }
+        if(event.which == 40) {
+            event.preventDefault();
+            history.push(history.shift());
+            dis.val(history[0]);
+        }
+        if(event.which == 13) {
+            event.preventDefault();
             var command = dis.val();
+            history.push(command);
             body.children('div').append('<div>$>'+command+'</div>');
             try {
                 var ret = eval(command);
@@ -24,7 +36,7 @@ new explorer.window()
             if(typeof ret !== 'undefined') {
                 body.children('div').append('<div style="color:gray;">'+ret+'</div>');
             }
-            body.children('div').scrollTop(body.children('div')[0].scrollHeight)
+            body.children('div').scrollTop(body.children('div')[0].scrollHeight);
             dis.val('');
         }
     });
