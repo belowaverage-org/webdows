@@ -66,7 +66,7 @@ var explorer = {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
 				start.removeClass('minimized');
-                $('#startmenu .search input').focus();
+                //$('#startmenu .search input').focus();
 			} else {
 				start.addClass('minimized');
                 $('#startmenu .search input').val('');
@@ -206,6 +206,8 @@ var explorer = {
             if($.inArray('max', array) !== -1) {
                 this.winid.find('.minmaxclose').prepend('<span class="max"></span>');
                 this.winid.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+                this.winid.resizable('enable');
+                this.winid.find('.ui-resizable-handle').show();
                 this.winid.find('.ttl, .minmaxclose .max').off();
                 $('.window[windowID='+this.winid.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
                     e.data.window.toggleMax();
@@ -214,7 +216,8 @@ var explorer = {
                     e.data.window.toggleMax();
                 });
             } else if(typeof this.winid.resizable('instance') !== 'undefined') {
-                this.winid.resizable('destroy');
+                this.winid.resizable('disable');
+                this.winid.find('.ui-resizable-handle').hide();
                 this.winid.find('.ttl').off();
             }
             if($.inArray('min', array) !== -1) {

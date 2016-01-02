@@ -45,7 +45,7 @@ box-shadow: inset 1px 1px 0px #808080, inset -1px -1px 0px #808080;
 height:29px;
 border-top:1px solid white;
 box-shadow:0px -1px #D2CEC6;
-position:fixed;
+position:absolute;
 bottom:0px;
 left:0px;
 width:100%;
@@ -302,7 +302,7 @@ left:0px;
 top:0px;
 }
 #startmenu {
-position:fixed;
+position:absolute;
 bottom:31px;
 left:0px;
 width:409px;

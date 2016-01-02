@@ -6,7 +6,7 @@ background-color:white;
 #taskbar  {
 height:29px;
 border-top:1px solid black;
-position:fixed;
+position:absolute;
 bottom:0px;
 left:0px;
 width:100%;
@@ -232,7 +232,7 @@ left:0px;
 top:0px;
 }
 #startmenu {
-position:fixed;
+position:absolute;
 bottom:30px;
 left:0px;
 width:409px;

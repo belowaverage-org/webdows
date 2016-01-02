@@ -1,5 +1,5 @@
 #desktop {
-position:fixed;
+position:absolute;
 top:0px;
 left:0px;
 width:100%;
@@ -11,6 +11,8 @@ height:100%;
 -ms-user-select: none;
 user-select: none;
 cursor:default;
+min-height:510px;
+min-width:410px;
 }
 button {
 height:20px;
