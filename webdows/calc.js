@@ -3,7 +3,7 @@ new explorer.window()
 .center()
 .title('Calculator')
 .controls(['min'])
-.icon('webdows/resources/icons/calc.png')
+.icon('webdows/resources/icons/calc.ico')
 .callback(function() {
     var b = this.body;
     var dis = this;
@@ -23,7 +23,7 @@ new explorer.window()
                     new explorer.window()
                     .title('Error')
                     .closeWith(dis)
-                    .icon('webdows/resources/icons/calc.png')
+                    .icon('webdows/resources/icons/calc.ico')
                     .resize(200, 100)
                     .center()
                     .controls([])

@@ -1,17 +1,17 @@
 
-explorer.start.addLButton('webver.js', 'webdows/resources/icons/DxpTaskSync_60.ico', function() {
+explorer.start.addLButton('webver.js', 'webdows/resources/icons/info.ico', function() {
    system.loader('webdows/webver.js');
 });
-explorer.start.addLButton('Personalize', 'webdows/resources/icons/imageres_27.ico', function() {
+explorer.start.addLButton('Personalize', 'webdows/resources/icons/pers.ico', function() {
    system.loader('webdows/personalize.js');
 });
-explorer.start.addLButton('CMD', 'webdows/resources/icons/cmd_IDI_APPICON.ico', function() {
+explorer.start.addLButton('CMD', 'webdows/resources/icons/scre.ico', function() {
    system.loader('webdows/cmd.js');
 });
-explorer.start.addLButton('Test', 'webdows/resources/icons/shell32_153.ico', function() {
+explorer.start.addLButton('Test', 'webdows/resources/icons/exei.ico', function() {
    system.loader('programs/test.js');
 });
-explorer.start.addLButton('Calculator', 'webdows/resources/icons/calc.png', function() {
+explorer.start.addLButton('Calculator', 'webdows/resources/icons/calc.ico', function() {
    system.loader('webdows/calc.js');
 });
 explorer.start.addRButton('Webdows');

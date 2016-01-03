@@ -1,7 +1,7 @@
 new explorer.window()
 .title('Command Prompt')
 .resize(500, 300)
-.icon('webdows/resources/icons/cmd_IDI_APPICON.ico')
+.icon('webdows/resources/icons/scre.ico')
 .center()
 .callback(function() {
     var body = this.body;

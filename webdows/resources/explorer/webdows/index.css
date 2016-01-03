@@ -7,7 +7,7 @@ font-family:NotoSans;
 height:29px;
 border-top:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 1px 0px rgba(255,255,255,.4);
-background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%);
+background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%);
 background-color:rgba(0,0,0,.5);
 position:absolute;
 bottom:0px;
@@ -138,7 +138,7 @@ border-radius:7px;
 border:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 1px 0px rgba(255,255,255,.4), inset 1px 0px 0px rgba(255,255,255,.4), inset 0px -1px 0px rgba(255,255,255,.4), inset -1px 0px 0px rgba(255,255,255,.4), 0px 0px 20px rgba(0,0,0,.5);
 background-color: rgba(0,0,0,.4);
-background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 background-size:auto, 100% 300px;
 background-repeat:repeat, no-repeat;
 min-height:38px;
@@ -168,9 +168,9 @@ border-bottom:1px solid rgba(0,0,0,.5);
 box-shadow:1px 0px 0px rgba(255,255,255,0.2), -1px 1px 0px rgba(255,255,255,0.2);
 }
 .window.active .minmaxclose {
-border-left:1px solid rgba(0,0,0,.6);
-border-right:1px solid rgba(0,0,0,.6);
-border-bottom:1px solid rgba(0,0,0,.6);
+border-left:1px solid rgba(0,0,0,.8);
+border-right:1px solid rgba(0,0,0,.8);
+border-bottom:1px solid rgba(0,0,0,.8);
 box-shadow:1px 0px 0px rgba(255,255,255,0.4), -1px 1px 0px rgba(255,255,255,0.4);
 }
 .window .minmaxclose span {
@@ -181,7 +181,7 @@ box-shadow:inset 1px 0px 0px rgba(255,255,255,.2), inset 0px -1px 0px rgba(255,2
 transition:.3s;
 }
 .window.active .minmaxclose span {
-border-right:1px solid rgba(0,0,0,.6);
+border-right:1px solid rgba(0,0,0,.8);
 box-shadow:inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3), inset 0px 1px 0px rgba(255,255,255,.3);
 }
 .window.minimized .minmaxclose span {
@@ -271,9 +271,10 @@ box-shadow:0px 0px 1px white;
 right:3px;
 }
 .window.active {
-background-color: rgba(0,0,0,.5);
-background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.5) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
-box-shadow:inset 0px 1px 0px rgba(255,255,255,.6), inset 1px 0px 0px rgba(255,255,255,.6), inset 0px -1px 0px rgba(255,255,255,.6), inset -1px 0px 0px rgba(255,255,255,.6), 0px 0px 20px black;
+border:1px solid rgba(0,0,0,.8);
+background-color: rgba(0,0,0,.7);
+background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,1) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
+box-shadow:inset 0px 1px 0px rgba(255,255,255,.6), inset 1px 0px 0px rgba(255,255,255,.6), inset 0px -1px 0px rgba(255,255,255,.6), inset -1px 0px 0px rgba(255,255,255,.6), 0px 0px 15px black;
 }
 .window .ttl {
 color:black;
@@ -296,7 +297,7 @@ vertical-align:bottom;
 display:inline-block;
 }
 .window .body {
-border:1px solid rgba(0,0,0,.9);
+border:1px solid rgba(0,0,0,.6);
 position:absolute;
 left:6px;
 border-radius:2px;
@@ -307,6 +308,9 @@ bottom:6px;
 background-color:#F0F0F0;
 color:black;
 overflow:auto;
+}
+.window.active .body {
+border:1px solid rgba(0,0,0,.8);
 }
 .window .ui-resizable-handle {
 position:absolute;
@@ -376,7 +380,7 @@ height:474px;
 border:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 1px 0px rgba(255,255,255,.3), inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3);
 z-index:999;
-background-image:repeating-linear-gradient(55deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.04) 90%), linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 50%,rgba(255,255,255,0) 100%);
+background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 50%,rgba(255,255,255,0) 100%);
 background-color:rgba(0,0,0,.5);
 border-top-left-radius:7px;
 border-top-right-radius:7px;
@@ -526,7 +530,7 @@ position:absolute;
 display:block;
 width:70px;
 height:70px;
-background-image:url('../../icons/netcenter_8.ico');
+background-image:url('../../icons/netw.ico');
 background-size:100% 100%;
 right:40px;
 top:-40px;

@@ -13,6 +13,7 @@ user-select: none;
 cursor:default;
 min-height:510px;
 min-width:410px;
+overflow:hidden;
 }
 button {
 height:20px;
