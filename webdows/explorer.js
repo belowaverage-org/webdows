@@ -3,7 +3,7 @@ var explorer = {
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
             if(localStorage.getItem("theme") == null) {
-                var themeName = 'aero';
+                var themeName = 'webdows';
             } else {
                 var themeName = localStorage.getItem("theme");
             }
