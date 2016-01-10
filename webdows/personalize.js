@@ -17,7 +17,7 @@ new explorer.window()
     .attr('style', 'text-align:center;padding-top:5px;')
     .html('Webdows: <input value="webdows" type="radio" name="theme"> | Classic: <input value="classic" type="radio" name="theme"> | None: <input value="none" type="radio" name="theme"><img class="webdows" src="webdows/resources/explorer/webdows/thumbnail.png"><img class="bg"><img class="classic" src="webdows/resources/explorer/classic/thumbnail.png"><img class="none" src="webdows/resources/explorer/none/thumbnail.png"><br><input type="color" title="Pick a theme color"><button class="bac" title="Pick a background">Background</button><button class="sav">Save</button><button class="app">Apply</button><button class="can">Cancel</button>')
     .find('img')
-    .attr('style', 'width:310px;height:180px;margin:3px;display:inline-block;display:none;border:1px dashed gray;padding:2px;');
+    .attr('style', 'width:310px;height:180px;margin:3px;display:inline-block;display:none;padding:2px;');
     this.body.find('.sav, .app, .can')
     .attr('style', 'float:right;margin-right:5px;')
     .click({win: this}, function(e) {
@@ -27,7 +27,7 @@ new explorer.window()
         } else {
             var c = win.body.find('input[type=color]').val();
             if(c !== '#000000') {
-                color = ' #taskbar, #startmenu, .window {background-color:'+hexToRGB(c, .4)+' !important;} .window.active {background-color:'+hexToRGB(c, .7)+' !important;} ';
+                color = ' #taskbar, #startmenu, .window {background-color:'+hexToRGB(c, .4)+' !important;} .window.active {background-color:'+hexToRGB(c, .5)+' !important;} ';
             } else {
                 color = '';
             }
@@ -87,10 +87,10 @@ new explorer.window()
         win.body.find('img.'+theme).show();
         if(theme == 'webdows') {
             win.body.find('input[type=color]').show();
-            win.body.css({'background-color':'rgba(0, 0, 0, 0.5)','color':'white'});
+            win.body.attr('style', 'text-align:center;color:white;background-color:transparent;border:none;box-shadow:none;');
         } else {
             win.body.find('input[type=color]').hide();
-            win.body.css({'background-color':'rgba(0, 0, 0, 0)','color':'black'});
+            win.body.attr('style', 'text-align:center;');
         }
     }
     elmeval(this);

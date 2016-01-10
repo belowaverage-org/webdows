@@ -29,7 +29,7 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) { //Error Ha
         var errorWin = new explorer.window()
         .center()
         .title('System Error')
-        .icon('webdows/resources/icons/DxpTaskSync_61.ico')
+        .icon('webdows/resources/icons/aler.ico')
         .body
         .html('The file: '+settings.url+', Has thrown the following error...<br><br>'+thrownError)
         .css({'padding':'10px'});

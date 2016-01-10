@@ -362,13 +362,13 @@ margin-bottom:5px;
 #startmenu .rllist .button:hover {
 border:1px solid black;
 }
-#startmenu::after {
+#startmenu > .icon {
 content:"";
 position:absolute;
 display:block;
 width:70px;
 height:70px;
-background-image:url('../../icons/netcenter_8.ico');
+background-image:url('../../icons/logo.png');
 background-size:100% 100%;
 right:40px;
 top:-40px;

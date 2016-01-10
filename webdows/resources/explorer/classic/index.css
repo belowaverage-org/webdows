@@ -85,11 +85,11 @@ content:"Start";
 content:"";
 display:inline-block;
 background-image:url('sta.png');
-width:16px;
-height:14px;
-vertical-align:-2px;
-margin-left:-2px;
-margin-right:2px;
+width:18px;
+height:18px;
+vertical-align:-4px;
+margin-left:-1px;
+margin-right:1px;
 }
 #taskbar #rightframe #time {
 width:75px;
@@ -429,13 +429,13 @@ overflow:hidden;
 white-space: nowrap;
 margin-bottom:5px;
 }
-#startmenu::after {
+#startmenu > .icon {
 content:"";
 position:absolute;
 display:block;
 width:70px;
 height:70px;
-background-image:url('../../icons/netcenter_8.ico');
+background-image:url('../../icons/logo.png');
 background-size:100% 100%;
 right:40px;
 }

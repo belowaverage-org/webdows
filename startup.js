@@ -1,24 +1,45 @@
-
-explorer.start.addLButton('webver.js', 'webdows/resources/icons/info.ico', function() {
-   system.loader('webdows/webver.js');
-});
-explorer.start.addLButton('Personalize', 'webdows/resources/icons/pers.ico', function() {
-   system.loader('webdows/personalize.js');
-});
-explorer.start.addLButton('CMD', 'webdows/resources/icons/scre.ico', function() {
-   system.loader('webdows/cmd.js');
-});
-explorer.start.addLButton('Test', 'webdows/resources/icons/exei.ico', function() {
-   system.loader('programs/test.js');
-});
-explorer.start.addLButton('Calculator', 'webdows/resources/icons/calc.ico', function() {
-   system.loader('webdows/calc.js');
-});
-explorer.start.addRButton('Webdows');
-explorer.start.addRButton('Documents');
-explorer.start.addRButton('Pictures');
-explorer.start.addRButton('Music');
-explorer.start.addRButton('This PC');
-explorer.start.addRButton('Network');
-explorer.start.addRButton('Control Panel');
-explorer.start.addRButton('Settings');
+explorer.start.append([
+    {
+        title: 'webver.js',
+        icon: 'webdows/resources/icons/info.ico',
+        callback: function() { system.loader('webdows/webver.js'); }
+    }, {
+        title: 'Personalize',
+        icon: 'webdows/resources/icons/pers.ico',
+        callback: function() { system.loader('webdows/personalize.js'); }
+    }, {
+        title: 'CMD',
+        icon: 'webdows/resources/icons/scre.ico',
+        callback: function() { system.loader('webdows/cmd.js'); }
+    }, {
+        title: 'Calculator',
+        icon: 'webdows/resources/icons/calc.ico',
+        callback: function() { system.loader('webdows/calc.js'); }
+    }, {
+        title: 'Notepad',
+        icon: 'webdows/resources/icons/note.ico',
+        callback: function() { system.loader('webdows/notepad.js'); }
+    }, {
+        title: 'Browser Properties',
+        icon: 'webdows/resources/icons/driv.ico',
+        callback: function() { system.loader('webdows/properties.js'); }
+    }
+], [
+    {
+        title: 'Webdows',
+        icon: 'webdows/resources/icons/ques.ico',
+        callback: function() { system.loader('webdows/webver.js'); }
+    }, {
+        title: 'Settings',
+        icon: 'webdows/resources/icons/scre.ico',
+        callback: function() {  }
+    }, {
+        title: 'This Browser',
+        icon: 'webdows/resources/icons/info.ico',
+        callback: function() { system.loader('webdows/properties.js'); }
+    }, {
+        title: 'Personalize',
+        icon: 'webdows/resources/icons/pers.ico',
+        callback: function() { system.loader('webdows/personalize.js'); }
+    }
+]);

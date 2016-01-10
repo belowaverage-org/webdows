@@ -30,6 +30,7 @@ var explorer = {
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
         $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('#desktop.explorer').css('opacity','0');
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
             revert: true,
@@ -60,6 +61,13 @@ var explorer = {
 			explorer.start.toggle();
 		});
         explorer.theme();
+        $(window).load(function() {
+            explorer.start.toggle();
+            $('#desktop.explorer').css('opacity','1').hide().fadeIn();
+        });
+        if(document.readyState == 'complete') {
+            $(window).load();
+        }
     },
     start : {
         toggle : function() {
@@ -77,8 +85,7 @@ var explorer = {
             }
         },
         initiate : function() {
-            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input type="text"/></div><div class="rllist"></div></div>');
-			explorer.start.toggle();
+            $('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input type="text"/></div><div class="rllist"></div><div class="icon"></div></div>');
             $('#startmenu .apb').click(function() {
                 explorer.start.allProgramsToggle(); 
                 if($('#startmenu .search input').val() !== '') {
@@ -95,11 +102,25 @@ var explorer = {
                 }
             });
         },
-		addRButton : function(title, callback) {
+        append : function(left, right) {
+            left = typeof left !== 'undefined' ? left : [];
+            right = typeof right !== 'undefined' ? right : [];
+            $.each(left, function(i, v){
+                explorer.start.addLButton(v.title, v.icon, v.callback);
+            });
+            $.each(right, function(i, v){
+                explorer.start.addRButton(v.title, v.icon, v.callback);
+            });
+        },
+		addRButton : function(title, icon, callback) {
 			var callbackID = system.guid();
-            $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" class="button">'+title+'</div>');
+            $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" icon="'+icon+'" class="button">'+title+'</div>');
             $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
+            }).hover(function() {
+                $('#startmenu > .icon').css('background-image', 'url(\''+$(this).attr('icon')+'\')');
+            }, function() {
+                $('#startmenu > .icon').css('background-image', '');
             });
             return $('#startmenu .rllist .button[callbackID='+callbackID+']');
 		},
@@ -276,6 +297,9 @@ var explorer = {
         this.front = function() {
             var count = $('.window').length;
             var fronte = this.winid.css('z-index');
+            if(fronte == '0' || fronte == 'auto') {
+                var fronte = count;
+            }
             this.winid.css('z-index', count);
             var winid = this.winid;
             $(".window").each(function(index) {
@@ -306,6 +330,7 @@ var explorer = {
                 e.data.window.close();
             });
             $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
+            
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();

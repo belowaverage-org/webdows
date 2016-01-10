@@ -2,8 +2,11 @@
 background-image:url('bg.jpg');
 background-size:100% 100%;
 font-family:NotoSans;
+cursor: url('cur.png'), default;
 }
 #taskbar  {
+-webkit-backdrop-filter:blur(3px);
+backdrop-filter:blur(3px); /* Future Usage */
 height:29px;
 border-top:1px solid rgba(0,0,0,.5);
 box-shadow:inset 0px 1px 0px rgba(255,255,255,.4);
@@ -30,14 +33,14 @@ display:inline-block;
 top:0px;
 }
 #taskbar #leftframe #start {
-width:45px;
-height:45px;
+width:36px;
+height:36px;
 position:absolute;
 bottom:0px;
 transition:.5s;
 background-image:url('so1.png');
-margin-left:2px;
-margin-bottom:-5px;
+margin-left:5px;
+margin-bottom:-1px;
 background-size:100% 100%;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
@@ -132,6 +135,8 @@ vertical-align:bottom;
 display:inline-block;
 }
 .window {
+-webkit-backdrop-filter:blur(3px);
+backdrop-filter:blur(3px); /* Future Usage */
 width:300px;
 height:300px;
 top:10px;
@@ -139,7 +144,7 @@ left:10px;
 position:absolute !important;
 border-radius:7px;
 border:1px solid rgba(0,0,0,.5);
-box-shadow:inset 0px 1px 0px rgba(255,255,255,.4), inset 1px 0px 0px rgba(255,255,255,.4), inset 0px -1px 0px rgba(255,255,255,.4), inset -1px 0px 0px rgba(255,255,255,.4), 0px 0px 20px rgba(0,0,0,.5);
+box-shadow:inset 0px 1px 0px rgba(255,255,255,.4), inset 1px 0px 0px rgba(255,255,255,.4), inset 0px -1px 0px rgba(255,255,255,.4), inset -1px 0px 0px rgba(255,255,255,.4), 0px 0px 15px rgba(0,0,0,.5);
 background-color: rgba(0,0,0,.4);
 background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 background-size:auto, 100% 300px;
@@ -250,6 +255,8 @@ visibility:hidden;
 opacity:0;
 transform: translate(0px,100px) scale(0.9);
 transition:.5s;
+-webkit-backdrop-filter:none;
+backdrop-filter:none;
 }
 .window.maximized {
 width:100% !important;
@@ -276,7 +283,7 @@ top:-1px;
 }
 .window.active {
 border:1px solid rgba(0,0,0,.8);
-background-color: rgba(0,0,0,.7);
+background-color: rgba(0,0,0,.5);
 background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,1) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 box-shadow:inset 0px 1px 0px rgba(255,255,255,.6), inset 1px 0px 0px rgba(255,255,255,.6), inset 0px -1px 0px rgba(255,255,255,.6), inset -1px 0px 0px rgba(255,255,255,.6), 0px 0px 15px black;
 }
@@ -376,6 +383,8 @@ left:0px;
 top:0px;
 }
 #startmenu {
+-webkit-backdrop-filter:blur(3px);
+backdrop-filter:blur(3px); /* Future Usage */
 position:absolute;
 bottom:30px;
 left:0px;
@@ -391,6 +400,7 @@ border-top-right-radius:7px;
 }
 #startmenu.minimized {
 visibility:hidden;
+display:none;
 }
 #startmenu .lllist {
 border-top:1px solid rgba(0,0,0,.7);
@@ -528,14 +538,15 @@ border:1px solid rgba(0,0,0,.9);
 box-shadow:inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3), inset 0px 1px 0px rgba(255,255,255,.3), 1px 0px 0px rgba(255,255,255,.2), 0px -1px 0px rgba(255,255,255,.2), -1px 0px 0px rgba(255,255,255,.2), 0px 1px 0px rgba(255,255,255,.2);
 background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.2) 100%);
 }
-#startmenu::after {
+#startmenu > .icon {
 content:"";
 position:absolute;
 display:block;
 width:70px;
 height:70px;
-background-image:url('../../icons/netw.ico');
+background-image:url('../../icons/logo.png');
 background-size:100% 100%;
 right:40px;
 top:-40px;
+transition: .3s;
 }
