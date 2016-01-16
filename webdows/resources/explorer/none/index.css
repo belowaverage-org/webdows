@@ -231,6 +231,9 @@ cursor:nw-resize;
 left:0px;
 top:0px;
 }
+input[type=text] {
+border:1px solid black;
+}
 #startmenu {
 position:absolute;
 bottom:30px;

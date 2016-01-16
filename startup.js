@@ -20,9 +20,13 @@ explorer.start.append([
         icon: 'webdows/resources/icons/note.ico',
         callback: function() { system.loader('webdows/notepad.js'); }
     }, {
-        title: 'Browser Properties',
-        icon: 'webdows/resources/icons/driv.ico',
-        callback: function() { system.loader('webdows/properties.js'); }
+        title: 'System',
+        icon: 'webdows/resources/icons/scre.ico',
+        callback: function() { system.loader('webdows/system.js'); }
+    }, {
+        title: 'Youtube Extractor',
+        icon: 'programs/Youtube Extractor/logo.png',
+        callback: function() { system.loader('programs/Youtube Extractor/index.js'); }
     }
 ], [
     {
@@ -31,15 +35,18 @@ explorer.start.append([
         callback: function() { system.loader('webdows/webver.js'); }
     }, {
         title: 'Settings',
-        icon: 'webdows/resources/icons/scre.ico',
+        icon: 'webdows/resources/icons/cont.ico',
         callback: function() {  }
     }, {
-        title: 'This Browser',
-        icon: 'webdows/resources/icons/info.ico',
-        callback: function() { system.loader('webdows/properties.js'); }
+        title: 'System',
+        icon: 'webdows/resources/icons/scre.ico',
+        callback: function() { system.loader('webdows/system.js'); }
     }, {
         title: 'Personalize',
         icon: 'webdows/resources/icons/pers.ico',
         callback: function() { system.loader('webdows/personalize.js'); }
+    }, {
+        title: 'Restart',
+        callback: function() { boot(); }
     }
 ]);

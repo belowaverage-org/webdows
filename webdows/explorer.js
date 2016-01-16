@@ -74,7 +74,6 @@ var explorer = {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
 				start.removeClass('minimized');
-                //$('#startmenu .search input').focus();
 			} else {
 				start.addClass('minimized');
                 $('#startmenu .search input').val('');
@@ -118,7 +117,9 @@ var explorer = {
             $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
             }).hover(function() {
-                $('#startmenu > .icon').css('background-image', 'url(\''+$(this).attr('icon')+'\')');
+                if(typeof icon !== 'undefined') {
+                    $('#startmenu > .icon').css('background-image', 'url(\''+$(this).attr('icon')+'\')');
+                }
             }, function() {
                 $('#startmenu > .icon').css('background-image', '');
             });

@@ -1,6 +1,6 @@
 new explorer.window()
-.title('Browser Properties')
-.icon('webdows/resources/icons/driv.ico')
+.title('System')
+.icon('webdows/resources/icons/scre.ico')
 .resize(500, 300)
 .center()
 .callback(function() {
