@@ -256,6 +256,7 @@ position:absolute;
 left:7px;
 top:7px;
 overflow:hidden;
+background-color:white;
 }
 #startmenu .lllist.all {
 overflow-y:scroll;
@@ -375,4 +376,54 @@ background-image:url('../../icons/logo.png');
 background-size:100% 100%;
 right:40px;
 top:-40px;
+}
+.context {
+padding:2px;
+border:1px solid black;
+background-color:white;
+font-size:14px;
+display:inline-block;
+position:absolute;
+z-index:1002;
+animation:.3s fadein;
+}
+.context .hr {
+display:block;
+height:1px;
+background-color:black;
+margin-left:26px;
+}
+.context .button {
+margin:3px 0px 3px 0px;
+padding:0px 50px 0px 2px;
+border:1px solid transparent;
+position:relative;
+}
+.context .button.disabled {
+color:#6d6d6d;
+}
+.context .button:hover {
+border:1px solid black;
+}
+.context .button:first-child {
+margin:0px 0px 3px 0px;
+}
+.context .button:last-child {
+margin:3px 0px 0px 0px;
+}
+.context .title {
+margin-left:5px;
+}
+.context::before {
+content:"";
+position:absolute;
+height:100%;
+width:1px;
+left:24px;
+top:0px;
+background-color:black;
+}
+.context .icon {
+vertical-align:-3px;
+margin-right:5px
 }

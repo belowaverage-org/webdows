@@ -4,7 +4,7 @@ font-family:NotoSans;
 background-color:#3C6DA3;
 cursor: url('cur.png'), default;
 }
-#startmenu, .window  {
+#startmenu, .window, .context  {
 box-shadow: inset -1px -1px 0px #808080, inset 1px 1px 0px #fff;
 border-top: 1px solid #D2CEC6;
 border-left: 1px solid #D2CEC6;
@@ -323,7 +323,7 @@ left:7px;
 top:7px;
 overflow:hidden;
 }
-#startmenu .rllist .button:hover, #startmenu .lllist .button:hover, #startmenu  .apb:hover::after {
+#startmenu .rllist .button:hover, #startmenu .lllist .button:hover, #startmenu  .apb:hover::after, .context .button:hover {
 background-color:#092368;
 color:white;
 }
@@ -438,4 +438,55 @@ height:70px;
 background-image:url('../../icons/logo.png');
 background-size:100% 100%;
 right:40px;
+}
+.context {
+background-color:#d4d0c8;
+font-size:12px;
+display:inline-block;
+position:absolute;
+z-index:1002;
+animation:.3s fadein;
+padding:2px;
+box-shadow: inset -1px -1px 0px #808080, inset 1px 1px 0px #fff, 3px 3px 3px rgba(0,0,0,.3);
+}
+.context .hr {
+display:block;
+height:2px;
+background-color:#808080;
+box-shadow:inset 0px -1px 0px white;
+}
+.context .button {
+margin:3px 0px 3px 0px;
+padding:0px 50px 0px 2px;
+border:1px solid transparent;
+position:relative;
+}
+.context .button.disabled {
+text-shadow:1px 1px 0px white;
+color:#808080;
+}
+.context .button.disabled:hover {
+text-shadow:none;
+color:#808080;
+}
+.context .button:first-child {
+margin:0px 0px 3px 0px;
+}
+.context .button:last-child {
+margin:3px 0px 0px 0px;
+}
+.context .title {
+margin-left:5px;
+}
+.context .icon {
+vertical-align:-3px;
+margin-right:5px
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
 }

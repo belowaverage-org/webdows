@@ -50,3 +50,31 @@ explorer.start.append([
         callback: function() { boot(); }
     }
 ]);
+$('#desktop.explorer').contextmenu(function(e) {
+    new explorer.context()
+    .location(e.pageX, e.pageY)
+    .append([
+        {
+            title: 'View',
+            callback: function() { system.loader('webdows/personalize.js'); }
+        }, {
+            title: 'Sort By',
+            callback: function() { system.loader('webdows/personalize.js'); }
+        }, {
+            title: 'Refresh',
+            disabled: true
+        }, {}, {
+            title: 'New',
+            callback: function() { system.loader('webdows/personalize.js'); }
+        }, {}, {
+            title: 'webver.js',
+            icon: 'webdows/resources/icons/info.ico',
+            callback: function() { system.loader('webdows/webver.js'); }
+        }, {
+            title: 'Personalize',
+            icon: 'webdows/resources/icons/pers.ico',
+            callback: function() { system.loader('webdows/personalize.js'); }
+        }
+    ]);
+    e.preventDefault();
+});

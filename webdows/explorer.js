@@ -39,31 +39,14 @@ var explorer = {
             distance: 5,
             helper : 'clone'
         });
-        var timeService = setInterval(function() { //Start clock service
+        var timeService = setInterval(function() {
             var date = new Date();
             $('#taskbar #time').html(system.formatAMPM(date));
-        }, 500);
-        $('#desktop').on('mousedown', function(e) { //Start active listener service
-            if(!$(e.target).parents('.window').length && !$(e.target).is('.window') && !$(e.target).is('#taskbar #middleframe .button') && !$(e.target).parents('#taskbar #middleframe .button').length) {
-                $('.window, #taskbar #middleframe .button').each(function() {
-                    if($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                    }
-                });
-            }
-			if(!$(e.target).parents('#desktop #startmenu').length && !$(e.target).is('#desktop #startmenu') && !$(e.target).parents('#taskbar #start').length && !$(e.target).is('#taskbar #start')) {
-				if(!$('#desktop #startmenu').hasClass('minimized')) {
-					explorer.start.toggle();
-				}
-			}
-        });
-		$('#taskbar #start').click(function() {
-			explorer.start.toggle();
-		});
+        }, 1000);
         explorer.theme();
         $(window).load(function() {
             explorer.start.toggle();
-            $('#desktop.explorer').css('opacity','1').hide().fadeIn();
+            $('#desktop').css('opacity','1').hide().fadeIn();
         });
         if(document.readyState == 'complete') {
             $(window).load();
@@ -99,6 +82,16 @@ var explorer = {
                 if(e.keyCode == 13) {
                     explorer.start.allProgramsSearch($(this).val()).click();
                 }
+            });
+            $('#desktop').on('mousedown', function(e) {
+                if(!$(e.target).parents('#desktop #startmenu').length && !$(e.target).is('#desktop #startmenu') && !$(e.target).parents('#taskbar #start').length && !$(e.target).is('#taskbar #start')) {
+                    if(!$('#desktop #startmenu').hasClass('minimized')) {
+                        explorer.start.toggle();
+                    }
+                }
+            });
+            $('#taskbar #start').click(function() {
+                explorer.start.toggle();
             });
         },
         append : function(left, right) {
@@ -182,6 +175,7 @@ var explorer = {
         } else {
             this.winid = $(winObj);
         }
+        /** endINIT **/
         this.body = this.winid.find('.body');
         this.callback = function(callback) {
             callback.call(this);
@@ -318,11 +312,19 @@ var explorer = {
             }
             return this;
         };
-        /**Window INIT ajustments**/
         if(typeof winObj == 'undefined') {
             $('#taskbar #middleframe').sortable("refresh");
             $(this.winid).mousedown({window: this}, function(e) {
                 e.data.window.front();
+            });
+            $('#desktop').on('mousedown', {winid: this.winid}, function(e) {
+                var winid = e.data.winid.attr('windowID');
+                if(!$(e.target).parents('.window[windowID='+winid+']').length && !$(e.target).is('.window[windowID='+winid+']') && !$(e.target).is('#taskbar #middleframe .button[windowID='+winid+']') && !$(e.target).parents('#taskbar #middleframe .button[windowID='+winid+']').length) {
+                    var elm = $('.window[windowID='+winid+'], #taskbar #middleframe .button[windowID='+winid+']');
+                    if(elm.hasClass('active')) {
+                        elm.removeClass('active');
+                    }
+                }
             });
             $('#taskbar #middleframe .button[windowID='+windowID+']').click({window: this}, function(e) {
                 e.data.window.toggleMin();
@@ -331,11 +333,83 @@ var explorer = {
                 e.data.window.close();
             });
             $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
-            
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
         }
+        return this;
+    },
+    context: function() {
+        /** INIT **/
+        this.id = system.guid();
+        $('#desktop').append('<div contextID="'+this.id+'" class="context"></div>');
+        this.jqid = $('#desktop div.context[contextID='+this.id+']');
+        this.jqid.contextmenu(function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        $('#desktop').on('mousedown mouseup', {jqid: this.jqid, id: this.id}, function(e) {
+            if(!$(e.target).parents('#desktop .context[contextID='+e.data.id+']').length && !$(e.target).is('#desktop .context[contextID='+e.data.id+']')) {
+				e.data.jqid.remove();
+			}
+        });
+        /** EndINIT **/
+        /** Functions **/
+        this.width = function() {
+            var cache = this.jqid.attr('style');
+            this.jqid.attr('style', '');
+            var width = this.jqid.outerWidth();
+            this.jqid.attr('style', cache);
+            return width;
+        };
+        this.height = function() {
+            var cache = this.jqid.attr('style');
+            this.jqid.attr('style', '');
+            var height = this.jqid.outerHeight();
+            this.jqid.attr('style', cache);
+            return height;
+        };
+        /** EndFunctions **/
+        /** ChainFunctions **/
+        this.append = function(struc) {
+            var jqid = this.jqid;
+            $.each(struc, function(k, v) {
+                if(typeof v.title !== 'undefined') {
+                    var callid = system.guid();
+                    if(v.disabled !== true) {
+                        jqid.append('<div class="button" callbackID="'+callid+'"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
+                    } else {
+                        jqid.append('<div class="button disabled"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
+                    }
+                    jqid.find('.button[callbackID='+callid+']').click(v.callback).click(function() { jqid.remove(); });
+                } else {
+                    jqid.append('<div class="hr"></div>');
+                }
+            });
+            if(typeof this.x !== 'undefined' && typeof this.y !== 'undefined') {
+                this.location(this.x, this.y);
+            }
+            return this;
+        };
+        this.location = function(x, y) {
+            this.x = x;
+            this.y = y;
+            var xlim = $('#desktop.explorer').width();
+            var ylim = $('#desktop.explorer').height();
+            if(xlim <= eval(x + this.width())) {
+                x = 'left:'+eval(x - this.width())+'px;';
+            } else {
+                x = 'left:'+x+'px;';
+            }
+            if(ylim <= eval(y + this.height())) {
+                y = 'top:'+eval(y - this.height())+'px;';
+            } else {
+                y = 'top:'+y+'px;';
+            }
+            this.jqid.attr('style', x+y);
+            return this;
+        };
+        /** EndChainFunctions **/
         return this;
     }
 };

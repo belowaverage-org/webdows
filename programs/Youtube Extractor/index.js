@@ -48,13 +48,12 @@ new explorer.window()
                 bod.find('div.results div.result span.mid').css('color', 'gray');
                 bod.find('div.results div.result button').attr('style', 'float:right;margin-right:3px;').click(function() {
                     var dlthis = new explorer.window()
-                    .title('Youtube Extractor')
+                    .title('Youtube Player')
                     .icon('programs/Youtube Extractor/logo.png')
-                    .closeWith(dis)
                     .center();
                     var dlwin = dlthis.body;
                     if($(this).text() == 'Play') {
-                        dlwin.html('<video style="border:0px;position:absolute;top:0px;left:0px;width:100%;height:100%;" controls src="'+$(this).parent().attr('content')+'"></video>');
+                        dlwin.html('<video style="border:0px;position:absolute;top:0px;left:0px;width:100%;height:100%;" controls src="'+$(this).parent().attr('content')+'" autoplay></video>');
                         dlwin.css('background-color', 'black');
                     } else {
                         dlwin.css('text-align', 'center');
