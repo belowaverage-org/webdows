@@ -65,7 +65,23 @@ $('#desktop.explorer').contextmenu(function(e) {
             disabled: true
         }, {}, {
             title: 'New',
-            callback: function() { system.loader('webdows/personalize.js'); }
+            context: [
+                {
+                    title: 'File',
+                    callback: function() {}
+                }, {}, {
+                    title: 'Folder',
+                    context: [
+                        {
+                            title: 'Test',
+                            callback: function() {}
+                        }, {
+                            title: 'LOL',
+                            callback: function() {}
+                        }
+                    ]
+                }
+            ]
         }, {}, {
             title: 'webver.js',
             icon: 'webdows/resources/icons/info.ico',

@@ -89,6 +89,9 @@ border:1px solid black;
 min-height:38px;
 min-width:117px;
 }
+.window.close {
+display:none;
+}
 .window.active {
 }
 .window .minmaxclose {
@@ -395,14 +398,14 @@ margin-left:26px;
 }
 .context .button {
 margin:3px 0px 3px 0px;
-padding:0px 50px 0px 2px;
+padding:0px 0px 0px 2px;
 border:1px solid transparent;
 position:relative;
 }
 .context .button.disabled {
 color:#6d6d6d;
 }
-.context .button:hover {
+.context .button.hovered {
 border:1px solid black;
 }
 .context .button:first-child {
@@ -413,6 +416,7 @@ margin:3px 0px 0px 0px;
 }
 .context .title {
 margin-left:5px;
+padding-right:50px;
 }
 .context::before {
 content:"";
@@ -426,4 +430,9 @@ background-color:black;
 .context .icon {
 vertical-align:-3px;
 margin-right:5px
+}
+.context .button.arrow::after {
+content:"\25B6";
+float:right;
+margin-right:2px;
 }

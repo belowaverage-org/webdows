@@ -157,11 +157,21 @@ animation:open .5s;
 @keyframes open {
     from {
         opacity:0;
-        transform: perspective(1000px) scale(.8) rotateX(-20deg);
+        transform: perspective(1000px) scale(.8) rotateX(-5deg);
     }
     to {
         opacity:1;
         transform: perspective(1000px) scale(1) rotateX(0deg);
+    }
+}
+@keyframes close {
+    from {
+        opacity:1;
+        transform: perspective(1000px) scale(1) rotateX(0deg);
+    }
+    to {
+        opacity:0;
+        transform: perspective(1000px) scale(.8) rotateX(-5deg);
     }
 }
 @keyframes fadein {
@@ -171,6 +181,10 @@ animation:open .5s;
     to {
         opacity:1;
     }
+}
+.window.close {
+opacity:0;
+animation:close .5s;
 }
 .window .minmaxclose {
 height:18px;
@@ -580,14 +594,14 @@ margin-left:26px;
 }
 .context .button {
 margin:3px 0px 3px 0px;
-padding:0px 50px 0px 2px;
+padding:0px 0px 0px 2px;
 border:1px solid transparent;
 position:relative;
 }
 .context .button.disabled {
 color:#6d6d6d;
 }
-.context .button:hover {
+.context .button.hovered {
 border:1px solid rgba(125,162,206,.5);
 border-radius:3px;
 box-shadow:inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3), inset 0px 1px 0px rgba(255,255,255,.3);
@@ -601,6 +615,7 @@ margin:3px 0px 0px 0px;
 }
 .context .title {
 margin-left:5px;
+padding-right:50px;
 }
 .context::before {
 content:"";
@@ -615,4 +630,9 @@ box-shadow:1px 0px 0px white;
 .context .icon {
 vertical-align:-3px;
 margin-right:5px
+}
+.context .button.arrow::after {
+content:"\25B6";
+float:right;
+margin-right:2px;
 }

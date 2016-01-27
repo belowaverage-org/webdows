@@ -146,6 +146,9 @@ min-height:38px;
 min-width:117px;
 background-color:#D2CEC6;
 }
+.window.close {
+display:none;
+}
 .window .minmaxclose {
 height:20px;
 display:inline-block;
@@ -323,7 +326,7 @@ left:7px;
 top:7px;
 overflow:hidden;
 }
-#startmenu .rllist .button:hover, #startmenu .lllist .button:hover, #startmenu  .apb:hover::after, .context .button:hover {
+#startmenu .rllist .button:hover, #startmenu .lllist .button:hover, #startmenu  .apb:hover::after, .context .button.hovered {
 background-color:#092368;
 color:white;
 }
@@ -457,7 +460,7 @@ box-shadow:inset 0px -1px 0px white;
 }
 .context .button {
 margin:3px 0px 3px 0px;
-padding:0px 50px 0px 2px;
+padding:0px 0px 0px 2px;
 border:1px solid transparent;
 position:relative;
 }
@@ -465,7 +468,7 @@ position:relative;
 text-shadow:1px 1px 0px white;
 color:#808080;
 }
-.context .button.disabled:hover {
+.context .button.disabled.hovered {
 text-shadow:none;
 color:#808080;
 }
@@ -477,10 +480,16 @@ margin:3px 0px 0px 0px;
 }
 .context .title {
 margin-left:5px;
+padding-right:50px;
 }
 .context .icon {
 vertical-align:-3px;
 margin-right:5px
+}
+.context .button.arrow::after {
+content:"\25B6";
+float:right;
+margin-right:2px;
 }
 @keyframes fadein {
     from {

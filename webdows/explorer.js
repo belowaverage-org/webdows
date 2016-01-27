@@ -200,17 +200,21 @@ var explorer = {
             return this;
         };
         this.close = function() {
-            this.winid.remove();
+            this.winid.css('z-index', '999').addClass('close');
             $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+']').remove();
             var topZ = -1;
             var topID = this.winid;
-            $('.window').each(function() {
+            $('.window:not(.close)').each(function() {
                 if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
                     topZ = $(this).css('z-index');
                     topID = this;
                 }
             });
             explorer.window(topID).front();
+            var winid = this.winid;
+            setTimeout(function() { //Wait for CSS animation.
+                winid.remove();
+            }, 1000);
             return this;
         };
         this.controls = function(array) {
@@ -341,6 +345,7 @@ var explorer = {
     },
     context: function() {
         /** INIT **/
+        var dis = this;
         this.id = system.guid();
         $('#desktop').append('<div contextID="'+this.id+'" class="context"></div>');
         this.jqid = $('#desktop div.context[contextID='+this.id+']');
@@ -348,10 +353,16 @@ var explorer = {
             e.stopPropagation();
             e.preventDefault();
         });
-        $('#desktop').on('mousedown mouseup', {jqid: this.jqid, id: this.id}, function(e) {
-            if(!$(e.target).parents('#desktop .context[contextID='+e.data.id+']').length && !$(e.target).is('#desktop .context[contextID='+e.data.id+']')) {
-				e.data.jqid.remove();
+        $('#desktop').on('mousedown mouseup contextclose', {context: this}, function(e) {
+            if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
+				e.data.context.jqid.remove();
 			}
+        });
+        this.hover = false;
+        this.jqid.hover(function() {
+            dis.hover = true;
+        }, function() {
+            dis.hover = false;
         });
         /** EndINIT **/
         /** Functions **/
@@ -376,12 +387,71 @@ var explorer = {
             $.each(struc, function(k, v) {
                 if(typeof v.title !== 'undefined') {
                     var callid = system.guid();
-                    if(v.disabled !== true) {
-                        jqid.append('<div class="button" callbackID="'+callid+'"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
-                    } else {
-                        jqid.append('<div class="button disabled"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
+                    var disabled = '';
+                    var arrow = '';
+                    if(v.disabled == true) {
+                        disabled = ' disabled';
                     }
-                    jqid.find('.button[callbackID='+callid+']').click(v.callback).click(function() { jqid.remove(); });
+                    if(typeof v.context !== 'undefined') {
+                        arrow = ' arrow ';
+                    }
+                    jqid.append('<div callbackID="'+callid+'" class="button'+arrow+disabled+'"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
+                    var button = jqid.find('.button[callbackID='+callid+']');
+                    if(typeof v.context !== 'undefined') {
+                        var sub = null;
+                        var timer = null;
+                        button.hover(function() {
+                            if(sub == null) {
+                                timer = setTimeout(function() {
+                                    sub = new explorer.context().append(v.context); 
+                                    var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jqid.outerWidth(); var sh = sub.jqid.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
+                                    x = bx + bw;
+                                    y = by;
+                                    if(xlim < bx + bw + sw) {
+                                        x = x - bw - sw;
+                                        y = y;
+                                    }
+                                    if(ylim < by + bh + sh) {
+                                        x = x;
+                                        y = y + bh - sh;
+                                    }
+                                    sub.location(x, y);
+                                    button.on('unhover', function() {
+                                        setTimeout(function() {
+                                            if(!button.hasClass('hovered') && sub !== null) {
+                                                sub.jqid.remove();
+                                                sub = null;
+                                                button.unbind('unhover');
+                                            }
+                                        }, 400);
+                                    });
+                                    button.parent().on('remove', function() {
+                                        sub.jqid.remove();
+                                        sub = null;
+                                    });
+                                    sub.jqid.hover(function() {
+                                        button.trigger('mouseover');
+                                    });
+                                }, 400);
+                            }
+                        }, function() {
+                            clearTimeout(timer);
+                        });
+                    } else {
+                        button.click(v.callback).click(function() { $('#desktop').trigger('contextclose'); });
+                    }
+                    button.on('mouseover', function() {
+                        var button = $(this);
+                        $.each(jqid.find('.button'), function() {
+                            if($(this)[0] !== button[0]) {
+                                $(this).removeClass('hovered');
+                                $(this).trigger('unhover');
+                            }
+                        });
+                        if(!button.hasClass('hovered')) {
+                            button.addClass('hovered');
+                        }
+                    });
                 } else {
                     jqid.append('<div class="hr"></div>');
                 }
@@ -408,7 +478,7 @@ var explorer = {
             }
             this.jqid.attr('style', x+y);
             return this;
-        };
+        };     
         /** EndChainFunctions **/
         return this;
     }
