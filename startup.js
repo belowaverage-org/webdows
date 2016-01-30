@@ -35,12 +35,16 @@ explorer.start.append([
         callback: function() { system.loader('webdows/webver.js'); }
     }, {
         title: 'Settings',
-        icon: 'webdows/resources/icons/cont.ico',
-        callback: function() {  }
+        icon: 'webdows/resources/icons/cont.ico'
     }, {
         title: 'System',
         icon: 'webdows/resources/icons/scre.ico',
-        callback: function() { system.loader('webdows/system.js'); }
+        callback: function() { system.loader('webdows/system.js'); },
+        context: [
+            {
+                title: 'TEST'
+            }
+        ]
     }, {
         title: 'Personalize',
         icon: 'webdows/resources/icons/pers.ico',
@@ -50,47 +54,46 @@ explorer.start.append([
         callback: function() { boot(); }
     }
 ]);
-$('#desktop.explorer').contextmenu(function(e) {
-    new explorer.context()
-    .location(e.pageX, e.pageY)
-    .append([
-        {
-            title: 'View',
-            callback: function() { system.loader('webdows/personalize.js'); }
-        }, {
-            title: 'Sort By',
-            callback: function() { system.loader('webdows/personalize.js'); }
-        }, {
-            title: 'Refresh',
-            disabled: true
-        }, {}, {
-            title: 'New',
-            context: [
-                {
-                    title: 'File',
-                    callback: function() {}
-                }, {}, {
-                    title: 'Folder',
-                    context: [
-                        {
-                            title: 'Test',
-                            callback: function() {}
-                        }, {
-                            title: 'LOL',
-                            callback: function() {}
-                        }
-                    ]
-                }
-            ]
-        }, {}, {
-            title: 'webver.js',
-            icon: 'webdows/resources/icons/info.ico',
-            callback: function() { system.loader('webdows/webver.js'); }
-        }, {
-            title: 'Personalize',
-            icon: 'webdows/resources/icons/pers.ico',
-            callback: function() { system.loader('webdows/personalize.js'); }
-        }
-    ]);
+$('#desktop.explorer').on('contextmenu', function(e) {
     e.preventDefault();
+    if(e.target == this) {
+        new explorer.context()
+        .location(e.pageX, e.pageY)
+        .append([
+            {
+                title: 'View'
+            }, {
+                title: 'Sort By'
+            }, {
+                title: 'Refresh'
+            }, {}, {
+                title: 'New',
+                context: [
+                    {
+                        title: 'File',
+                        callback: function() {}
+                    }, {}, {
+                        title: 'Folder',
+                        context: [
+                            {
+                                title: 'Test',
+                                callback: function() {}
+                            }, {
+                                title: 'LOL',
+                                callback: function() {}
+                            }
+                        ]
+                    }
+                ]
+            }, {}, {
+                title: 'webver.js',
+                icon: 'webdows/resources/icons/info.ico',
+                callback: function() { system.loader('webdows/webver.js'); }
+            }, {
+                title: 'Personalize',
+                icon: 'webdows/resources/icons/pers.ico',
+                callback: function() { system.loader('webdows/personalize.js'); }
+            }
+        ]);
+    }
 });

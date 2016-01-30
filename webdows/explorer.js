@@ -101,13 +101,14 @@ var explorer = {
                 explorer.start.addLButton(v.title, v.icon, v.callback);
             });
             $.each(right, function(i, v){
-                explorer.start.addRButton(v.title, v.icon, v.callback);
+                explorer.start.addRButton(v.title, v.icon, v.callback, v.context);
             });
         },
-		addRButton : function(title, icon, callback) {
+		addRButton : function(title, icon, callback, context) {
 			var callbackID = system.guid();
+            var jqid = '#startmenu .rllist .button[callbackID='+callbackID+']';
             $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" icon="'+icon+'" class="button">'+title+'</div>');
-            $('#startmenu .rllist .button[callbackID='+callbackID+']').click(callback).click(function() {
+            $(jqid).click(callback).click(function() {
                 explorer.start.toggle();
             }).hover(function() {
                 if(typeof icon !== 'undefined') {
@@ -116,6 +117,12 @@ var explorer = {
             }, function() {
                 $('#startmenu > .icon').css('background-image', '');
             });
+            if(typeof context !== 'undefined') {
+                $(jqid).contextmenu(function(e) {
+                    new explorer.context().location(e.pageX, e.pageY).append(context);
+                    e.preventDefault();
+                });
+            }
             return $('#startmenu .rllist .button[callbackID='+callbackID+']');
 		},
 		addLButton : function(title, icon, callback) {
@@ -389,13 +396,19 @@ var explorer = {
                     var callid = system.guid();
                     var disabled = '';
                     var arrow = '';
-                    if(v.disabled == true) {
+                    if(typeof v.callback == 'undefined') {
                         disabled = ' disabled';
                     }
                     if(typeof v.context !== 'undefined') {
                         arrow = ' arrow ';
+                        disabled = '';
                     }
-                    jqid.append('<div callbackID="'+callid+'" class="button'+arrow+disabled+'"><span class="icon" style="background-image:url(\''+v.icon+'\');"></span><span class="title">'+v.title+'</span></div>');
+                    if(typeof v.icon == 'undefined') {
+                        var icon = 'none';
+                    } else {
+                        var icon = 'url(\''+v.icon+'\')';
+                    }
+                    jqid.append('<div callbackID="'+callid+'" class="button'+arrow+disabled+'"><span class="icon" style="background-image:'+icon+';"></span><span class="title">'+v.title+'</span></div>');
                     var button = jqid.find('.button[callbackID='+callid+']');
                     if(typeof v.context !== 'undefined') {
                         var sub = null;
@@ -478,7 +491,7 @@ var explorer = {
             }
             this.jqid.attr('style', x+y);
             return this;
-        };     
+        };
         /** EndChainFunctions **/
         return this;
     }
