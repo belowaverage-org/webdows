@@ -22,15 +22,16 @@ var explorer = {
         return themeName;
     },
     initiate : function() {
+        $(this).unbind();
         $('body').attr('style','background-color:black;');
         $('body').html('');
-        $('body').hide().show(0);
         $('.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
-        $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
-        $('#desktop.explorer').css('opacity','0');
+        $('body').append('<div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('#desktop').css({'opacity':'0','visibility':'hidden','cursor':'wait'});
+        var open = new Audio('webdows/resources/explorer/open.ogg');
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
             revert: true,
@@ -44,13 +45,19 @@ var explorer = {
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
         explorer.theme();
-        $(window).load(function() {
-            explorer.start.toggle();
-            $('#desktop').css('opacity','1').hide().fadeIn();
-        });
-        if(document.readyState == 'complete') {
-            $(window).load();
-        }
+        var timer = setInterval(function() {
+            if(document.readyState == 'complete') {
+                clearInterval(timer);
+                $('body #open').remove();
+                $('body').append('<div id="open"></div>');
+                open.play();
+                setTimeout(function() {
+                    $('body #open').remove();
+                    explorer.start.toggle();
+                    $('#desktop').removeAttr('style').hide().fadeIn(500);
+                }, 2000);
+            }
+        }, 100);
     },
     start : {
         toggle : function() {
