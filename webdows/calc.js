@@ -12,6 +12,7 @@ new explorer.window()
     var peek = b.find('#peek');
     b.find('button').attr('style', 'width:32px;height:25px;margin-right:5px;margin-top:5px;vertical-align:top;');
     b.find('#0').css('width', '69px');
+    b.find('#eq').css({'height':'55px','margin-top':'-25px'});
     b.find('#wrap').attr('style', 'overflow:hidden;white-space:nowrap;width:180px;margin-left:auto;margin-right:auto;');
     peek.attr('style', 'text-align:right;height:50px;margin-top:10px;font-size:23px;line-height:50px;border:1px solid #8e9cad;border-radius:3px;background: linear-gradient(to bottom, #e5eefb 0%,white 100%);');
     b.find('button').click(function() {

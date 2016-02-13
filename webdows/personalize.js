@@ -15,7 +15,7 @@ new explorer.window()
     var background = '';
     this.body
     .attr('style', 'text-align:center;padding-top:5px;')
-    .html('Webdows: <input value="webdows" type="radio" name="theme"> | Classic: <input value="classic" type="radio" name="theme"> | None: <input value="none" type="radio" name="theme"><img class="webdows" src="webdows/resources/explorer/webdows/thumbnail.png"><img class="bg"><img class="classic" src="webdows/resources/explorer/classic/thumbnail.png"><img class="none" src="webdows/resources/explorer/none/thumbnail.png"><br><input type="color" title="Pick a theme color"><button class="bac" title="Pick a background">Background</button><button class="sav">Save</button><button class="app">Apply</button><button class="can">Cancel</button>')
+    .html('Webdows: <input value="webdows" type="radio" name="theme"> | Basic: <input value="basic" type="radio" name="theme"> | Classic: <input value="classic" type="radio" name="theme"><img class="webdows" src="webdows/resources/explorer/webdows/thumbnail.png"><img class="bg"><img class="classic" src="webdows/resources/explorer/classic/thumbnail.png"><img class="basic" src="webdows/resources/explorer/basic/thumbnail.png"><br><input type="color" title="Pick a theme color"><button class="bac" title="Pick a background">Background</button><button class="sav">Save</button><button class="app">Apply</button><button class="can">Cancel</button>')
     .find('img')
     .attr('style', 'width:310px;height:180px;margin:3px;display:inline-block;display:none;padding:2px;');
     this.body.find('.sav, .app, .can')

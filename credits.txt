@@ -1,0 +1,21 @@
+KERNEL.JS:
+    jQuery v2.1.4 JQ Lisc.
+        General Usage throughout.
+        
+    DEXIE.JS v1.2.0 Apache Lisc.
+        Used for IDB storage: Webdows File System.
+        
+SHELL.JS:
+    jQuery UI v1.11.4 JQ Lisc.
+        Used for dragging, dropping, and resizing windows.
+        
+    Touch Punch 0.2.3 MIT or GPL Lisc.
+        Used for touch support for dragging, dropping, and resizing.
+        
+PROGRAMS/YOUTUBE EXTRACTOR:
+    YT-LNK (aldenml/gubatron @ GitHub) MIT Lisc.
+        Used for extracting content from youtube.
+        
+RESOURCES/ICONS:
+    Windows 9 Icons (dtafalonso @ Deviant Art)
+        Used for UI Icons.

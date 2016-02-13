@@ -16,7 +16,7 @@ min-width:410px;
 overflow:hidden;
 }
 button {
-height:20px;
+height:21px;
 line-height:15px;
 padding-left:5px;
 padding-right:5px;
@@ -43,24 +43,42 @@ margin-left:-100px;
 margin-top:-100px;
 width:200px;
 height:200px;
-background:url('open2.png');
-animation:explorerstart 2s;
+background-image:url('open1.png');
+animation:es1 2s ease-in-out;
+opacity:0;
 }
-@keyframes explorerstart {
+#open::after {
+position:absolute;
+left:50%;
+top:50%;
+margin-left:-100px;
+margin-top:-100px;
+content: "";
+background-image:url('open2.png');
+width:200px;
+height:200px;
+animation:es2 2s ease-in-out;
+opacity:0;
+}
+@keyframes es1 {
     0% {
-        transform: scale(0.9);
-        background:url('open1.png');
         opacity:0;
     } 30% {
-        background:url('open1.png');
         opacity:1;
-    } 50% {
-        transform: scale(1);
     } 70% {
-        background:url('open2.png');
         opacity:1;
     } 100% {
-        background:url('open1.png');
+        opacity:0;
+    }
+}
+@keyframes es2 {
+    0% {
+        opacity:0;
+    } 30% {
+        opacity:0;
+    } 60% {
+        opacity:1;
+    } 100% {
         opacity:0;
     }
 }

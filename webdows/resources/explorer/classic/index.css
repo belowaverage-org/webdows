@@ -31,6 +31,8 @@ border-top: 1px solid #424242;
 border-left: 1px solid #424242;
 border-right: 1px solid #fff;
 border-bottom: 1px solid #fff;
+color:transparent;
+text-shadow:1px 1px 0px black;
 }
 button:focus {
 box-shadow:inset -1px -1px 0px #404040, inset 1px 1px 0px #fff, inset -2px -2px 0px #808080;
@@ -457,10 +459,10 @@ display:block;
 height:2px;
 background-color:#808080;
 box-shadow:inset 0px -1px 0px white;
+margin:3px 0px 3px 0px;
 }
 .context .button {
-margin:3px 0px 3px 0px;
-padding:0px 0px 0px 2px;
+padding:0px;
 border:1px solid transparent;
 position:relative;
 }
@@ -472,14 +474,7 @@ color:#808080;
 text-shadow:none;
 color:#808080;
 }
-.context .button:first-child {
-margin:0px 0px 3px 0px;
-}
-.context .button:last-child {
-margin:3px 0px 0px 0px;
-}
 .context .title {
-margin-left:5px;
 padding-right:50px;
 }
 .context .icon {

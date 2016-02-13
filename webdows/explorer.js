@@ -22,7 +22,6 @@ var explorer = {
         return themeName;
     },
     initiate : function() {
-        $(this).unbind();
         $('body').attr('style','background-color:black;');
         $('body').html('');
         $('.explorer').remove();
@@ -57,7 +56,7 @@ var explorer = {
                     $('#desktop').removeAttr('style').hide().fadeIn(500);
                 }, 2000);
             }
-        }, 100);
+        }, 500);
     },
     start : {
         toggle : function() {
