@@ -21,6 +21,9 @@ line-height:15px;
 padding-left:5px;
 padding-right:5px;
 }
+input[type=text] {
+height:18px;
+}
 * {
 outline:none;
 }
@@ -36,6 +39,7 @@ height:16px;
 display:inline-block;
 }
 #open {
+image-rendering:pixelated;
 position:absolute;
 left:50%;
 top:50%;
@@ -43,7 +47,7 @@ margin-left:-100px;
 margin-top:-100px;
 width:200px;
 height:200px;
-background-image:url('open1.png');
+background-image:url('1.png');
 animation:es1 2s ease-in-out;
 opacity:0;
 }
@@ -54,7 +58,7 @@ top:50%;
 margin-left:-100px;
 margin-top:-100px;
 content: "";
-background-image:url('open2.png');
+background-image:url('2.png');
 width:200px;
 height:200px;
 animation:es2 2s ease-in-out;

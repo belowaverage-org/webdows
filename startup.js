@@ -37,12 +37,17 @@ explorer.start.append([
         title: 'Settings',
         icon: 'webdows/resources/icons/cont.ico'
     }, {
-        title: 'System',
+        title: 'This Browser',
         icon: 'webdows/resources/icons/scre.ico',
-        callback: function() { system.loader('webdows/system.js'); },
+        callback: function() { explorer.file_explorer(); },
         context: [
             {
-                title: 'TEST'
+                title: '<b>Open</b>',
+                icon: 'webdows/resources/icons/driv.ico',
+                callback: function() { explorer.file_explorer(); }
+            }, {}, {
+                title: 'Properties',
+                callback: function() { system.loader('webdows/system.js'); }
             }
         ]
     }, {

@@ -29,18 +29,36 @@ right:0px;
 display:inline-block;
 top:0px;
 }
+#taskbar #leftframe {
+display:inline-block;
+width:70px;
+height:30px;
+background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 52%,rgba(0,0,0,.3) 100%);
+}
+#taskbar #leftframe::before {
+content:"";
+margin-left:5px;
+bottom:0px;
+display:inline-block;
+width:36px;
+margin-bottom:-1px;
+height:36px;
+position:absolute;
+background-image:linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%,rgba(255,255,255,0.3) 20%,rgba(255,255,255,0.3) 100%);
+border-radius:36px;
+}
 #taskbar #leftframe #start {
 width:36px;
 height:36px;
 position:absolute;
 bottom:0px;
 transition:.5s;
-background-image:url('so1.png');
 margin-left:5px;
 margin-bottom:-1px;
 background-size:100% 100%;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
+background-image:url('so1.png');
 }
 #taskbar #leftframe #start::before {
 content:"";
@@ -82,6 +100,18 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space:nowrap;
 transition:.5s;
+}
+input[type=text] {
+border-left:1px solid #e2e3eb;
+border-top:1px solid #abadb4;
+border-right:1px solid #dbdfe7;
+border-bottom:1px solid #e3e9f0;
+}
+input[type=text]:focus {
+border-left:1px solid #b5cfe7;
+border-top:1px solid #3d7bad;
+border-right:1px solid #a4c9e3;
+border-bottom:1px solid #b7d9ed;
 }
 button {
 background-image: linear-gradient(to bottom, #f2f2f2 0%,#ebebeb 50%,#ebebeb 50%,#dddddd 51%,#cfcfcf 100%);
@@ -165,6 +195,7 @@ position:absolute;
 right:6px;
 text-align:right;
 margin-top:8px;
+image-rendering:pixelated;
 }
 .window .minmaxclose span {
 display:inline-block;
@@ -400,7 +431,6 @@ position:absolute;
 top:10px;
 left:10px;
 width:calc(100% - 24px);
-border:1px solid lightgray;
 }
 #startmenu .lllist.all .button {
 height:18px;

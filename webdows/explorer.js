@@ -1,5 +1,23 @@
 //Explorer.js//Webdows//
 var explorer = {
+    file_explorer : function () {
+        new explorer.window()
+        .resize(600, 400)
+        .center()
+        .title('File Explorer')
+        .icon('webdows/resources/icons/scre.ico')
+        .callback(function() {
+            this.winid.find('.ttl').html('');
+            this.winid.append('<span style="image-rendering: pixelated;width:57px;height:27px;background-image:url(\'webdows/resources/explorer/4.png\');position:absolute;top:30px;left:6px;"><span style="display:inline-block;width:28px;height:27px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:28px;height:27px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input type="text" style="width:calc(100% - 80px);position:absolute;top:32px;left:68px;background-color:rgba(255,255,255,0.6);border:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.5);box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);"/>');
+            this.winid.find('input[type=text]').on('mouseover focusin', function() {
+                $(this).css('background-color', 'white');
+            }).on('mouseout focusout', function() {
+                if(!$(this).is(':focus')) {
+                    $(this).css('background-color', 'rgba(255,255,255,.6)');
+                }
+            });
+    }).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
+    },
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
             if(localStorage.getItem("theme") == null) {
@@ -30,7 +48,7 @@ var explorer = {
         $('body').html('');
         $('body').append('<div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         $('#desktop').css({'opacity':'0','visibility':'hidden','cursor':'wait'});
-        var open = new Audio('webdows/resources/explorer/open.ogg');
+        var open = new Audio('webdows/resources/explorer/1.ogg');
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
             revert: true,
@@ -502,6 +520,7 @@ var explorer = {
         return this;
     }
 };
+
 $(document).ready(function() {
     explorer.initiate();
 });

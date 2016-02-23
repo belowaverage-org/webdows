@@ -12,7 +12,7 @@ wfs.version(1).stores({
 function blueScreen(error) {
     $('body').attr('style','');
     $('body').css({'background-color':'blue','font-family':'Courier','color':'white'});
-    $('body').html('Webdows (c) 2015 - 2015<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
+    $('body').html('Webdows (c) 2015 - 2016<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
     $('body').append(error);
 }
 function boot() {

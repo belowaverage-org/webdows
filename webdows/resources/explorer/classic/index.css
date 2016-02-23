@@ -84,6 +84,7 @@ font-weight:bold;
 content:"Start";
 }
 #taskbar #leftframe #start::before {
+image-rendering:pixelated;
 content:"";
 display:inline-block;
 background-image:url('sta.png');
@@ -158,6 +159,7 @@ position:absolute;
 top:1px;
 right:5px;
 text-align:right;
+image-rendering:pixelated;
 }
 .window .minmaxclose span {
 display:inline-block;

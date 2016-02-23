@@ -7,7 +7,7 @@ new explorer.window()
 .callback(function() {
     this.body
     .css({'font-size':'10px'})
-    .html('<center><h1><img style="vertical-align:-18px;width:64px;height:64px;" src="webdows/resources/icons/logo.png">&nbsp;Webdows 6</h1></center><hr><div>Below-Average Webdows | Version 1.0 (Build 0001)<br> The MIT License (MIT) Copyright (c) 2015 krisdb2009 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br><span>This product is not affiliated with Microsoft</span></div><button class="credits">Credits</button><button class="ok">Ok</button>');
+    .html('<center><h1><img style="vertical-align:-18px;width:64px;height:64px;image-rendering:pixelated;" src="webdows/resources/explorer/webdows/so3.png">&nbsp;Webdows 6</h1></center><hr><div>Below-Average Webdows | Version 1.0 (Build 0001)<br> The MIT License (MIT) Copyright (c) 2015 krisdb2009 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br><span>This product is not affiliated with Microsoft</span></div><button class="credits">Credits</button><button class="ok">Ok</button>');
     
     this.body.find('button.ok')
     .css({'width':'80px','height':'20px','position':'absolute','bottom':'10px','right':'10px'})
@@ -27,7 +27,9 @@ new explorer.window()
         .icon('webdows/resources/icons/info.ico')
         .callback(function() {
             this.body
-            .html('<iframe style="top:0px;left:0px;border:0px;position:absolute;width:100%;height:100%;" src="credits.txt"></iframe>');
+            .html('<pre style="user-select:text;margin:0px;top:0px;left:0px;border:0px;position:absolute;width:100%;height:100%;word-wrap:break-word;white-space:pre-wrap;"></pre>')
+            .find('pre')
+            .load('credits.txt');
         });
     });
 
