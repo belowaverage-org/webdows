@@ -47,7 +47,7 @@ width:36px;
 margin-bottom:-1px;
 height:36px;
 position:absolute;
-background-image:linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%,rgba(255,255,255,0.3) 20%,rgba(255,255,255,0.3) 100%);
+background-image:linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,.5) 18%,rgba(255,255,255,.4) 100%);
 border-radius:36px;
 }
 #taskbar #leftframe #start {
@@ -178,27 +178,29 @@ background-size:auto, 100% 300px;
 background-repeat:repeat, no-repeat;
 min-height:38px;
 min-width:117px;
-transition:opacity .5s, transform .5s;
-animation:open .5s;
+transition:opacity .2s linear, transform .2s linear;
+animation:open .2s linear;
 }
 @keyframes open {
-    from {
+    0% {
         opacity:0;
-        transform: perspective(1000px) scale(.8) rotateX(-5deg);
-    }
-    to {
+        transform: perspective(1000px) scale(.9) rotateX(-5deg);
+    } 50% {
+        transform: perspective(1000px) scale(.95) rotateX(-5deg);
+    } 100% {
         opacity:1;
         transform: perspective(1000px) scale(1) rotateX(0deg);
     }
 }
 @keyframes close {
-    from {
+    0% {
         opacity:1;
         transform: perspective(1000px) scale(1) rotateX(0deg);
-    }
-    to {
+    } 50% {
+        transform: perspective(1000px) scale(.95) rotateX(5deg);
+    } 100% {
         opacity:0;
-        transform: perspective(1000px) scale(.8) rotateX(-5deg);
+        transform: perspective(1000px) scale(.9) rotateX(5deg);
     }
 }
 @keyframes fadein {
@@ -212,7 +214,7 @@ animation:open .5s;
 .window.close {
 pointer-events:none;
 opacity:0;
-animation:close .5s;
+animation:close .2s linear;
 }
 .window .minmaxclose {
 height:18px;
@@ -307,7 +309,7 @@ box-shadow:inset 1px 0px 0px rgba(255,255,255,.4), inset 0px -1px 0px rgba(255,2
 visibility:hidden;
 opacity:0;
 transform: translate(0px,100px) scale(0.9);
-transition:.5s;
+transition:.2s linear;
 -webkit-backdrop-filter:none;
 backdrop-filter:none;
 }

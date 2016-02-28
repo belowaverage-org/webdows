@@ -1,14 +1,31 @@
 //Explorer.js//Webdows//
 var explorer = {
-    file_explorer : function () {
+    file_explorer : function (location) {
+        if(typeof location == 'undefined') {
+            var location = '';
+        }
         new explorer.window()
         .resize(600, 400)
         .center()
         .title('File Explorer')
         .icon('webdows/resources/icons/scre.ico')
         .callback(function() {
+            var body = this.body;
+            function explore(location) {
+                if(typeof location == 'undefined') {
+                    var location = '';
+                }
+                system.file(location).list(function() {
+                    $.each(this.data, function(k) {
+                        body.append('<div class="icon files '+this.type+'" style="margin:10px;position:relative;display:inline-block;width:50px;height:50px;"><span style="top:100%;width:100%;position:absolute;text-align:center;font-size:12px;">'+this.name+'</span></div>');
+                    });
+                });
+            };
             this.winid.find('.ttl').html('');
-            this.winid.append('<span style="image-rendering: pixelated;width:57px;height:27px;background-image:url(\'webdows/resources/explorer/4.png\');position:absolute;top:30px;left:6px;"><span style="display:inline-block;width:28px;height:27px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:28px;height:27px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input type="text" style="width:calc(100% - 80px);position:absolute;top:32px;left:68px;background-color:rgba(255,255,255,0.6);border:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.5);box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);"/>');
+            this.winid.append('<span class="navbutts" style="image-rendering: pixelated;width:57px;height:27px;background-image:url(\'webdows/resources/explorer/4.png\');position:absolute;top:30px;left:6px;"><span style="display:inline-block;width:25px;height:25px;margin:1px 3px 0px 2px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:25px;height:25px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input value="'+location+'" type="text" style="width:calc(100% - 80px);position:absolute;top:32px;left:68px;background-color:rgba(255,255,255,0.6);border:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.5);box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);"/>');
+            this.winid.find('.navbutts').on('hover', function() {
+                
+            });
             this.winid.find('input[type=text]').on('mouseover focusin', function() {
                 $(this).css('background-color', 'white');
             }).on('mouseout focusout', function() {
@@ -16,7 +33,8 @@ var explorer = {
                     $(this).css('background-color', 'rgba(255,255,255,.6)');
                 }
             });
-    }).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
+            explore(location);
+        }).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
     },
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
@@ -46,7 +64,7 @@ var explorer = {
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
-        $('body').append('<div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('body').append('<div id="load"></div><div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         $('#desktop').css({'opacity':'0','visibility':'hidden','cursor':'wait'});
         var open = new Audio('webdows/resources/explorer/1.ogg');
         explorer.start.initiate();
@@ -65,16 +83,18 @@ var explorer = {
         var timer = setInterval(function() {
             if(document.readyState == 'complete') {
                 clearInterval(timer);
-                $('body #open').remove();
-                $('body').append('<div id="open"></div>');
-                open.play();
-                setTimeout(function() {
-                    $('body #open').remove();
-                    explorer.start.toggle();
-                    $('#desktop').removeAttr('style').hide().fadeIn(500);
-                }, 2000);
+                $('body #open, body #load').remove();
+                setTimeout(function(){
+                    $('body').append('<div id="open"></div>');
+                    open.play();
+                    setTimeout(function() {
+                        $('body #open').remove();
+                        explorer.start.toggle();
+                        $('#desktop').removeAttr('style').hide().fadeIn(500);
+                    }, 2000);
+                }, 400);
             }
-        }, 500);
+        }, 100);
     },
     start : {
         toggle : function() {

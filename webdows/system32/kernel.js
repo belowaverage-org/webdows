@@ -18,10 +18,7 @@ function blueScreen(error) {
 function boot() {
     $(document).ready(function() {
         $('body').attr('style','');
-        $('body').html('');
-        $('body').css({'background-color':'black','color':'white','font-size':'20px','font-family':'Trebuchet MS','text-align':'center','padding-top':'10%'});
-        $('body').append('<img width="200" height="200" src="webdows/resources/kernel/wsa.gif"><br>');
-        $('body').append('Starting Webdows<br><span style="font-size:15px;color:lightgray;">&copy;Below Average</span>');
+        $('body').html('<style>body{background-color:black;}#load{background-image:url(\'webdows/resources/kernel/wsa.gif\');background-position:center;background-repeat:no-repeat;background-size:200px 200px;width:300px;height:200px;position:absolute;top:calc(50% - 100px);left:calc(50% - 150px);text-align:center;}#load::before {margin-top:250px;color:white;font-family:Trebuchet MS;font-size:20px;content:"Starting Webdows";display:block;}#load::after {margin-top:10px;color:gray;font-family:Trebuchet MS;font-size:16px;content:"(C) Below Average";display:block;}</style><div id="load"></div>');
     });
     $('title').text('Webdows');
     $.getScript('webdows/system32/shell.js').done(function() {
@@ -84,6 +81,9 @@ var system = {
         });
     },
     file : function(location) {
+        if(typeof location == 'undefined') {
+            var location = '';
+        }
         location = location.replace(/\/+/g, '/');
         var arr = location.split(/[\/]/);
         this.name = arr.pop();
@@ -94,7 +94,11 @@ var system = {
             }
         });
         if(this.name == '') {
-            this.name = arr.pop();
+            var arrpop = arr.pop();
+            this.name = '';
+            if(typeof arrpop !== 'undefined') {
+                this.name = arrpop;
+            }
             this.type = 'folder';
         } else {
             this.type = 'file';
@@ -108,8 +112,10 @@ var system = {
         }
         if(this.type == 'file') {
             this.fullPath = this.path+this.name;
-        } else {
+        } else if(this.type == 'folder' && this.path+this.name !== '') {
             this.fullPath = this.path+this.name+'/';
+        } else {
+            this.fullPath = '';
         }
         this.create = function() {
             wfs.open();
@@ -160,9 +166,26 @@ var system = {
             return this;
         };
         this.list = function(callback) {
-            wfs.open();
-            
-            wfs.close();
+            if(this.type == 'folder' && typeof callback !== 'undefined') {
+                wfs.open();
+                var path = this.fullPath;
+                wfs.folders.where('path').startsWith(path).keys(function(folders) {
+                    wfs.files.where('path').startsWith(path).keys(function(files) {
+                        var data = folders.concat(files);
+                        $.each(data, function(k) {
+                            var attr = new system.file(this);
+                            if(attr.path !== path) {
+                                delete data[k];
+                            } else {
+                                data[k] = attr;
+                            }
+                        });
+                        this.data = data;
+                        callback.call(this);
+                        wfs.close();
+                    });
+                });           
+            }
             return this;
         };
         this.rename = function(newname) {
