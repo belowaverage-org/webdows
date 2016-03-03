@@ -50,25 +50,44 @@ position:absolute;
 background-image:linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,.5) 18%,rgba(255,255,255,.4) 100%);
 border-radius:36px;
 }
-#taskbar #leftframe #start {
+#start {
 width:36px;
 height:36px;
 position:absolute;
 bottom:0px;
-transition:.5s;
-background-image:url('so1.png');
 margin-left:5px;
 margin-bottom:-1px;
 background-size:100% 100%;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
+background-image:url('so1.png');
+opacity:1;
 }
-#taskbar #leftframe #start:hover {
+#start:hover::before, #start:active::after {
+opacity:1;
+}
+#start::before {
+content:"";
+position:absolute;
+transition:.5s;
+width:36px;
+height:36px;
+background-size:100% 100%;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: optimize-contrast;
 background-image:url('so2.png');
+opacity:0;
 }
-#taskbar #leftframe #start:active {
-transition:none;
+#start::after {
+content:"";
+position:absolute;
+width:36px;
+height:36px;
+background-size:100% 100%;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: optimize-contrast;
 background-image:url('so3.png');
+opacity:0;
 }
 #taskbar #rightframe #time {
 color:white;

@@ -1,41 +1,5 @@
 //Explorer.js//Webdows//
 var explorer = {
-    file_explorer : function (location) {
-        if(typeof location == 'undefined') {
-            var location = '';
-        }
-        new explorer.window()
-        .resize(600, 400)
-        .center()
-        .title('File Explorer')
-        .icon('webdows/resources/icons/scre.ico')
-        .callback(function() {
-            var body = this.body;
-            function explore(location) {
-                if(typeof location == 'undefined') {
-                    var location = '';
-                }
-                system.file(location).list(function() {
-                    $.each(this.data, function(k) {
-                        body.append('<div class="icon files '+this.type+'" style="margin:10px;position:relative;display:inline-block;width:50px;height:50px;"><span style="top:100%;width:100%;position:absolute;text-align:center;font-size:12px;">'+this.name+'</span></div>');
-                    });
-                });
-            };
-            this.winid.find('.ttl').html('');
-            this.winid.append('<span class="navbutts" style="image-rendering: pixelated;width:57px;height:27px;background-image:url(\'webdows/resources/explorer/4.png\');position:absolute;top:30px;left:6px;"><span style="display:inline-block;width:25px;height:25px;margin:1px 3px 0px 2px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:25px;height:25px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input value="'+location+'" type="text" style="width:calc(100% - 80px);position:absolute;top:32px;left:68px;background-color:rgba(255,255,255,0.6);border:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.5);box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);"/>');
-            this.winid.find('.navbutts').on('hover', function() {
-                
-            });
-            this.winid.find('input[type=text]').on('mouseover focusin', function() {
-                $(this).css('background-color', 'white');
-            }).on('mouseout focusout', function() {
-                if(!$(this).is(':focus')) {
-                    $(this).css('background-color', 'rgba(255,255,255,.6)');
-                }
-            });
-            explore(location);
-        }).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
-    },
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
             if(localStorage.getItem("theme") == null) {
@@ -59,7 +23,6 @@ var explorer = {
     },
     initiate : function() {
         $('body').attr('style','background-color:black;');
-        $('body').html('');
         $('.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
@@ -80,6 +43,7 @@ var explorer = {
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
         explorer.theme();
+        var winl = new explorer.window();
         var timer = setInterval(function() {
             if(document.readyState == 'complete') {
                 clearInterval(timer);
@@ -90,9 +54,10 @@ var explorer = {
                     setTimeout(function() {
                         $('body #open').remove();
                         explorer.start.toggle();
+                        winl.close();
                         $('#desktop').removeAttr('style').hide().fadeIn(500);
                     }, 2000);
-                }, 400);
+                }, 300);
             }
         }, 100);
     },
@@ -540,7 +505,8 @@ var explorer = {
         return this;
     }
 };
-
 $(document).ready(function() {
     explorer.initiate();
+    system.loader('webdows/explorer_ext.js');
+    system.loader('startup.js');
 });
