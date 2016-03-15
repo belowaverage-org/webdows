@@ -1,3 +1,10 @@
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: webdows/cmd.js
+*/
 new explorer.window()
 .title('Command Prompt')
 .resize(500, 300)

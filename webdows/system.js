@@ -1,3 +1,10 @@
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: webdows/system.js
+*/
 new explorer.window()
 .title('System')
 .icon('webdows/resources/icons/scre.ico')

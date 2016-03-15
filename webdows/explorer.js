@@ -1,4 +1,10 @@
-//Explorer.js//Webdows//
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: webdows/explorer.js
+*/
 var explorer = {
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
@@ -249,7 +255,9 @@ var explorer = {
                     e.data.window.toggleMax();
                 });
                 $('.window[windowID='+this.winid.attr('windowID')+'] .ttl').dblclick({window: this}, function(e) {
-                    e.data.window.toggleMax();
+                    if(!$(e.target).is('.icon')) {
+                        e.data.window.toggleMax();
+                    }
                 });
             } else if(typeof this.winid.resizable('instance') !== 'undefined') {
                 this.winid.resizable('disable');
@@ -345,6 +353,33 @@ var explorer = {
                         elm.removeClass('active');
                     }
                 }
+            });
+            $('.window[windowID='+windowID+'] .ttl .icon').click({window: this}, function(e) {
+                var menu = [
+                    {
+                        title: 'Restore',
+                        icon: 'webdows/resources/icons/rest.png',
+                        callback: function() { e.data.window.front().toggleMax(); }
+                    },{
+                        title: 'Minimize',
+                        icon: 'webdows/resources/icons/mini.png',
+                        callback: function() { e.data.window.front().toggleMin(); }
+                    },{
+                        title: 'Maximize',
+                        icon: 'webdows/resources/icons/maxi.png',
+                        callback: function() { e.data.window.front().toggleMax(); }
+                    },{},{
+                        title: 'Close',
+                        icon: 'webdows/resources/icons/clos.png',
+                        callback: function() { e.data.window.close(); }
+                    },
+                ];
+                new explorer.context()
+                .location($(this).offset().left, $(this).offset().top + $(this).height())
+                .append(menu);
+            }).dblclick({window: this}, function(e) {
+                e.data.window.winid.trigger('contextclose');
+                e.data.window.close();
             });
             $('#taskbar #middleframe .button[windowID='+windowID+']').click({window: this}, function(e) {
                 e.data.window.toggleMin();
@@ -499,6 +534,10 @@ var explorer = {
                 y = 'top:'+y+'px;';
             }
             this.jqid.attr('style', x+y);
+            return this;
+        };
+        this.close = function() {
+            this.jqid.remove();
             return this;
         };
         /** EndChainFunctions **/

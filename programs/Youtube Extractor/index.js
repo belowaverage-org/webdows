@@ -1,3 +1,10 @@
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: programs/Youtube Extractor/index.js
+*/
 new explorer.window()
 .title('Youtube Extractor')
 .controls(['min'])

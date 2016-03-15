@@ -1,3 +1,4 @@
+$('head').find('title').text('Webdows');
 explorer.start.append([
     {
         title: 'webver.js',
@@ -55,6 +56,10 @@ explorer.start.append([
         icon: 'webdows/resources/icons/pers.ico',
         callback: function() { system.loader('webdows/personalize.js'); }
     }, {
+        title: 'Welcome',
+        icon: 'webdows/resources/icons/logo.png',
+        callback: function() { system.loader('webdows/welcome.js'); }
+    }, {
         title: 'Restart',
         callback: function() { boot(); }
     }
@@ -102,3 +107,4 @@ $('#desktop.explorer').on('contextmenu', function(e) {
         ]);
     }
 });
+system.loader('webdows/welcome.js');

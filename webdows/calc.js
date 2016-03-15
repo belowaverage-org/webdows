@@ -1,3 +1,10 @@
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: webdows/calc.js
+*/
 new explorer.window()
 .resize(220, 255)
 .center()

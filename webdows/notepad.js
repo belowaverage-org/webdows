@@ -1,3 +1,10 @@
+/*!
+Project: Webdows
+Liscense: MIT
+Author: krisdb2009
+Date: 03/14/16
+File: webdows/notepad.js
+*/
 new explorer.window()
 .title('Notepad')
 .icon('webdows/resources/icons/note.ico')
