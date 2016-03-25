@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/15/16
+Date: 03/20/16
 File: webdows/welcome.js
 */
 new explorer.window()
@@ -37,19 +37,19 @@ new explorer.window()
             text: 'Docs',
             icon: 'webdows/resources/icons/wpad.ico',
             callback: function() {
-                
+                window.open('https://github.com/krisdb2009/webdows/wiki', '_blank');
             }
         }, {
             text: 'Website',
             icon: 'webdows/resources/icons/balg.svg',
             callback: function() {
-                
+                window.open('https://belowaverage.org/', '_blank');
             }
         }, {
             text: 'Help',
             icon: 'webdows/resources/icons/ques.ico',
             callback: function() {
-                
+                window.open('https://github.com/krisdb2009/webdows/issues', '_blank');
             }
         }
     ];

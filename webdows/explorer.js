@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 03/25/16
 File: webdows/explorer.js
 */
 var explorer = {
@@ -239,7 +239,9 @@ var explorer = {
             }, 1000);
             return this;
         };
+        this.controlsArr = [];
         this.controls = function(array) {
+            this.controlsArr = array;
             $.each(this.winid.find('.minmaxclose span'), function() {
                 if(!$(this).hasClass('close')) {
                     $(this).remove();
@@ -271,7 +273,7 @@ var explorer = {
                 });
             }
             return this;
-        }
+        };
         this.toggleMin = function() {
             if(this.winid.hasClass('active') || this.winid.hasClass('minimized')) {
                 if(this.winid.hasClass('minimized')) {
@@ -358,22 +360,29 @@ var explorer = {
                 var menu = [
                     {
                         title: 'Restore',
-                        icon: 'webdows/resources/icons/rest.png',
-                        callback: function() { e.data.window.front().toggleMax(); }
-                    },{
+                        icon: 'webdows/resources/icons/rest.png'
+                    }, {
                         title: 'Minimize',
-                        icon: 'webdows/resources/icons/mini.png',
-                        callback: function() { e.data.window.front().toggleMin(); }
-                    },{
+                        icon: 'webdows/resources/icons/mini.png'
+                    }, {
                         title: 'Maximize',
-                        icon: 'webdows/resources/icons/maxi.png',
-                        callback: function() { e.data.window.front().toggleMax(); }
-                    },{},{
+                        icon: 'webdows/resources/icons/maxi.png'
+                    }, {}, {
                         title: 'Close',
                         icon: 'webdows/resources/icons/clos.png',
                         callback: function() { e.data.window.close(); }
-                    },
+                    }
                 ];
+                if($.inArray('min', e.data.window.controlsArr) !== -1) {
+                    menu[1].callback = function() { e.data.window.front().toggleMin(); };
+                }
+                if($.inArray('max', e.data.window.controlsArr) !== -1) {
+                    if(e.data.window.winid.hasClass('maximized')) {
+                        menu[0].callback = function() { e.data.window.front().toggleMax(); };
+                    } else {
+                        menu[2].callback = function() { e.data.window.front().toggleMax(); };
+                    }
+                }
                 new explorer.context()
                 .location($(this).offset().left, $(this).offset().top + $(this).height())
                 .append(menu);
