@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/15/16
+Date: 04/12/16
 File: webdows/system32/kernel.js
 Contains: jQuery v2.1.4, DEXIE.JS v1.2.0
 */
@@ -94,7 +94,7 @@ var system = {
         $('head').find('script[forceloadID='+flid+']').remove();
     },
     file : function(location) {
-        if(typeof location == 'undefined') {
+        if(typeof location == 'undefined' || location == '') {
             var location = '';
         }
         location = location.replace(/\/+/g, '/');
@@ -106,6 +106,14 @@ var system = {
                 arr.splice(k, 1);
             }
         });
+        var dr = arr.shift();
+        if(typeof dr !== 'undefined' && dr.length == '2' && dr.substring(1,2) == ':') {
+            this.drive = dr.substring(0,1).toUpperCase();
+            arr.unshift(this.drive+':');
+        } else {
+            this.drive = '';
+            arr.unshift(dr);
+        }
         if(this.name == '') {
             var arrpop = arr.pop();
             this.name = '';
@@ -171,7 +179,7 @@ var system = {
                 wfs.files.where('path').startsWith(this.fullPath).eachKey(function(k) {
                     wfs.files.delete(k);
                 });
-                wfs.folders.where('path').startsWith(this.fullPath).eachKey(function(k) {
+                wfs.folders.where('path').startsWithe(this.fullPath).eachKey(function(k) {
                     wfs.folders.delete(k);
                 });
             }

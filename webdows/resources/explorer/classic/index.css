@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 04/12/16
 File: webdows/resources/explorer/classic/index.css
 */
 #desktop {
@@ -175,6 +175,9 @@ background-color:#D2CEC6;
 width:14px;
 background-repeat:no-repeat;
 background-position:2px 1px;
+}
+.window .minmaxclose span:active {
+background-position:3px 2px;
 }
 .window .minmaxclose .min {
 background-image:url('min.png');

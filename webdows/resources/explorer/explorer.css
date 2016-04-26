@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 04/26/16
 File: webdows/resources/explorer/explorer.css
 */
 #desktop {
@@ -36,7 +36,7 @@ outline:none;
 }
 @font-face {
 font-family: NotoSans;
-src: url('notosans.woff');
+src: url('1.woff');
 }
 .icon {
 background-image:url('../icons/exei.ico');
@@ -45,21 +45,8 @@ width:16px;
 height:16px;
 display:inline-block;
 }
-#open {
-image-rendering:pixelated;
-position:absolute;
-left:50%;
-top:50%;
-margin-left:-100px;
-margin-top:-100px;
-width:200px;
-height:200px;
-background-image:url('1.png');
-animation:es1 2s ease-in-out;
-opacity:0;
-}
 #load {
-background-image:url('../kernel/wsa.gif');
+background-image:url('1.gif');
 background-position:center;
 background-repeat:no-repeat;
 background-size:200px 200px;
@@ -70,54 +57,139 @@ top:calc(50% - 100px);
 left:calc(50% - 150px);
 text-align:center;
 }
-#load::before {
+#load span.a {
 margin-top:250px;
 color:white;
 font-family:Trebuchet MS;
 font-size:20px;
-content:"Starting Webdows";
 display:block;
 }
-#load::after {
+#load span.b {
 margin-top:10px;
 color:gray;
 font-family:Trebuchet MS;
 font-size:16px;
-content:"(C) Below Average";
 display:block;
 }
-#open::after {
+#open {
 position:absolute;
-left:50%;
-top:50%;
-margin-left:-100px;
-margin-top:-100px;
-content: "";
-background-image:url('2.png');
-width:200px;
-height:200px;
-animation:es2 2s ease-in-out;
+width:100%;
+height:100%;
+left:0px;
+top:0px;
+overflow:hidden;
+}
+#open .a {
+position:absolute;
+left:calc(50% - 200px);
+top:calc(50% - 50px);
+width:400px;
+height:100px;
+background-image:url('1.png');
+animation:es1 3s ease-in-out;
 opacity:0;
+background-repeat:no-repeat;
+background-size:100px 100px;
+}
+#open .d {
+position:absolute;
+left:calc(50% - 200px);
+top:calc(50% - 50px);
+width:400px;
+height:100px;
+animation:es1 3s ease-in-out;
+}
+#open .d::before {
+position:absolute;
+line-height:95px;
+color:white;
+content:"Below Average";
+font-family:NotoSans;
+font-size:25px;
+margin-left:100px;
+animation:es3 3s ease-in-out;
+}
+#open .d::after {
+position:absolute;
+line-height:95px;
+color:white;
+content:"Webdows";
+font-family:NotoSans;
+font-size:25px;
+margin-left:280px;
+animation:es5 3s ease-in-out;
+}
+#open .a::before {
+position:absolute;
+content:"";
+left:-110px;
+top:-110px;
+width:300px;
+height:300px;
+background-image:url('2.png');
+animation:es2 3s ease-in-out;
+opacity:0;
+background-repeat:no-repeat;
+background-size:100%;
+}
+#open .c {
+position:absolute;
+left:calc(50% - 300px);
+top:calc(50% - 300px);
+background-image:url('10.png');
+width:600px;
+height:600px;
+opacity:0;
+background-repeat:no-repeat;
+background-size:100% 100%;
+animation:es4 3s ease-in-out;
 }
 @keyframes es1 {
     0% {
         opacity:0;
-    } 30% {
+        transform:scale(.99);
+    } 20% {
+        transform:scale(1);
+    } 50% {
         opacity:1;
     } 70% {
-        opacity:1;
+        opacity:0;
     } 100% {
+        transform:scale(0);
+    }
+}
+@keyframes es3 {
+    0% {
+        opacity:0;
+    } 30% {
+        opacity:1;
+    }
+}
+@keyframes es5 {
+    0% {
+        opacity:0;
+    } 35% {
+        opacity:1;
+    }
+}
+@keyframes es4 {
+    20% {
+        opacity:1;
+    } 45% {
+        transform:scale(1.2);
         opacity:0;
     }
 }
 @keyframes es2 {
     0% {
         opacity:0;
-    } 30% {
-        opacity:0;
-    } 60% {
+        transform:rotate(0deg);
+    } 20% {
         opacity:1;
+    } 45% {
+        opacity:0;
     } 100% {
         opacity:0;
+        transform:rotate(45deg);
     }
 }

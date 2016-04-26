@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 04/10/16
 File: webdows/resources/explorer/webdows/index.css
 */
 #desktop {
@@ -11,7 +11,7 @@ background-size:100% 100%;
 font-family:NotoSans;
 cursor: url('cur.png'), default;
 }
-#taskbar  {
+#taskbar {
 -webkit-backdrop-filter:blur(3px);
 backdrop-filter:blur(3px); /* Future Usage */
 height:29px;
@@ -58,43 +58,51 @@ background-image:linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 18%,r
 border-radius:36px;
 }
 #start {
-width:36px;
-height:36px;
+width:46px;
+height:46px;
 position:absolute;
-bottom:0px;
-margin-left:5px;
-margin-bottom:-1px;
+bottom:-6px;
+margin-left:0px;
 background-size:100% 100%;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
 background-image:url('so1.png');
 opacity:1;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: optimize-contrast;
 }
-#start:hover::before, #start:active::after {
+#start:active::after {
 opacity:1;
+}
+#start:hover::before {
+opacity:0.7;
+}
+#start:active::before {
+opacity:0;
+transition:0s;
 }
 #start::before {
 content:"";
-position:absolute;
 transition:.5s;
-width:36px;
-height:36px;
+width:46px;
+height:46px;
+position:absolute;
+margin-left:0px;
 background-size:100% 100%;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
 background-image:url('so2.png');
 opacity:0;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: optimize-contrast;
 }
 #start::after {
 content:"";
+width:46px;
+height:46px;
 position:absolute;
-width:36px;
-height:36px;
+margin-left:0px;
 background-size:100% 100%;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
 background-image:url('so3.png');
 opacity:0;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: optimize-contrast;
 }
 #taskbar #rightframe #time {
 color:white;
@@ -108,11 +116,13 @@ text-align:center;
 }
 #taskbar #middleframe .button {
 width:157px;
-height:30px;
-background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
-background-position:0, 0px 30px, 0px 30px;
-background-repeat:no-repeat, no-repeat;
-background-size:100% 100%;
+height:28px;
+background-image:url('bglos.svg'),linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+background-position:0px 0px ,0px 30px, 0px 30px;
+background-repeat:no-repeat, no-repeat, no-repeat;
+background-size:150px 100%, 100% 100%, 100% 100%;
+border:1px solid rgba(0,0,0,.5);
+box-shadow:inset 0px 1px 0px rgba(255,255,255,.3), inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3);
 display:inline-block;
 position:relative;
 top:-1px;
@@ -126,6 +136,7 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space:nowrap;
 transition:.5s;
+border-radius:3px;
 }
 button {
 background-image: linear-gradient(to bottom, #f2f2f2 0%,#ebebeb 50%,#ebebeb 50%,#dddddd 51%,#cfcfcf 100%);
@@ -180,8 +191,8 @@ transition:none;
 }
 #taskbar #middleframe .button .icon {
 width:18px;
-margin-left:10px;
-margin-top:6px;
+margin-left:8px;
+margin-top:5px;
 margin-right:5px;
 height:18px;
 vertical-align:bottom;

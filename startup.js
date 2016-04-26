@@ -107,4 +107,6 @@ $('#desktop.explorer').on('contextmenu', function(e) {
         ]);
     }
 });
-system.loader('webdows/welcome.js');
+setTimeout(function() {
+    system.loader('webdows/welcome.js');
+}, 3500);

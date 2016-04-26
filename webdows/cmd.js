@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 04/12/16
 File: webdows/cmd.js
 */
 new explorer.window()
@@ -14,7 +14,7 @@ new explorer.window()
     var body = this.body;
     body.css({'background-color':'#000','color':'white','padding-bottom':'20px'});
     body.html('<div>Below Average Webdows [Version 0.0.00001]<br>(c) 2015 Below Average. All Rights Reserved.<br><br></div><span>$></span><input>');
-    body.find('div').attr('style', 'position:absolute;top:0px;left:0px;width:100%;height:calc(100% - 20px);overflow-y:auto;overflow-x:hidden;');
+    body.find('div').attr('style', 'position:absolute;top:0px;left:0px;width:100%;overflow-y:auto;overflow-x:hidden;');
     body.find('span').attr('style', 'position:absolute;bottom:0px;left:0px;');
     body.find('input').css({'position':'absolute','bottom':'0px','left':'20px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
     var history = [];
@@ -43,7 +43,7 @@ new explorer.window()
             if(typeof ret !== 'undefined') {
                 body.children('div').append('<div style="color:gray;">'+ret+'</div>');
             }
-            body.children('div').scrollTop(body.children('div')[0].scrollHeight);
+            body.scrollTop(body[0].scrollHeight);
             dis.val('');
         }
     });

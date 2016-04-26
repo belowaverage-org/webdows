@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/25/16
+Date: 04/26/16
 File: webdows/explorer.js
 */
 var explorer = {
@@ -33,7 +33,7 @@ var explorer = {
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
-        $('body').append('<div id="load"></div><div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('body').append('<div id="load"><span class="a">Starting Webdows</span><span class="b">(C) Below Average</span></div><div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         $('#desktop').css({'opacity':'0','visibility':'hidden','cursor':'wait'});
         var open = new Audio('webdows/resources/explorer/1.ogg');
         explorer.start.initiate();
@@ -53,17 +53,31 @@ var explorer = {
         var timer = setInterval(function() {
             if(document.readyState == 'complete') {
                 clearInterval(timer);
-                $('body #open, body #load').remove();
-                setTimeout(function(){
-                    $('body').append('<div id="open"></div>');
-                    open.play();
-                    setTimeout(function() {
-                        $('body #open').remove();
-                        explorer.start.toggle();
-                        winl.close();
-                        $('#desktop').removeAttr('style').hide().fadeIn(500);
-                    }, 2000);
-                }, 300);
+                function ani() {
+                    $('body #open, body #load').remove();
+                    setTimeout(function(){
+                        $('body').append('<div id="open"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="e"></span></div>');
+                        open.play();
+                        setTimeout(function() {
+                            $('body #open').remove();
+                            explorer.start.toggle();
+                            winl.close();
+                            $('#desktop').removeAttr('style').hide().fadeIn(1000);
+                        }, 2000);
+                    }, 300);
+                }
+                if(system.is.mobile()) {
+                    $('body #load').css('background-image','url(\'webdows/resources/explorer/2.gif\')');
+                    $('body #load .a').text('Tap to continue.');
+                    $('body #load .b').text('Continuing will enable sound for Webdows in your mobile browser.');
+                    $('body #load').on('click', function() {
+                        open.play();
+                        open.pause();
+                        ani();
+                    });
+                } else {
+                    ani();
+                }
             }
         }, 100);
     },

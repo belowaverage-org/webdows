@@ -2,14 +2,14 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 03/14/16
+Date: 04/10/16
 File: webdows/resources/explorer/basic/index.css
 */
 #desktop {
-background-image:url('bg.jpg');
+background-image:url('../webdows/bg.jpg');
 background-size:100% 100%;
 font-family:NotoSans;
-cursor: url('cur.png'), default;
+cursor: url('../webdows/cur.png'), default;
 }
 #taskbar  {
 height:29px;
@@ -55,43 +55,51 @@ background-image:linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 18%,r
 border-radius:36px;
 }
 #start {
-width:36px;
-height:36px;
+width:46px;
+height:46px;
 position:absolute;
-bottom:0px;
-margin-left:5px;
-margin-bottom:-1px;
+bottom:-6px;
+margin-left:0px;
 background-size:100% 100%;
+background-image:url('../webdows/so1.png');
+opacity:1;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
-background-image:url('so1.png');
+}
+#start:active::after {
 opacity:1;
 }
-#start:hover::before, #start:active::after {
-opacity:1;
+#start:hover::before {
+opacity:0.7;
+}
+#start:active::before {
+opacity:0;
+transition:0s;
 }
 #start::before {
 content:"";
-position:absolute;
 transition:.5s;
-width:36px;
-height:36px;
+width:46px;
+height:46px;
+position:absolute;
+margin-left:0px;
 background-size:100% 100%;
+background-image:url('../webdows/so2.png');
+opacity:0;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
-background-image:url('so2.png');
-opacity:0;
 }
 #start::after {
 content:"";
+width:46px;
+height:46px;
 position:absolute;
-width:36px;
-height:36px;
+margin-left:0px;
 background-size:100% 100%;
+background-image:url('../webdows/so3.png');
+opacity:0;
 image-rendering: -webkit-optimize-contrast;
 image-rendering: optimize-contrast;
-background-image:url('so3.png');
-opacity:0;
 }
 #taskbar #rightframe #time {
 color:white;
@@ -105,11 +113,13 @@ text-align:center;
 }
 #taskbar #middleframe .button {
 width:157px;
-height:30px;
-background-image:url('tbb.png'), linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
-background-position:0, 0px 30px, 0px 30px;
-background-repeat:no-repeat, no-repeat;
-background-size:100% 100%;
+height:28px;
+background-image:url('../webdows/bglos.svg'),linear-gradient(to bottom, transparent 0%,rgba(255,255,255,.5) 100%), linear-gradient(to bottom, transparent 0%,rgba(254,191,1,.5) 100%);
+background-position:0px 0px ,0px 30px, 0px 30px;
+background-repeat:no-repeat, no-repeat, no-repeat;
+background-size:150px 100%, 100% 100%, 100% 100%;
+border:1px solid rgba(0,0,0,.5);
+box-shadow:inset 0px 1px 0px rgba(255,255,255,.3), inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3);
 display:inline-block;
 position:relative;
 top:-1px;
@@ -123,6 +133,7 @@ text-overflow:ellipsis;
 overflow:hidden;
 white-space:nowrap;
 transition:.5s;
+border-radius:3px;
 }
 input[type=text] {
 border-left:1px solid #e2e3eb;
@@ -177,8 +188,8 @@ transition:none;
 }
 #taskbar #middleframe .button .icon {
 width:18px;
-margin-left:10px;
-margin-top:6px;
+margin-left:8px;
+margin-top:5px;
 margin-right:5px;
 height:18px;
 vertical-align:bottom;
@@ -231,51 +242,51 @@ box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3), inset -1px -1px 0px rgba(255
 }
 .window.active .minmaxclose .min {
 border:1px solid #62738c;
-background-image:url('min.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
+background-image:url('../webdows/min.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
 }
 .window.active .minmaxclose .max {
 border:1px solid #62738c;
-background-image:url('max.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
+background-image:url('../webdows/max.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
 }
 .window.active.maximized .minmaxclose .max {
-background-image:url('mmax.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
+background-image:url('../webdows/mmax.png'), linear-gradient(to bottom, #c3d4e7 0%,#bed3e8 50%,#98b1cc 51%,#b7d0e9 100%);
 }
 .window.active .minmaxclose .close {
 border:1px solid #431422;
-background-image:url('exi.png'), linear-gradient(to bottom, rgba(218,154,144,1) 0%,rgba(200,109,92,1) 50%,rgba(200,109,92,1) 50%,rgba(180,52,28,1) 51%,rgba(192,109,85,1) 100%);
+background-image:url('../webdows/exi.png'), linear-gradient(to bottom, rgba(218,154,144,1) 0%,rgba(200,109,92,1) 50%,rgba(200,109,92,1) 50%,rgba(180,52,28,1) 51%,rgba(192,109,85,1) 100%);
 }
 .window .minmaxclose .min {
-background-image:url('min.png'), none;
+background-image:url('../webdows/min.png'), none;
 background-position:50% calc(50% + 3px), 0;
 background-repeat:no-repeat, repeat;
 }
 .window .minmaxclose .max {
-background-image:url('max.png'), none;
+background-image:url('../webdows/max.png'), none;
 background-position:50% 50%, 0;
 background-repeat:no-repeat, repeat;
 }
 .window.maximized .minmaxclose .max {
-background-image:url('mmax.png'), none;
+background-image:url('../webdows/mmax.png'), none;
 }
 .window .minmaxclose .close {
-background-image:url('exi.png'), none;
+background-image:url('../webdows/exi.png'), none;
 background-position:50% 50%, 0;
 background-repeat:no-repeat, repeat;
 }
 .window .minmaxclose .min:hover {
 border:1px solid #62738c;
-background-image:url('min.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+background-image:url('../webdows/min.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
 }
 .window .minmaxclose .max:hover {
 border:1px solid #62738c;
-background-image:url('max.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+background-image:url('../webdows/max.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
 }
 .window.maximized .minmaxclose .max:hover {
-background-image:url('mmax.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
+background-image:url('../webdows/mmax.png'), linear-gradient(to bottom, rgba(176,210,235,1) 0%,rgba(132,182,214,1) 50%,rgba(42,123,175,1) 51%,rgba(55,189,218,1) 100%);
 }
 .window .minmaxclose .close:hover {
 border:1px solid #431422;
-background-image:url('exi.png'), linear-gradient(to bottom, rgba(251,157,139,1) 0%,rgba(238,109,86,1) 50%,rgba(238,109,86,1) 50%,rgba(213,41,10,1) 51%,rgba(230,148,47,1) 100%);
+background-image:url('../webdows/exi.png'), linear-gradient(to bottom, rgba(251,157,139,1) 0%,rgba(238,109,86,1) 50%,rgba(238,109,86,1) 50%,rgba(213,41,10,1) 51%,rgba(230,148,47,1) 100%);
 }
 .window.minimized {
 visibility:hidden;
