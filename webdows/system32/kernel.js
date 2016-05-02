@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/12/16
+Date: 04/30/16
 File: webdows/system32/kernel.js
 Contains: jQuery v2.1.4, DEXIE.JS v1.2.0
 */
@@ -154,10 +154,21 @@ var system = {
             wfs.close();
             return this;
         };
-        this.write = function(data) {
+        this.write = function(data, callback) {
             wfs.open();
             if(this.type == 'file') {
-                wfs.files.put({'path': this.fullPath, 'data': data});
+                var fullPath = this.fullPath;
+                wfs.files.get(this.fullPath, function(attr) {
+                    var cbthis = {};
+                    if(typeof attr !== 'undefined') {
+                        wfs.files.put({'path': fullPath, 'data': data});
+                        cbthis.data = data;
+                        callback.call(cbthis);
+                    } else {
+                        cbthis.error = 'File does not exist.';
+                        callback.call(cbthis);
+                    }
+                });
             }
             wfs.close();
             return this;

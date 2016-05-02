@@ -1,4 +1,4 @@
-File system returning true or false if file exists or not. and make it be tested on the functions /// create write read delete list rename
+and make it be tested on the functions /// create read delete list rename
 Personalization
 Explorer
 make root of drives explorable but not writealbe

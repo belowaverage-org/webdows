@@ -28,6 +28,10 @@ explorer.start.append([
         title: 'Youtube Extractor',
         icon: 'programs/Youtube Extractor/logo.png',
         callback: function() { system.loader('programs/Youtube Extractor/index.js'); }
+    }, {
+        title: 'Nate',
+        icon: 'programs/Youtube Extractor/logo.png',
+        callback: function() { system.loader('programs/nate/satan.js'); }
     }
 ], [
     {

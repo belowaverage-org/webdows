@@ -2,14 +2,14 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/10/16
+Date: 04/30/16
 File: webdows/resources/explorer/webdows/index.css
 */
 #desktop {
-background-image:url('bg.jpg');
 background-size:100% 100%;
 font-family:NotoSans;
 cursor: url('cur.png'), default;
+background-image:linear-gradient(to bottom, rgb(79, 83, 97) 0%,#000000 100%);
 }
 #taskbar {
 -webkit-backdrop-filter:blur(3px);
@@ -162,7 +162,7 @@ border-bottom:1px solid #b7d9ed;
 }
 button:hover {
 border:1px solid #3c7fb1;
-background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#dddddd 51%,#a7d9f5 100%);
+background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#bee6fd 51%,#a7d9f5 100%);
 }
 button:focus {
 border:1px solid #3c7fb1;
@@ -171,7 +171,7 @@ outline:1px dotted black;
 box-shadow:inset 1px 0px 0px #63ddfb, inset 0px -1px 0px #63ddfb, inset -1px 0px 0px #63ddfb, inset 0px 1px 0px #63ddfb;
 }
 button:focus:hover {
-background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#dddddd 51%,#a7d9f5 100%);
+background-image: linear-gradient(to bottom, #eaf6fd 0%,#eaf6fd 50%,#bee6fd 50%,#bee6fd 51%,#a7d9f5 100%);
 box-shadow:inset 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px rgba(255,255,255,1), inset -1px 0px 0px rgba(255,255,255,1), inset 0px 1px 0px rgba(255,255,255,1);
 transition: 0s;
 }
@@ -400,7 +400,7 @@ vertical-align:bottom;
 display:inline-block;
 }
 .window .body {
-border:1px solid rgba(0,0,0,.6);
+border:1px solid rgba(0,0,0,.7);
 position:absolute;
 left:6px;
 border-radius:2px;
