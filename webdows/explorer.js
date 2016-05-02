@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/26/16
+Date: 05/01/16
 File: webdows/explorer.js
 */
 var explorer = {
@@ -211,6 +211,7 @@ var explorer = {
         } else {
             this.winid = $(winObj);
         }
+        var win = this;
         /** endINIT **/
         this.body = this.winid.find('.body');
         this.callback = function(callback) {
@@ -370,8 +371,8 @@ var explorer = {
                     }
                 }
             });
-            $('.window[windowID='+windowID+'] .ttl .icon').click({window: this}, function(e) {
-                var menu = [
+            function menu() {
+               var menu = [
                     {
                         title: 'Restore',
                         icon: 'webdows/resources/icons/rest.png'
@@ -384,25 +385,38 @@ var explorer = {
                     }, {}, {
                         title: 'Close',
                         icon: 'webdows/resources/icons/clos.png',
-                        callback: function() { e.data.window.close(); }
+                        callback: function() { win.close(); }
                     }
                 ];
-                if($.inArray('min', e.data.window.controlsArr) !== -1) {
-                    menu[1].callback = function() { e.data.window.front().toggleMin(); };
-                }
-                if($.inArray('max', e.data.window.controlsArr) !== -1) {
-                    if(e.data.window.winid.hasClass('maximized')) {
-                        menu[0].callback = function() { e.data.window.front().toggleMax(); };
+                if($.inArray('max', win.controlsArr) !== -1) {
+                    if(win.winid.hasClass('maximized')) {
+                        menu[0].callback = function() { win.front().toggleMax(); };
                     } else {
-                        menu[2].callback = function() { e.data.window.front().toggleMax(); };
+                        menu[2].callback = function() { win.front().toggleMax(); };
                     }
                 }
+                if($.inArray('min', win.controlsArr) !== -1) {
+                    if(win.winid.hasClass('minimized')) {
+                        menu[0].callback = function() { win.front().toggleMin(); };
+                        menu[2].callback = undefined;
+                    } else {
+                        menu[1].callback = function() { win.front().toggleMin(); };
+                    }
+                }
+                return menu;                
+            }
+            $('.window[windowID='+windowID+'] .ttl .icon').click({window: this}, function(e) {
                 new explorer.context()
                 .location($(this).offset().left, $(this).offset().top + $(this).height())
-                .append(menu);
+                .append(menu());
             }).dblclick({window: this}, function(e) {
                 e.data.window.winid.trigger('contextclose');
                 e.data.window.close();
+            });
+            $('#taskbar #middleframe .button[windowID='+windowID+']').contextmenu({window: this}, function(e) {
+                new explorer.context()
+                .location(e.pageX, e.pageY)
+                .append(menu());
             });
             $('#taskbar #middleframe .button[windowID='+windowID+']').click({window: this}, function(e) {
                 e.data.window.toggleMin();
