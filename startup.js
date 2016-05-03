@@ -32,6 +32,10 @@ explorer.start.append([
         title: 'Nate',
         icon: 'programs/Youtube Extractor/logo.png',
         callback: function() { system.loader('programs/nate/satan.js'); }
+    }, {
+        title: 'Web Explorer',
+        icon: 'programs/Web Explorer/1.png',
+        callback: function() { system.loader('programs/Web Explorer/we.js'); }
     }
 ], [
     {

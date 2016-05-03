@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/10/16
+Date: 05/02/16
 File: webdows/explorer_ext.js
 */
 $.extend(explorer, {
@@ -10,6 +10,7 @@ $.extend(explorer, {
         if(typeof location == 'undefined') {
             var location = '';
         }
+        var ret = null;
         new explorer.window()
         .resize(600, 400)
         .center()
@@ -61,6 +62,8 @@ $.extend(explorer, {
                 }
             });
             explore(location);
+            ret = this;
         }).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
+        return ret;
     }
 });
