@@ -33,7 +33,7 @@ var explorer = {
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').html('');
-        $('body').append('<div id="load"><span class="a">Starting Webdows</span><span class="b">(C) Below Average</span></div><div style="visibility:hidden;" id="open"></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('body').append('<div id="load"><span class="a">Starting Webdows</span><span class="b">(C) Below Average</span></div><div style="visibility:hidden;" id="open"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="e"></span></div><div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         $('#desktop').css({'opacity':'0','visibility':'hidden','cursor':'wait'});
         var open = new Audio('webdows/resources/explorer/1.ogg');
         explorer.start.initiate();
@@ -54,8 +54,8 @@ var explorer = {
             if(document.readyState == 'complete') {
                 clearInterval(timer);
                 function ani() {
-                    $('body #open, body #load').remove();
                     setTimeout(function(){
+                        $('body #open, body #load').remove();
                         $('body').append('<div id="open"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="e"></span></div>');
                         open.play();
                         setTimeout(function() {
