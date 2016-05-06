@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 05/2/16
+Date: 05/05/16
 File: programs/Web Explorer/we.js
 */
 //Create a new window object
