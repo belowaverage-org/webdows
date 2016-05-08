@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/30/16
+Date: 05/08/16
 File: webdows/resources/explorer/explorer.css
 */
 #desktop {
@@ -47,29 +47,20 @@ display:inline-block;
 }
 #load {
 background-image:url('1.gif');
+background-color:black;
 background-position:center;
 background-repeat:no-repeat;
 background-size:200px 200px;
-width:300px;
-height:200px;
 position:absolute;
-top:calc(50% - 100px);
-left:calc(50% - 150px);
-text-align:center;
+top:0px;
+left:0px;
+z-index:1005;
+width:100%;
+height:100%;
+cursor:wait;
 }
-#load span.a {
-margin-top:250px;
-color:white;
-font-family:Trebuchet MS;
-font-size:20px;
-display:block;
-}
-#load span.b {
-margin-top:10px;
-color:gray;
-font-family:Trebuchet MS;
-font-size:16px;
-display:block;
+#load:before {
+
 }
 #open {
 position:absolute;
@@ -78,6 +69,10 @@ height:100%;
 left:0px;
 top:0px;
 overflow:hidden;
+background-color:black;
+z-index:1005;
+cursor:none;
+animation:es6 3s ease-in-out;
 }
 #open .a {
 position:absolute;
@@ -155,6 +150,7 @@ animation:es4 3s ease-in-out;
     } 70% {
         opacity:0;
     } 100% {
+        opacity:0;
         transform:scale(0);
     }
 }
@@ -193,5 +189,14 @@ animation:es4 3s ease-in-out;
     } 100% {
         opacity:0;
         transform:rotate(15deg);
+    }
+}
+@keyframes es6 {
+    0% {
+        opacity:1;
+    } 65% {
+        opacity:1;
+    } 100% {
+        opacity:0;
     }
 }

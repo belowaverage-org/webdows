@@ -69,7 +69,7 @@ explorer.start.append([
         callback: function() { system.loader('webdows/welcome.js'); }
     }, {
         title: 'Restart',
-        callback: function() { boot(); }
+        callback: function() { setTimeout(function() { boot(); }, 100); }
     }
 ]);
 $('#desktop.explorer').on('contextmenu', function(e) {
