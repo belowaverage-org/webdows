@@ -9,7 +9,7 @@ File: webdows/resources/explorer/webdows/index.css
 background-size:100% 100%;
 font-family:NotoSans;
 cursor: url('cur.png'), default;
-background-image:linear-gradient(to bottom, rgb(79, 83, 97) 0%,#000000 100%);
+background-image:url('bg.png');
 }
 #taskbar {
 -webkit-backdrop-filter:blur(3px);

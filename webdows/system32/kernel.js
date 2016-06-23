@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/30/16
+Date: 06/23/16
 File: webdows/system32/kernel.js
 Contains: jQuery v2.1.4, DEXIE.JS v1.2.0
 */
@@ -156,28 +156,34 @@ var system = {
         };
         this.write = function(data, callback) {
             wfs.open();
-            if(this.type == 'file') {
-                var fullPath = this.fullPath;
-                wfs.files.get(this.fullPath, function(attr) {
-                    var cbthis = {};
-                    if(typeof attr !== 'undefined') {
-                        wfs.files.put({'path': fullPath, 'data': data});
-                        cbthis.data = data;
-                        callback.call(cbthis);
-                    } else {
-                        cbthis.error = 'File does not exist.';
-                        callback.call(cbthis);
-                    }
-                });
-            }
+            var fullPath = this.fullPath;
+            wfs.files.get(this.fullPath, function(attr) {
+                var cbthis = {};
+                cbthis.data = null;
+                if(typeof attr !== 'undefined') {
+                    wfs.files.put({'path': fullPath, 'data': data});
+                    cbthis.data = data;
+                    callback.call(cbthis);
+                } else {
+                    cbthis.error = 'File does not exist.';
+                    callback.call(cbthis);
+                }
+            });
             wfs.close();
             return this;
         };
         this.read = function(callback) {
             wfs.open();
-            if(this.type == 'file') {
-                wfs.files.get(this.fullPath, function(item){ this.data = item.data; callback.call(this); });
-            }
+            wfs.files.get(this.fullPath, function(item) {
+                var cbthis = {};
+                cbthis.data = null;
+                if(typeof item == 'undefined') {
+                    cbthis.error = 'File does not exist.';
+                } else {
+                    cbthis.data = item.data;
+                }
+                callback.call(cbthis); 
+            });
             wfs.close();
             return this;
         };
@@ -190,7 +196,7 @@ var system = {
                 wfs.files.where('path').startsWith(this.fullPath).eachKey(function(k) {
                     wfs.files.delete(k);
                 });
-                wfs.folders.where('path').startsWithe(this.fullPath).eachKey(function(k) {
+                wfs.folders.where('path').startsWith(this.fullPath).eachKey(function(k) {
                     wfs.folders.delete(k);
                 });
             }
@@ -198,32 +204,56 @@ var system = {
             return this;
         };
         this.list = function(callback) {
-            if(this.type == 'folder' && typeof callback !== 'undefined') {
+            var cbthis = {};
+            cbthis.data = null;
+            if(this.type == 'folder') {
                 wfs.open();
                 var path = this.fullPath;
-                wfs.folders.where('path').startsWith(path).keys(function(folders) {
-                    wfs.files.where('path').startsWith(path).keys(function(files) {
-                        var data = folders.concat(files);
-                        this.data = $.grep(data, function(o, k) {
-                            var attr = new system.file(o);
-                            if(attr.path == path) {
-                                data[k] = attr;
-                                return true;
-                            } else {
-                                return false;
-                            }
+                wfs.folders.get(this.fullPath, function(folder) {
+                    wfs.folders.where('path').startsWith(path).keys(function(folders) {
+                        wfs.files.where('path').startsWith(path).keys(function(files) {
+                            var data = folders.concat(files);
+                            cbthis.data = $.grep(data, function(o, k) {
+                                var attr = new system.file(o);
+                                if(attr.path == path) {
+                                    data[k] = attr;
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
+                            callback.call(cbthis);
+                            wfs.close();
                         });
-                        callback.call(this);
-                        wfs.close();
                     });
-                });           
+                });
+            } else {
+                cbthis.error = 'Not a folder.';
+                callback.call(cbthis);
             }
             return this;
         };
-        this.rename = function(newname) {
+        this.rename = function(newname, callback) { //NEEDS WORK
+            var cbthis = {};
             wfs.open();
-            
+            var oldPath = this.fullPath; //Old Path
+            var newPath = oldPath.replace(this.name, newname); //New Path
+            if(this.type == 'file') { //Check if file
+                wfs.files.get(oldPath, function(file) { // Check if exists / get old data
+                    if(typeof file !== 'undefined') { // check if exists
+                        wfs.files.put({'path': newPath, 'data': file.data}); //create new
+                        wfs.files.delete(oldPath); // delete old
+                    } else {
+                        cbthis.error = 'File does not exist.';
+                    }
+                    wfs.close();
+                    return new system.file(newPath); //PART THAT IS NO WORKIE
+                });
+            } else if(this.type == 'folder') {
+                
+            }
             wfs.close();
+            callback.call(cbthis);
             return this;
         };
         return this;
