@@ -2,7 +2,7 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 06/23/16
+Date: 06/24/16
 File: webdows/system32/kernel.js
 Contains: jQuery v2.1.4, DEXIE.JS v1.2.0
 */
@@ -154,7 +154,7 @@ var system = {
             wfs.close();
             return this;
         };
-        this.write = function(data, callback) {
+        this.write = function(data, callback = function() {}) {
             wfs.open();
             var fullPath = this.fullPath;
             wfs.files.get(this.fullPath, function(attr) {
@@ -172,7 +172,7 @@ var system = {
             wfs.close();
             return this;
         };
-        this.read = function(callback) {
+        this.read = function(callback = function() {}) {
             wfs.open();
             wfs.files.get(this.fullPath, function(item) {
                 var cbthis = {};
@@ -203,7 +203,7 @@ var system = {
             wfs.close();
             return this;
         };
-        this.list = function(callback) {
+        this.list = function(callback = function() {}) {
             var cbthis = {};
             cbthis.data = null;
             if(this.type == 'folder') {
@@ -233,27 +233,42 @@ var system = {
             }
             return this;
         };
-        this.rename = function(newname, callback) { //NEEDS WORK
+        this.rename = function(newName, callback = function() {}) {
             var cbthis = {};
             wfs.open();
-            var oldPath = this.fullPath; //Old Path
-            var newPath = oldPath.replace(this.name, newname); //New Path
-            if(this.type == 'file') { //Check if file
-                wfs.files.get(oldPath, function(file) { // Check if exists / get old data
-                    if(typeof file !== 'undefined') { // check if exists
-                        wfs.files.put({'path': newPath, 'data': file.data}); //create new
-                        wfs.files.delete(oldPath); // delete old
+            var oldPath = this.fullPath;
+            var newPath = oldPath.replace(this.name, newName);
+            var oldName = this.name;
+            if(this.type == 'file') {
+                wfs.files.get(oldPath, function(file) {
+                    cbthis = new system.file(newPath);
+                    if(typeof file !== 'undefined') {
+                        wfs.files.delete(oldPath);
+                        wfs.files.put({'path': newPath, 'data': file.data});
                     } else {
                         cbthis.error = 'File does not exist.';
                     }
+                    callback.call(cbthis);     
                     wfs.close();
-                    return new system.file(newPath); //PART THAT IS NO WORKIE
                 });
             } else if(this.type == 'folder') {
-                
+                wfs.folders.get(this.fullPath, function(folder) {
+                    if(typeof folder !== 'undefined') {
+                        wfs.folders.where('path').startsWith(oldPath).keys(function(folders) {
+                            $.each(folders, function() {
+                                var path = this.valueOf();
+                                wfs.folders.delete(path);
+                                wfs.folders.put({'path': path.replace(oldName, newName)});
+                            });
+                        });
+                        //Make it so files can be moved as well...
+                        wfs.close();
+                    } else {
+                        cbthis.error('Folder does not exist.');
+                    }
+                    callback.call(cbthis);
+                });
             }
-            wfs.close();
-            callback.call(cbthis);
             return this;
         };
         return this;
