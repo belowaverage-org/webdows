@@ -1,0 +1,241 @@
+@font-face {
+font-family: ubuntu;
+src:url("font.ttf");
+}
+* {
+font-family:ubuntu;
+}
+#desktop {
+background-image:url('bg.jpg');
+}
+/* START .window */
+.window {
+position:absolute !important;
+border:1px solid rgba(0,0,0,0.5);
+outline:1px solid rgba(255,255,255,0.5);
+background-color:rgba(255,255,255,0.5);
+box-shadow:0px 0px 100px rgba(0,0,0,0.5);
+opacity:0.8;
+transform:scale(0.99);
+filter:blur(10px);
+-webkit-filter:blur(2px);
+transition: filter 0.3s, -webkit-filter 0.3s, transform 0.3s;
+}
+.window.active {
+opacity:1;
+transform:scale(1);
+filter:blur(0px);
+-webkit-filter:blur(0px);
+}
+.window.close {
+opacity:0;
+}
+.window .minmaxclose {
+float:right;
+}
+.window .minmaxclose span {
+display:inline-block;
+width:20px;
+color:white;
+margin-top:1px;
+margin-right:1px;
+text-align:center;
+height:18px;
+opacity:.3;
+transition:.2s;
+}
+.window .minmaxclose span:hover {
+opacity:1;
+}
+.window .minmaxclose .min {
+background-color:rgb(0,255,0);
+}
+.window .minmaxclose .max {
+background-color:rgb(255,255,0);
+}
+.window .minmaxclose .close {
+background-color:rgb(255,0,0);
+}
+.window.minimized {
+visibility:hidden;
+opacity:0;
+}
+.window.maximized {
+width:100% !important;
+height:100% !important;
+top:0px !important;
+left:0px !important;
+}
+.window .ttl {
+white-space: nowrap;
+}
+.window .body {
+position:absolute;
+left:0px;
+right:0px;
+top:20px;
+bottom:0px;
+overflow:auto;
+background-color:rgba(255,255,255,0.5);
+}
+.window .ui-resizable-handle {
+position:absolute;
+}
+.window .ui-resizable-n {
+top:0px;
+width:100%;
+height:3px;
+left:0px;
+cursor:ns-resize;
+}
+.window .ui-resizable-e {
+height:100%;
+width:5px;
+right:0px;
+top:0px;
+cursor:ew-resize;
+}
+.window .ui-resizable-s {
+width:100%;
+height:5px;
+left:0px;
+bottom:0px;
+cursor:ns-resize;
+}
+.window .ui-resizable-w {
+height:100%;
+width:5px;
+left:0px;
+top:0px;
+cursor:ew-resize;
+}
+.window .ui-resizable-ne {
+width:5px;
+height:5px;
+cursor:ne-resize;
+right:0px;
+top:0px;
+}
+.window .ui-resizable-se {
+width:5px;
+height:5px;
+cursor:se-resize;
+right:0px;
+bottom:0px;
+}
+.window .ui-resizable-sw {
+width:5px;
+height:5px;
+cursor:sw-resize;
+left:0px;
+bottom:0px;
+}
+.window .ui-resizable-nw {
+width:5px;
+height:5px;
+cursor:nw-resize;
+left:0px;
+top:0px;
+}
+/* END .window */
+#taskbar  {
+height:29px;
+position:absolute;
+bottom:0px;
+left:0px;
+width:100%;
+z-index:1001;
+}
+#taskbar #middleframe {
+position:absolute;
+top:0px;
+left:50px;
+overflow:hidden;
+right:80px;
+display:flex;
+}
+#taskbar #rightframe {
+position:absolute;
+right:0px;
+display:inline-block;
+top:0px;
+}
+#start::before {
+content:"Start";
+position:absolute;
+margin-left:0px;
+}
+#taskbar .button {
+display:inline-block;
+position:relative;
+text-overflow:ellipsis;
+white-space:nowrap;
+overflow:hidden;
+}
+#startmenu {
+position:absolute;
+bottom:30px;
+left:0px;
+width:409px;
+height:474px;
+z-index:1000;
+}
+#startmenu.minimized {
+visibility:hidden;
+display:none;
+}
+#startmenu .lllist {
+width:250px;
+height:382px;
+position:absolute;
+left:7px;
+top:7px;
+overflow:hidden;
+}
+#startmenu .lllist.all {
+overflow-y:scroll;
+}
+#startmenu .apb {
+bottom:54px;
+left:7px;
+position:absolute;
+right:10px;
+height:30px;
+width:250px;
+}
+#startmenu .apb::after {
+top:4px;
+left:2px;
+position:absolute;
+content:"\25B6 \20 All Programs";
+right:2px;
+padding-left:5px;
+padding-right:5px;
+}
+#startmenu .lllist.all + .apb::after {
+content:"\25c0 \20 Back";
+}
+#startmenu .lllist .button {
+display:block;
+}
+#startmenu .lllist.all .button .icon {
+width:16px;
+height:16px;
+}
+#startmenu .rllist {
+right:7px;
+position:absolute;
+left:265px;
+}
+.context {
+display:inline-block;
+position:absolute;
+z-index:1002;
+}
+.context .title {
+margin-left:5px;
+padding-right:50px;
+}
+.context .button.arrow::after {
+content:"\25B6";
+}
