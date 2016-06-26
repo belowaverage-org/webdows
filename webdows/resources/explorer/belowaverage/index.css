@@ -20,6 +20,8 @@ transform:scale(0.99);
 filter:blur(10px);
 -webkit-filter:blur(2px);
 transition: filter 0.3s, -webkit-filter 0.3s, transform 0.3s;
+min-width:64px;
+min-height:20px;
 }
 .window.active {
 opacity:1;
@@ -32,12 +34,15 @@ opacity:0;
 }
 .window .minmaxclose {
 float:right;
+height:18px;
+margin-top:1px;
+width:63px;
+text-align:right;
 }
 .window .minmaxclose span {
 display:inline-block;
 width:20px;
 color:white;
-margin-top:1px;
 margin-right:1px;
 text-align:center;
 height:18px;
@@ -68,6 +73,15 @@ left:0px !important;
 }
 .window .ttl {
 white-space: nowrap;
+text-overflow:ellipsis;
+overflow:hidden;
+width:calc(100% - 65px);
+display:inline-block;
+height:18px;
+}
+.window .ttl .icon {
+vertical-align:-2px;
+margin-right:5px;
 }
 .window .body {
 position:absolute;
