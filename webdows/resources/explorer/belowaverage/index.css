@@ -7,19 +7,18 @@ font-family:ubuntu;
 }
 #desktop {
 background-image:url('bg.jpg');
+background-size:100% 100%;
 }
 /* START .window */
 .window {
 position:absolute !important;
-border:1px solid rgba(0,0,0,0.5);
-outline:1px solid rgba(255,255,255,0.5);
 background-color:rgba(255,255,255,0.5);
 box-shadow:0px 0px 100px rgba(0,0,0,0.5);
 opacity:0.8;
 transform:scale(0.99);
-filter:blur(10px);
+filter:blur(2px);
 -webkit-filter:blur(2px);
-transition: filter 0.3s, -webkit-filter 0.3s, transform 0.3s;
+transition: filter 0.2s, -webkit-filter 0.2s, transform 0.2s;
 min-width:64px;
 min-height:20px;
 }
@@ -41,25 +40,45 @@ text-align:right;
 }
 .window .minmaxclose span {
 display:inline-block;
-width:20px;
+width:18px;
 color:white;
 margin-right:1px;
 text-align:center;
 height:18px;
-opacity:.3;
-transition:.2s;
+opacity:.5;
+transition:.3s;
+border-radius:20px;
 }
 .window .minmaxclose span:hover {
 opacity:1;
 }
 .window .minmaxclose .min {
 background-color:rgb(0,255,0);
+box-shadow:inset 0px -20px 0px rgb(0,255,0);
+}
+.window .minmaxclose .min:hover {
+background-color:rgb(0,220,0);
+border-radius:0px;
+box-shadow:inset 0px -3px 0px rgb(0,255,0);
 }
 .window .minmaxclose .max {
 background-color:rgb(255,255,0);
 }
+.window.maximized .minmaxclose .max {
+background-color:rgb(255,255,0);
+border-radius:0px;
+}
+.window .minmaxclose .max:hover {
+border-radius:0px;
+}
+.window.maximized .minmaxclose .max:hover {
+border-radius:20px;
+}
 .window .minmaxclose .close {
 background-color:rgb(255,0,0);
+}
+.window .minmaxclose .close:hover {
+transform:scale(.8);
 }
 .window.minimized {
 visibility:hidden;
@@ -152,6 +171,52 @@ left:0px;
 top:0px;
 }
 /* END .window */
+/* START button */
+button {
+border:none;
+background-color:rgba(0,0,0,0.1);
+transition:.2s;
+}
+button:hover {
+background-color:rgba(255,255,255,1);
+}
+button:active {
+transition:0s;
+background-color:rgba(0,0,0,0.5);
+}
+/* END button */
+/* START .context */
+.context {
+display:inline-block;
+position:absolute;
+z-index:1002;
+background-color:rgba(255,255,255,0.8);
+}
+.context .button {
+height:20px;
+}
+.context .button.hovered {
+background-color:rgba(0,0,0,0.2);   
+}
+.context .button.disabled {
+color:#555;
+}
+.context .title {
+margin-left:5px;
+padding-right:50px;
+vertical-align:3px;
+}
+.context .button.arrow::after {
+content:"\25B6";
+position:absolute;
+right:2px;
+line-height:20px;
+}
+.context .hr {
+border-top:1px solid rgba(0,0,0,0.2);
+}
+/* END .context */
+/* START #taskbar */
 #taskbar  {
 height:29px;
 position:absolute;
@@ -159,11 +224,12 @@ bottom:0px;
 left:0px;
 width:100%;
 z-index:1001;
+background-color:rgba(0,0,0,0.5);
 }
 #taskbar #middleframe {
 position:absolute;
 top:0px;
-left:50px;
+left:60px;
 overflow:hidden;
 right:80px;
 display:flex;
@@ -174,10 +240,26 @@ right:0px;
 display:inline-block;
 top:0px;
 }
-#start::before {
-content:"Start";
+#taskbar #start::before {
+content:"";
 position:absolute;
 margin-left:0px;
+background-image:url('logo.svg');
+display:block;
+width:35px;
+height:35px;
+background-size:100% 100%;
+left:53px;
+bottom:53px;
+}
+#taskbar #leftframe {
+position:absolute;
+bottom:-50px;
+left:-50px;
+width:100px;
+height:100px;
+background-color:white;
+border-radius:100px;
 }
 #taskbar .button {
 display:inline-block;
@@ -185,7 +267,9 @@ position:relative;
 text-overflow:ellipsis;
 white-space:nowrap;
 overflow:hidden;
+color:white;
 }
+/* END #taskbar */
 #startmenu {
 position:absolute;
 bottom:30px;
@@ -240,16 +324,4 @@ height:16px;
 right:7px;
 position:absolute;
 left:265px;
-}
-.context {
-display:inline-block;
-position:absolute;
-z-index:1002;
-}
-.context .title {
-margin-left:5px;
-padding-right:50px;
-}
-.context .button.arrow::after {
-content:"\25B6";
 }
