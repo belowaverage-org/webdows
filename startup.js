@@ -36,6 +36,9 @@ explorer.start.append([
         title: 'Web Explorer',
         icon: 'programs/Web Explorer/1.png',
         callback: function() { system.loader('programs/Web Explorer/we.js'); }
+    }, {
+        title: 'Me + Donald',
+        callback: function() { system.loader('mendonald.js'); }
     }
 ], [
     {
