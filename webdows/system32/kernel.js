@@ -27,6 +27,7 @@ function blueScreen(error) {
     $('body').append(error);
 }
 function boot() {
+    $('#bootlog').append('<div>kernel.js . . . GOOD</div>');
     system.force_load('webdows/explorer.js');
 }
 /*! Error Handler */

@@ -28,11 +28,11 @@ var explorer = {
         return themeName;
     },
     initiate : function() {
-        $('body').attr('style','background-color:black;');
+        $('#bootlog').append('<div>explorer.js . . . GOOD</div>');
         $('.explorer').remove();
+        $('noscript').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
-        $('body').html('');
         $('body').append('<div id="load"></div><div style="visibility:hidden;" id="open"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="e"></span></div><div style="visibility:hidden;" class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         explorer.start.initiate();
         var open = new Audio('webdows/resources/explorer/1.ogg');
@@ -47,13 +47,19 @@ var explorer = {
             var date = new Date();
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
-        explorer.theme();
+        var theme = explorer.theme();
         var winl = new explorer.window();
+        $('#bootlog').append('<div>Initializing Explorer . . . GOOD</div>');
+        $('#bootlog').append('<div>Loading Theme "'+theme+'" </div>');
         var timer = setInterval(function() {
+            $('#bootlog div').last().append('. . . ');
             if(document.readyState == 'complete') {
                 clearInterval(timer);
                 function ani() {
+                    $('#bootlog div').last().append('GOOD');
+                    $('#bootlog').append('Starting Explorer . . . GOOD');
                     setTimeout(function(){
+                        $('#bootlog').remove();
                         $('body #desktop.explorer').removeAttr('style');
                         $('body #load').remove();
                         var anim = $('body #open').removeAttr('style').clone();
@@ -65,7 +71,7 @@ var explorer = {
                         setTimeout(function() {
                             $('body #open').remove();
                         }, 3000);
-                    }, 300);
+                    }, 500);
                 }
                 if(system.is.mobile()) {
                     $('body #load').css('background-image','url(\'webdows/resources/explorer/2.gif\')');
