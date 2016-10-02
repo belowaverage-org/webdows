@@ -30,26 +30,14 @@ function boot() {
     $('#bootlog').append('<div>kernel.js . . . GOOD</div>');
     system.force_load('webdows/explorer.js');
 }
+var legacySetTimeout = setTimeout;
+setTimeout = function(callback, interval) {
+    legacySetTimeout(callback, interval);
+}
 /*! Error Handler */
-$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
-    if(typeof explorer !== 'undefined') {
-        var errorWin = new explorer.window()
-        .center()
-        .title('System Error')
-        .icon('webdows/resources/icons/aler.ico')
-        .body
-        .html('The file: '+settings.url+', Has thrown the following error...<br><br>'+thrownError)
-        .css({'padding':'10px'});
-    } else {
-        if(thrownError == 'Not Acceptable') {
-            blueScreen('A recent system call to "'+settings.url+'" has failed due to the method not existing...<br><br>'+thrownError);
-        } else if(thrownError == 'Not Found') {
-            blueScreen('A recent file request to "'+settings.url+'" has failed due to the file not existing...<br><br>'+thrownError);
-        } else {
-            blueScreen('SYSTEMHALT @ '+settings.url+'<br><br>'+thrownError);
-        }
-    }
-});
+window.onerror = function(message, source) {
+    system.error(message, source);
+};
 /*! System Class */
 var system = {
     formatAMPM : function(date) {
@@ -61,6 +49,19 @@ var system = {
         minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
+    },
+    error : function(errorMessage, filePath) {
+        if(typeof explorer !== 'undefined') {
+            var errorWin = new explorer.window()
+            .center()
+            .title('ERROR: '+filePath)
+            .icon('webdows/resources/icons/aler.ico')
+            .body
+            .html(filePath+'<hr>'+errorMessage)
+            .css({'padding':'10px'});
+        } else {
+            blueScreen('SYSTEMHALT @ '+filePath+'<br><br>'+errorMessage);
+        }
     },
     is : {
         mobile : function() {
@@ -81,9 +82,14 @@ var system = {
         $.ajax({
             type: "GET",
             url: path,
-            dataType: "script",
+            dataType: "text",
             cache: true
         }).done(function(data, textStatus, jqXHR) {
+            try {
+                eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
+            } catch(e) {
+                system.error(e, path);
+            }
             if(typeof callback !== 'undefined') {
                 callback.call(data, textStatus, jqXHR);
             }
@@ -155,7 +161,7 @@ var system = {
             wfs.close();
             return this;
         };
-        this.write = function(data, callback = function() {}) {
+        this.write = function(data, callback) {
             wfs.open();
             var fullPath = this.fullPath;
             wfs.files.get(this.fullPath, function(attr) {
@@ -164,16 +170,20 @@ var system = {
                 if(typeof attr !== 'undefined') {
                     wfs.files.put({'path': fullPath, 'data': data});
                     cbthis.data = data;
-                    callback.call(cbthis);
+                    if(typeof callback == 'function') {
+                        callback.call(cbthis);
+                    }
                 } else {
                     cbthis.error = 'File does not exist.';
-                    callback.call(cbthis);
+                    if(typeof callback == 'function') {
+                        callback.call(cbthis);
+                    }
                 }
             });
             wfs.close();
             return this;
         };
-        this.read = function(callback = function() {}) {
+        this.read = function(callback) {
             wfs.open();
             wfs.files.get(this.fullPath, function(item) {
                 var cbthis = {};
@@ -183,7 +193,9 @@ var system = {
                 } else {
                     cbthis.data = item.data;
                 }
-                callback.call(cbthis); 
+                if(typeof callback == 'function') {
+                    callback.call(cbthis);
+                }
             });
             wfs.close();
             return this;
@@ -204,7 +216,7 @@ var system = {
             wfs.close();
             return this;
         };
-        this.list = function(callback = function() {}) {
+        this.list = function(callback) {
             var cbthis = {};
             cbthis.data = null;
             if(this.type == 'folder') {
@@ -223,18 +235,22 @@ var system = {
                                     return false;
                                 }
                             });
-                            callback.call(cbthis);
+                            if(typeof callback == 'function') {
+                                callback.call(cbthis);
+                            }
                             wfs.close();
                         });
                     });
                 });
             } else {
                 cbthis.error = 'Not a folder.';
-                callback.call(cbthis);
+                if(typeof callback == 'function') {
+                    callback.call(cbthis);
+                }
             }
             return this;
         };
-        this.rename = function(newName, callback = function() {}) {
+        this.rename = function(newName, callback) {
             var cbthis = {};
             wfs.open();
             var oldPath = this.fullPath;
@@ -249,7 +265,9 @@ var system = {
                     } else {
                         cbthis.error = 'File does not exist.';
                     }
-                    callback.call(cbthis);     
+                    if(typeof callback == 'function') {
+                        callback.call(cbthis);
+                    }
                     wfs.close();
                 });
             } else if(this.type == 'folder') {
@@ -267,7 +285,9 @@ var system = {
                     } else {
                         cbthis.error('Folder does not exist.');
                     }
-                    callback.call(cbthis);
+                    if(typeof callback == 'function') {
+                        callback.call(cbthis);
+                    }
                 });
             }
             return this;

@@ -60,18 +60,20 @@ var explorer = {
                     $('#bootlog').append('Starting Explorer . . . GOOD');
                     setTimeout(function(){
                         $('#bootlog').remove();
-                        $('body #desktop.explorer').removeAttr('style');
                         $('body #load').remove();
-                        var anim = $('body #open').removeAttr('style').clone();
-                        $('body #open').remove();
-                        $('body').append(anim);
-                        open.play();
-                        winl.close();
-                        explorer.start.toggle();
                         setTimeout(function() {
+                            $('body #desktop.explorer').removeAttr('style');
+                            var anim = $('body #open').removeAttr('style').clone();
                             $('body #open').remove();
-                        }, 3000);
-                    }, 500);
+                            $('body').append(anim);
+                            open.play();
+                            winl.close();
+                            explorer.start.toggle();
+                            setTimeout(function() {
+                                $('body #open').remove();
+                            }, 3000);  
+                        }, 1000);
+                    }, 1000);
                 }
                 if(system.is.mobile()) {
                     $('body #load').css('background-image','url(\'webdows/resources/explorer/2.gif\')');

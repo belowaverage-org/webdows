@@ -29,14 +29,14 @@ new explorer.window()
                     var ans = eval(peek.text());
                 } catch(e) {
                     new explorer.window()
-                    .title('Error')
                     .closeWith(dis)
+                    .title()
                     .icon('webdows/resources/icons/calc.ico')
                     .resize(200, 100)
                     .center()
                     .controls([])
                     .body
-                    .html(e.message);
+                    .html(e);
                 }
                 peek.text(ans);
                 break;

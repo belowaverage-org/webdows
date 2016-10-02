@@ -37,8 +37,8 @@ explorer.start.append([
         icon: 'programs/Web Explorer/1.png',
         callback: function() { system.loader('programs/Web Explorer/we.js'); }
     }, {
-        title: 'Me + Donald',
-        callback: function() { system.loader('mendonald.js'); }
+        title: 'Task Manager',
+        callback: function() { system.loader('webdows/taskmgr.js'); }
     }
 ], [
     {
