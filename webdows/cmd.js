@@ -2,7 +2,6 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/12/16
 File: webdows/cmd.js
 */
 new explorer.window()
@@ -11,12 +10,12 @@ new explorer.window()
 .icon('webdows/resources/icons/scre.ico')
 .center()
 .callback(function() {
+    var win = this;
     var body = this.body;
-    body.css({'background-color':'#000','color':'white','padding-bottom':'20px'});
+    body.css({'background-color':'#000','color':'white'});
     body.html('<div>Below Average Webdows [Version 0.0.00001]<br>(c) 2015 Below Average. All Rights Reserved.<br><br></div><span>$></span><input>');
-    body.find('div').attr('style', 'position:absolute;top:0px;left:0px;width:100%;overflow-y:auto;overflow-x:hidden;');
-    body.find('span').attr('style', 'position:absolute;bottom:0px;left:0px;');
-    body.find('input').css({'position':'absolute','bottom':'0px','left':'20px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
+    body.find('span').attr('style', 'height:20px;width:20px;');
+    body.find('input').css({'font-family':'NotoSans','font-size':'16px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
     var history = [];
     body.find('input').keydown(function(event) {
         var dis = $(event.target);
@@ -35,10 +34,17 @@ new explorer.window()
             var command = dis.val();
             history.push(command);
             body.children('div').append('<div>$>'+command+'</div>');
-            try {
-                var ret = eval(command);
-            } catch(error) {
-                body.children('div').append('<div style="color:red;">'+error+'</div>');
+            if(command == 'cls') {
+                body.find('div').html('');
+            } else if(command == 'exit') {
+                win.close();
+            } else {
+                try {
+                    var ret = eval(command);
+                    system.loader(command);
+                } catch(error) {
+                    body.children('div').append('<div style="color:red;">'+error+'</div>');
+                } 
             }
             if(typeof ret !== 'undefined') {
                 body.children('div').append('<div style="color:gray;">'+ret+'</div>');
