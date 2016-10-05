@@ -79,19 +79,25 @@ var system = {
         return s4()+s4()+'-'+s4()+'-'+s4()+'-'+s4()+'-'+s4()+s4()+s4();
     },
     loader : function(path, callback) {
+        var successTF = false;
         $.ajax({
             type: "GET",
             url: path,
             dataType: "text",
             cache: true
-        }).done(function(data, textStatus, jqXHR) {
-            try {
-                eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
-            } catch(e) {
-                system.error(e, path);
+        }).done(function(data, textStatus) {
+            if(textStatus == 'success') {
+                successTF = true;
+                try {
+                    eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
+                } catch(e) {
+                    successTF = false;
+                    system.error(e, path);
+                }
             }
+        }).complete(function() {
             if(typeof callback !== 'undefined') {
-                callback.call(data, textStatus, jqXHR);
+                callback.call(null, successTF);
             }
         });
     },

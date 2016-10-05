@@ -40,8 +40,16 @@ new explorer.window()
                 win.close();
             } else {
                 try {
+                    var search = {
+                        0: 'webdows/'+command+'.js',
+                        1: 'webdows/'+command,
+                        2: command+'.js',
+                        3: command
+                    };
+                    $.each(search, function() {
+                        system.loader(this);
+                    });
                     var ret = eval(command);
-                    system.loader(command);
                 } catch(error) {
                     body.children('div').append('<div style="color:red;">'+error+'</div>');
                 } 
