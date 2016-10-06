@@ -15,8 +15,12 @@ new explorer.window()
     body.css({'background-color':'#000','color':'white'});
     body.html('<div>Below Average Webdows [Version 0.0.00001]<br>(c) 2015 Below Average. All Rights Reserved.<br><br></div><span>$></span><input>');
     body.find('span').attr('style', 'height:20px;width:20px;');
-    body.find('input').css({'font-family':'NotoSans','font-size':'16px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
+    body.find('input').css({'cursor':'default','font-family':'NotoSans','font-size':'16px','height':'20px','width':'calc(100% - 20px)','border':'none','box-shadow':'none','background-color':'black','color':'white'});
     var history = [];
+    function push(html) {
+        body.children('div').append(html);
+        body.scrollTop(body[0].scrollHeight);
+    }
     body.find('input').keydown(function(event) {
         var dis = $(event.target);
         if(event.which == 38) { 
@@ -33,31 +37,59 @@ new explorer.window()
             event.preventDefault();
             var command = dis.val();
             history.push(command);
-            body.children('div').append('<div>$>'+command+'</div>');
+            push('<div>$>'+command+'</div>');
             if(command == 'cls') {
                 body.find('div').html('');
             } else if(command == 'exit') {
                 win.close();
+            } else if(command.startsWith('start ')) {
+                var start = command.replace('start ', '');
+                system.loader(start, function(success) {
+                    if(!success) {
+                        push('<div style="color:red;">Could not find file: '+start+'</div>');
+                    }
+                });
+            } else if(command.startsWith('ping ')) {
+                var host = command.replace('ping ', '');
+                var sum = 0;
+                function ping(cb) {
+                    var start = new Date().getTime();
+                    var finished = 0;
+                    var pong = 0;
+                    $.ajax({
+                        url: 'http://'+host+'/ping/',
+                        complete: function(){
+                            finished = new Date().getTime();
+                            pong = finished - start;
+                            if(pong >= 3000) {
+                                push('<div style="color:red;">Host timed out...</div>');
+                            } else {
+                                push('<div>'+pong+'</div>');
+                            }
+                            setTimeout(function() {
+                                cb.call();
+                            }, 1000);
+                        },
+                        timeout: 3000
+                    });
+                }
+                ping(function() {
+                    ping(function() {
+                        ping(function() {
+                            
+                        });
+                    }); 
+                });
             } else {
                 try {
-                    var search = {
-                        0: 'webdows/'+command+'.js',
-                        1: 'webdows/'+command,
-                        2: command+'.js',
-                        3: command
-                    };
-                    $.each(search, function() {
-                        system.loader(this);
-                    });
                     var ret = eval(command);
                 } catch(error) {
-                    body.children('div').append('<div style="color:red;">'+error+'</div>');
+                    push('<div style="color:red;">'+error+'</div>');
                 } 
             }
             if(typeof ret !== 'undefined') {
-                body.children('div').append('<div style="color:gray;">'+ret+'</div>');
+                push('<div style="color:gray;">'+ret+'</div>');
             }
-            body.scrollTop(body[0].scrollHeight);
             dis.val('');
         }
     });
