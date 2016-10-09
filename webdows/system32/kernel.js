@@ -32,7 +32,7 @@ function boot() {
 }
 var legacySetTimeout = setTimeout;
 setTimeout = function(callback, interval) {
-    legacySetTimeout(callback, interval);
+    return legacySetTimeout(callback, interval);
 }
 /*! Error Handler */
 window.onerror = function(message, source) {
