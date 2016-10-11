@@ -29,9 +29,9 @@ explorer.start.append([
         icon: 'programs/Youtube Extractor/logo.png',
         callback: function() { system.loader('programs/Youtube Extractor/index.js'); }
     }, {
-        title: 'Nate',
-        icon: 'programs/Youtube Extractor/logo.png',
-        callback: function() { system.loader('programs/nate/satan.js'); }
+        title: 'Run',
+        icon: 'webdows/resources/icons/runi.ico',
+        callback: function() { system.loader('webdows/run.js'); }
     }, {
         title: 'Web Explorer',
         icon: 'programs/Web Explorer/1.png',
@@ -119,3 +119,4 @@ $('#desktop.explorer').on('contextmenu', function(e) {
     }
 });
 system.loader('webdows/welcome.js');
+system.loader('webdows/run.js');
