@@ -85,19 +85,18 @@ var system = {
             url: path,
             dataType: "text",
             cache: true
-        }).done(function(data, textStatus) {
-            if(textStatus == 'success') {
+        }).error(function(jq, textStatus) {
+            system.error(textStatus, path);
+        }).success(function(data) {
+            try {
+                eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
                 successTF = true;
-                try {
-                    eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
-                } catch(e) {
-                    successTF = false;
-                    system.error(e, path);
-                }
+            } catch(e) {
+                system.error(e, path);
             }
         }).complete(function() {
             if(typeof callback !== 'undefined') {
-                callback.call(null, successTF);
+                callback.call(successTF);
             }
         });
     },
