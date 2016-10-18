@@ -61,7 +61,7 @@ new explorer.window()
         body.append('<button buttID="'+buttID+'" class="butt"><span style="background-image:url(\''+this.icon+'\');" class="icon"></span>'+this.text+'</button>');
         body.find('button[buttID='+buttID+']').click(this.callback);
     });
-    body.find('.topframe').attr('style', 'top:0px;left:0px;background-repeat:no-repeat;background-size:100px 100px, 100% 100%;position:absolute;height:100px;width:100%;background-image:url(\'webdows/resources/icons/logo.png\'), url(\'webdows/resources/welcome/1.png\');');
+    body.find('.topframe').attr('style', 'top:0px;left:0px;background-repeat:no-repeat;background-size:100px 100px, 100% 100%;position:absolute;height:100px;width:100%;background-image:url(\'webdows/resources/welcome/2.png\'), url(\'webdows/resources/welcome/1.png\');');
     body.find('.welc').attr('style', 'color:rgba(255,255,255,0.5);font-size:40px;position:absolute;bottom:0px;right:10px;');
     body.find('.stat').attr('style', 'white-space:nowrap;text-align:left;font-size:12px;margin-top:5px;margin-left:110px;color:white;text-shadow:1px 1px 3px black;');
     body.find('.butt').attr('style', 'line-height:32px;margin:5px;height:35px;width:100px;');

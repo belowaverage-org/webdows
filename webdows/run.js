@@ -3,6 +3,7 @@ new explorer.window()
 .icon('webdows/resources/icons/runi.ico')
 .resize(400,200)
 .controls([])
+.center('bottom left', 20, -40)
 .callback(function() {
     var body = this.body;
     var window = this;

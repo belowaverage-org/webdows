@@ -225,11 +225,32 @@ var explorer = {
             callback.call(this);
             return this;
         }
-		this.center = function() {
-			var explorer = $('#desktop.explorer');
+		this.center = function(position, offsetX, offsetY) {
+            var explorer = $('#desktop.explorer');
 			var top = (explorer.height() - this.winid.outerHeight()) / 2;
 			var left = (explorer.width() - this.winid.outerWidth()) / 2;
-			this.winid.css({'position':'absolute', 'margin':0, 'top': (top > 0 ? top : 0)+'px', 'left': (left > 0 ? left : 0)+'px'});
+            if(typeof position !== 'undefined') {
+                pchar = position.split(' ');
+                if($.inArray('top', pchar) !== -1) {
+                    top = 0;
+                }
+                if($.inArray('bottom', pchar) !== -1) {
+                    top = explorer.height() - this.winid.outerHeight();
+                }
+                if($.inArray('left', pchar) !== -1) {
+                    left = 0;
+                }
+                if($.inArray('right', pchar) !== -1) {
+                    left = explorer.width() - this.winid.outerWidth();
+                }
+            }
+            if(typeof offsetX !== 'undefined') {
+                left = left + offsetX;
+            }
+            if(typeof offsetY !== 'undefined') {
+                top = top + offsetY;
+            }
+			this.winid.css({'position':'absolute', 'margin':0, 'top': top+'px', 'left': left+'px'});
             return this;
 		};
         this.closeWith = function(parent) {

@@ -221,6 +221,9 @@ animation:open .2s linear;
 @keyframes open {
     0% {
         opacity:0;
+        transform: scale(1) rotateX(0deg);
+    } 5% {
+        opacity:0;
         transform: perspective(1000px) scale(.9) rotateX(-5deg);
     } 50% {
         transform: perspective(1000px) scale(.95) rotateX(-5deg);
