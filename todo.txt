@@ -1,7 +1,0 @@
-and make it be tested on the functions /// create read delete list rename
-Personalization
-Explorer
-make root of drives explorable but not writealbe
-
-center windows on screen resize
-scale width and height depending on screen widht and height
