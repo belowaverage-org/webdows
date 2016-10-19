@@ -418,6 +418,9 @@ overflow:auto;
 .window.active .body {
 border:1px solid rgba(0,0,0,.8);
 }
+.window.menuBar .body {
+top:48px;
+}
 .window .ui-resizable-handle {
 position:absolute;
 }
@@ -476,6 +479,14 @@ height:5px;
 cursor:nw-resize;
 left:0px;
 top:0px;
+}
+.window.menuBar .menuBar {
+height:18px;
+background-color:red;
+position:absolute;
+top:28px;
+left:6px;
+right:6px;
 }
 #startmenu {
 -webkit-backdrop-filter:blur(3px);

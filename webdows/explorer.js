@@ -267,6 +267,20 @@ var explorer = {
             })();
             return this;
         };
+        this.menuBar = function(buttArr) {
+            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.minmaxclose'));
+            var con = null;
+            this.winid.addClass('menuBar');
+            $.each(buttArr, function(k) {
+                var v = this;
+                $('<span>'+v.title+'</span>').appendTo(men).mouseover(function() {
+                    con = new explorer.context().location(men.position().left, men.position().top).append(v.context);
+                }).mouseout(function() {
+                    con.close();
+                });
+            });
+            return this;
+        };
         this.close = function() {
             this.winid.css('z-index', '999').addClass('close');
             $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+']').remove();
