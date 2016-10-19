@@ -93,6 +93,9 @@ var explorer = {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
 				start.removeClass('minimized');
+                if(!system.is.mobile()) {
+                    $('#startmenu .search input').focus();
+                }
 			} else {
 				start.addClass('minimized');
                 $('#startmenu .search input').val('');
