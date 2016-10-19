@@ -2,7 +2,6 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 05/08/16
 File: webdows/explorer.js
 */
 var explorer = {
@@ -274,9 +273,12 @@ var explorer = {
             $.each(buttArr, function(k) {
                 var v = this;
                 $('<span>'+v.title+'</span>').appendTo(men).mouseover(function() {
-                    con = new explorer.context().location(men.position().left, men.position().top).append(v.context);
-                }).mouseout(function() {
-                    con.close();
+                    if(con !== null) {
+                        con.close();
+                    }
+                    con = new explorer.context().location($(this).offset().left, $(this).offset().top + $(this).outerHeight()).append(v.context);
+                    
+                    
                 });
             });
             return this;
