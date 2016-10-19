@@ -56,7 +56,7 @@ var explorer = {
                 clearInterval(timer);
                 function ani() {
                     $('#bootlog div').last().append('GOOD');
-                    $('#bootlog').append('Starting Explorer . . . GOOD');
+                    $('#bootlog').append('Starting Explorer . . .');
                     setTimeout(function(){
                         $('#bootlog').remove();
                         $('body #load').remove();
@@ -628,8 +628,8 @@ var explorer = {
         return this;
     }
 };
+explorer.initiate();
 $(document).ready(function() {
-    explorer.initiate();
     system.loader('webdows/explorer_ext.js');
     system.loader('startup.js');
 });

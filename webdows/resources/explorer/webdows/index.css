@@ -2,12 +2,13 @@
 Project: Webdows
 Liscense: MIT
 Author: krisdb2009
-Date: 04/30/16
 File: webdows/resources/explorer/webdows/index.css
 */
+* { 
+font-family:NotoSans;
+}
 #desktop {
 background-size:100% 100%;
-font-family:NotoSans;
 cursor: url('cur.png'), default;
 background-image:url('bg.png');
 }
