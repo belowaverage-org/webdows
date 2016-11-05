@@ -267,18 +267,32 @@ var explorer = {
             return this;
         };
         this.menuBar = function(buttArr) {
-            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.minmaxclose'));
             var con = null;
+            var clicked = false;
+            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.minmaxclose'));
             this.winid.addClass('menuBar');
+            $('body').on('mousedown mouseup', function(e) {
+                if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
+                    clicked = false;
+                }
+            });
+            function show(button, content) {
+                if(con !== null) {
+                    con.close();
+                }
+                con = new explorer.context().append(content.context);
+                con.location($(button).offset().left - con.width() + $(button).outerWidth(), $(button).offset().top + $(button).outerHeight());
+            }
             $.each(buttArr, function(k) {
-                var v = this;
-                $('<span>'+v.title+'</span>').appendTo(men).mouseover(function() {
-                    if(con !== null) {
-                        con.close();
+                var content = this;
+                $('<span>'+content.title+'</span>').appendTo(men).click(function(e) {
+                    clicked = true;
+                    show(this, content);
+                    e.stopImmediatePropagation();
+                }).mouseover(function() {
+                    if(clicked) {
+                        show(this, content);
                     }
-                    con = new explorer.context().location($(this).offset().left, $(this).offset().top + $(this).outerHeight()).append(v.context);
-                    
-                    
                 });
             });
             return this;
@@ -453,9 +467,8 @@ var explorer = {
                 return menu;                
             }
             $('.window[windowID='+windowID+'] .ttl .icon').click({window: this}, function(e) {
-                new explorer.context()
-                .location($(this).offset().left, $(this).offset().top + $(this).height())
-                .append(menu());
+                var men = new explorer.context().append(menu());
+                men.location($(this).offset().left - men.width() + $(this).width(), $(this).offset().top + $(this).height());
             }).dblclick({window: this}, function(e) {
                 e.data.window.winid.trigger('contextclose');
                 e.data.window.close();
@@ -608,16 +621,26 @@ var explorer = {
             var xlim = $('#desktop.explorer').width();
             var ylim = $('#desktop.explorer').height();
             if(xlim <= eval(x + this.width())) {
-                x = 'left:'+eval(x - this.width())+'px;';
+                x = eval(x - this.width());
             } else {
-                x = 'left:'+x+'px;';
+                x = x;
+            }
+            if(0 >= x) {
+                x = 1;
+            } else {
+                x = x;
             }
             if(ylim <= eval(y + this.height())) {
-                y = 'top:'+eval(y - this.height())+'px;';
+                y = eval(y - this.height());
             } else {
-                y = 'top:'+y+'px;';
+                y = y;
             }
-            this.jqid.attr('style', x+y);
+            if(0 >= y) {
+                y = 1;
+            } else {
+                y = y;
+            }
+            this.jqid.attr('style', 'left:'+x+'px;top:'+y+'px;');
             return this;
         };
         this.close = function() {
