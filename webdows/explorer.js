@@ -269,7 +269,7 @@ var explorer = {
         this.menuBar = function(buttArr) {
             var con = null;
             var clicked = false;
-            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.minmaxclose'));
+            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.body'));
             this.winid.addClass('menuBar');
             $('body').on('mousedown mouseup', function(e) {
                 if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
@@ -280,8 +280,9 @@ var explorer = {
                 if(con !== null) {
                     con.close();
                 }
-                con = new explorer.context().append(content.context);
-                con.location($(button).offset().left - con.width() + $(button).outerWidth(), $(button).offset().top + $(button).outerHeight());
+                con = new explorer.context()
+                .append(content.context)
+                .location($(button).offset().left, $(button).offset().top + $(button).outerHeight());
             }
             $.each(buttArr, function(k) {
                 var content = this;

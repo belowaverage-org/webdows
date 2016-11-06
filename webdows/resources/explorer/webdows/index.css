@@ -420,7 +420,7 @@ overflow:auto;
 border:1px solid rgba(0,0,0,.8);
 }
 .window.menuBar .body {
-top:48px;
+padding-top:19px;
 }
 .window .ui-resizable-handle {
 position:absolute;
@@ -483,11 +483,11 @@ top:0px;
 }
 .window.menuBar .menuBar {
 height:18px;
-background-color:red;
+background:linear-gradient(to bottom, #fdfeff 0%,#e5e9f5 33%,#e5e9f5 33%,#d5dbeb 34%,#e0e6f6 100%);
 position:absolute;
-top:28px;
-left:6px;
-right:6px;
+top:29px;
+left:7px;
+right:7px;
 }
 #startmenu {
 -webkit-backdrop-filter:blur(3px);
