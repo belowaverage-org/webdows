@@ -488,6 +488,24 @@ position:absolute;
 top:29px;
 left:7px;
 right:7px;
+border-bottom:1px solid #b6bccc;
+}
+.window.menuBar .menuBar span {
+font-size:14px;
+margin-left:1px;
+vertical-align:2px;
+line-height:16px;
+display:inline-block;
+height:16px;
+padding-left:5px;
+padding-right:5px;
+border:1px solid transparent;
+}
+.window.menuBar .menuBar span:hover {
+border:1px solid rgba(0,0,0,.2);
+border-radius:3px;
+box-shadow:inset 1px 1px 0px rgba(255,255,255,.6), inset -1px -1px 0px rgba(255,255,255,.6);
+background:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.01) 50%, rgba(0,0,0,.12) 50%, transparent 100%);
 }
 #startmenu {
 -webkit-backdrop-filter:blur(3px);
