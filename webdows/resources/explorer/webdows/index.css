@@ -131,7 +131,7 @@ margin-left:2px;
 vertical-align:top;
 color:white;
 line-height:18px;
-font-size:14px;
+font-size:12px;
 padding-right:3px;
 text-overflow:ellipsis;
 overflow:hidden;
@@ -385,7 +385,7 @@ box-shadow:inset 0px 1px 0px rgba(255,255,255,.6), inset 1px 0px 0px rgba(255,25
 }
 .window .ttl {
 color:black;
-font-size:14px;
+font-size:12px;
 text-shadow:0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white;
 text-overflow:ellipsis;
 overflow:hidden;
@@ -400,7 +400,7 @@ margin-left:6px;
 margin-top:6px;
 margin-right:5px;
 height:18px;
-vertical-align:bottom;
+vertical-align:-5px;
 display:inline-block;
 }
 .window .body {
@@ -482,18 +482,19 @@ left:0px;
 top:0px;
 }
 .window.menuBar .menuBar {
-height:18px;
+height:17px;
 background:linear-gradient(to bottom, #fdfeff 0%,#e5e9f5 33%,#e5e9f5 33%,#d5dbeb 34%,#e0e6f6 100%);
 position:absolute;
 top:29px;
 left:7px;
 right:7px;
 border-bottom:1px solid #b6bccc;
+padding-top:1px;
 }
 .window.menuBar .menuBar span {
-font-size:14px;
+vertical-align:top;
+font-size:12px;
 margin-left:1px;
-vertical-align:2px;
 line-height:16px;
 display:inline-block;
 height:16px;

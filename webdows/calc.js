@@ -6,7 +6,7 @@ Date: 03/14/16
 File: webdows/calc.js
 */
 new explorer.window()
-.resize(220, 255)
+.resize(220, 275)
 .center()
 .title('Calculator')
 .controls(['min'])
@@ -14,6 +14,31 @@ new explorer.window()
 .callback(function() {
     var b = this.body;
     var dis = this;
+    dis.menuBar([
+        {
+            'title': 'View',
+            context: [
+                {
+                    title: 'Minimize',
+                    callback: function() { dis.front().toggleMin(); }
+                }, {}, {
+                    title: 'Exit',
+                    callback: function() { dis.close(); }
+                }
+            ]
+        }, {
+            'title': 'Help',
+            context: [
+                {
+                    title: 'Help',
+                    callback: function() { system.loader('webdows/welcome.js') }
+                }, {}, {
+                    title: 'About Calculator',
+                    callback: function() { system.loader('webdows/webver.js') }
+                }
+            ]
+        }
+    ]);
     b.attr('style', 'background: linear-gradient(to bottom, #F5F8FE 0%,#d9e4f1 100%);text-align:center;');
     b.html('<div id="wrap"><div id="peek">0</div><button></button><button></button><button id="c">C</button><button></button><button></button><br><button>7</button><button>8</button><button>9</button><button>/</button><button></button><br><button>4</button><button>5</button><button>6</button><button>*</button><button id="easteregg"></button><br><button>1</button><button>2</button><button>3</button><button>-</button><button></button><br><button id="0">0</button><button>.</button><button>+</button><button id="eq">=</button></div>');
     var peek = b.find('#peek');
