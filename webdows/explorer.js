@@ -172,6 +172,17 @@ var explorer = {
             $('#startmenu .lllist .button[callbackID='+callbackID+']').click(callback).click(function() {
                 explorer.start.toggle();
                 $(this).prependTo('#startmenu .lllist');
+            }).on('contextmenu', function(e) {
+                new explorer.context()
+                .location(e.pageX, e.pageY)
+                .append([
+                    {
+                        title: '<b>Open<b>',
+                        callback: callback
+                    }, {}, {
+                        title: 'Close All'
+                    }
+                ]);
             });
             return $('#startmenu .lllist .button[callbackID='+callbackID+']');
 		},
