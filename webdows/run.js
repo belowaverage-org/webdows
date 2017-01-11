@@ -25,5 +25,8 @@ new explorer.window()
         if(e.keyCode == 13) {
             run();
         }
-    }).focus();
+    });
+    if(!system.is.mobile()) {
+        body.find('input').focus();
+    }
 });
