@@ -8,13 +8,37 @@ File: programs/Youtube Extractor/index.js
 new explorer.window()
 .title('Youtube Extractor')
 .controls(['min'])
-.resize(500, 400)
+.resize(500, 410)
 .icon('programs/Youtube Extractor/logo.png')
 .center()
 .callback(function() {
-    function QueryString(e){this.dict={},e||(e=location.search),"?"==e.charAt(0)&&(e=e.substring(1));for(var t=/([^=&]+)(=([^&]*))?/g;match=t.exec(e);){var r=decodeURIComponent(match[1].replace(/\+/g," ")),n=match[3]?QueryString.decode(match[3]):"";this.dict[r]?this.dict[r].push(n):this.dict[r]=[n]}}function log(e){}function download(e){log("Downloading webpage "+e);var t=$.Deferred(),r="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36";return $.get("https://query.yahooapis.com/v1/public/yql",{q:'select * from xClient where url="'+e+'" and ua="'+r+'"',format:"json",env:"store://datatables.org/alltableswithkeys",callback:""}).done(function(e){try{t.resolve(e.query.results.resources.content)}catch(r){log(r),t.resolve(null)}}),t.promise()}function extractId(url){var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;var match = url.match(regExp);return (match&&match[7].length==11)? match[7] : false;}function searchRegex(e,t,r){var n=e.exec(t);return null!==n?n[1]:r}function parseQS(e){for(var t=new QueryString(e),r={},n=t.keys(),o=n.length,a=0;o>a;a++){var i=n[a];r[i]=t.values(i)}return r}function decryptSignature(s,playerUrl){var deferred=$.Deferred();if(null===playerUrl&&(log("Cannot decrypt signature without player_url"),deferred.resolve(null)),0===playerUrl.indexOf("//")&&(playerUrl="https:"+playerUrl),LAST_PLAYER_URL===playerUrl&&null!==LAST_FUNC){var func=LAST_FUNC,signature=func(s);deferred.resolve(signature)}else download(playerUrl).done(function(jscode){function shortcut(e){var t=e.split("function "+funcname+"(");if(2!==t.length)return null;var r=t[0].lastIndexOf("};var ");if(-1===r)return null;var n=t[0].substr(r+2),o=t[1].indexOf("};");if(-1===o)return null;var a=t[1].substr(0,o+2);return n+"function "+funcname+"("+a}function traverse(e,t,r){var n,o;if(r.call(null,e)!==!1&&!(t>8))for(n in e)e.hasOwnProperty(n)&&(o=e[n],"object"==typeof o&&null!==o&&traverse(o,t+1,r))}var func=null;if(LAST_PLAYER_URL===playerUrl&&null!==LAST_FUNC)func=LAST_FUNC;else{var r=/\.sig\|\|([a-zA-Z0-9$]+)\(/.exec(jscode);null===r&&log("Couldn't find the signature code with regex");var funcname=r[1],temp=shortcut(jscode);null!==temp&&(jscode=temp);var ast=esprima.parse(jscode);traverse(ast,0,function(node){if("FunctionDeclaration"===node.type&&node.id.name==funcname&&(func=eval("("+escodegen.generate(node)+")")),"VariableDeclarator"===node.type)try{eval(escodegen.generate(node))}catch(ignore){}}),LAST_PLAYER_URL=playerUrl,LAST_FUNC=func}var signature=func(s);deferred.resolve(signature)});return deferred.promise()}function parseDashManifest(e,t,r,n){var o=$.Deferred(),a=/\/s\/([a-fA-F0-9\.]+)/.exec(t);if(null!==a){var i=a[1],c=[];decryptSignature(i,r).done(function(e){t=t.replace(new RegExp("/s/"+i),"/signature/"+e),download(t).done(function(e){e=$.parseXML(e),$(e).find("AdaptationSet").each(function(e,t){var r=$(t).attr("mimeType");$(t).find("Representation").each(function(e,t){var n=$(t).find("BaseURL");if(0===r.indexOf("audio/")||0===r.indexOf("video/")){var o=$(t).attr("id"),a=$(n).text(),i=parseInt($(n).attr("yt:contentLength")),d={format_id:o,url:a,widt:parseInt($(t).attr("width")),height:parseInt($(t).attr("height")),filesize:i};c.push(d)}})}),o.resolve({dash_manifest_url:t,formats:c})})})}else o.resolve(null);return o.promise()}function getSubtitles(e){var t=$.Deferred();return download("https://video.google.com/timedtext?hl=en&type=list&v="+e).done(function(r){r=$.parseXML(r);var n={};$(r).find("track").each(function(t,r){var o=$(r).attr("lang_code");if(!n.hasOwnProperty(o)){var a=[];["sbv","vtt","srt"].forEach(function(t){var n=$.param({lang:o,v:e,fmt:t,name:$(r).attr("name")});a.push({url:"https://www.youtube.com/api/timedtext?"+n,ext:t})}),n[o]=a}}),t.resolve(n)}).fail(function(){t.resolve(null)}),t.promise()}function extractSupport(e,t,r,n,o){function a(e){return log(e),c.resolve(null),c.promise()}function i(t){for(var n=t.length,o=0;n>o;o++){var a=t[o],i=YT_FORMATS[a.format_id];$.extend(a,i)}return{id:e,uploader:u,uploader_id:f,upload_date:h,title:s,thumbnail:"https://i.ytimg.com/vi/"+e+"/hqdefault.jpg",subtitles:l,duration:m,age_limit:r?18:0,webpage_url:"https://www.youtube.com/watch?v="+e,view_count:d,formats:t,dash_manifest_url:O}}var c=$.Deferred();if(!o.hasOwnProperty("token"))return a(o.hasOwnProperty("reason")?"YouTube said: "+o.reason[0]:'"token" parameter not in video info for unknown reason');var d=0;if(o.hasOwnProperty("view_count")&&(d=parseInt(o.view_count[0])),o.hasOwnProperty("ypc_video_rental_bar_text")&&!o.hasOwnProperty("author"))return a('"rental" videos not supported');if(!o.hasOwnProperty("author"))return a("Unable to extract uploader name");var u=decodeURIComponent(o.author[0]),f=null,p=/<link itemprop="url" href="http(s?):\/\/www.youtube.com\/(?:user|channel)\/([^"]+)">/.exec(t);null!==p?f=p[1]:log("unable to extract uploader nickname");var s="_";if(!o.hasOwnProperty("title"))return a("Unable to extract video title");s=o.title[0];var h=null;p=/id="eow-date.*?>(.*?)<\/span>/.exec(t),null===p&&(p=/id="watch-uploader-info".*?>.*?(?:Published|Uploaded|Streamed live) on (.*?)<\/strong>/.exec(t)),null!==p&&(h=new Date(p[1]));var l=null;queue(function(){return getSubtitles(e).done(function(e){l=e})});var m=null;if(!o.hasOwnProperty("length_seconds"))return a("unable to extract video duration");m=parseInt(decodeURIComponent(o.length_seconds[0]));var v=[];if(o.hasOwnProperty("conn")&&o.conn[0].startswith("rtmp"))return a("RTMP not supported");if(!o.hasOwnProperty("url_encoded_fmt_stream_map")&&!o.hasOwnProperty("adaptive_fmts"))return a(o.hasOwnProperty("hlsvp")?"HLS not supported":"no conn, hlsvp or url_encoded_fmt_stream_map information found in video info");var g="";if(o.hasOwnProperty("url_encoded_fmt_stream_map")&&(g=g+","+o.url_encoded_fmt_stream_map[0]),o.hasOwnProperty("adaptive_fmts")&&(g=g+","+o.adaptive_fmts[0]),-1!==g.indexOf("rtmpe%3Dyes"))return a("rtmpe downloads are not supported");for(var w=g.split(","),_=w.length,x=0;_>x;x++)if(0!=w[x].length){var b=parseQS(w[x]);if(b.hasOwnProperty("itag")&&b.hasOwnProperty("url")){var S=b.itag[0],y=b.url[0];if(-1===y.indexOf("ratebypass")&&(y+="&ratebypass=yes"),b.hasOwnProperty("sig"))y+="&signature="+b.sig[0],v.push({format_id:S,url:y});else if(b.hasOwnProperty("s")){var A=b.s[0],D=/"assets":.+?"js":\s*("[^"]+")/,H=searchRegex(D,r?n:t),P=JSON.parse(H);!function(e,t,r,n){queue(function(){return decryptSignature(e,t).done(function(e){n+="&signature="+e,v.push({format_id:r,url:n})})})}(A,P,S,y)}else-1!==y.indexOf("signature")&&v.push({format_id:S,url:y})}}var O=null;return o.hasOwnProperty("dashmpd")&&(O=o.dashmpd[0],queue(function(){return parseDashManifest(e,O,P,r).done(function(e){null!=e&&(O=e.dash_manifest_url),c.resolve(i(e&&e.formats?v.concat(e.formats):v))})})),c.promise()}function extract(e){var t=$.Deferred(),r=extractId(e);return e="https://www.youtube.com/watch?v="+r+"&gl=US&hl=en&has_verified=1&bpctr=9999999999",download(e).done(function(n){var o=!1;if(/player-age-gate-content">/i.test(n))o=!0,e="https://www.youtube.com/embed/"+r,download(e).done(function(e){var a=searchRegex(/"sts"\s*:\s*(\d+)/,e),i="https://www.youtube.com/get_video_info?video_id="+r+"&eurl="+encodeURIComponent("https://youtube.googleapis.com/v/"+r)+"&sts="+a;download(i).done(function(a){var i=parseQS(a);extractSupport(r,n,o,e,i).done(function(e){t.resolve(e)})})});else{o=!1;var a="https://www.youtube.com/get_video_info?&video_id="+r+"&el=detailpage&ps=default&eurl=&gl=US&hl=en";download(a).done(function(e){var a=parseQS(e);extractSupport(r,n,o,"",a).done(function(e){t.resolve(e)})}).fail(function(){t.resolve(null)})}}),t.promise()}var YT_FORMATS={5:{ext:"flv",width:400,height:240},6:{ext:"flv",width:450,height:270},13:{ext:"3gp"},17:{ext:"3gp",width:176,height:144},18:{ext:"mp4",width:640,height:360},22:{ext:"mp4",width:1280,height:720},34:{ext:"flv",width:640,height:360},35:{ext:"flv",width:854,height:480},36:{ext:"3gp",width:320,height:240},37:{ext:"mp4",width:1920,height:1080},38:{ext:"mp4",width:4096,height:3072},43:{ext:"webm",width:640,height:360},44:{ext:"webm",width:854,height:480},45:{ext:"webm",width:1280,height:720},46:{ext:"webm",width:1920,height:1080},59:{ext:"mp4",width:854,height:480},78:{ext:"mp4",width:854,height:480},82:{ext:"mp4",height:360,format_note:"3D",preference:-20},83:{ext:"mp4",height:480,format_note:"3D",preference:-20},84:{ext:"mp4",height:720,format_note:"3D",preference:-20},85:{ext:"mp4",height:1080,format_note:"3D",preference:-20},100:{ext:"webm",height:360,format_note:"3D",preference:-20},101:{ext:"webm",height:480,format_note:"3D",preference:-20},102:{ext:"webm",height:720,format_note:"3D",preference:-20},92:{ext:"mp4",height:240,format_note:"HLS",preference:-10},93:{ext:"mp4",height:360,format_note:"HLS",preference:-10},94:{ext:"mp4",height:480,format_note:"HLS",preference:-10},95:{ext:"mp4",height:720,format_note:"HLS",preference:-10},96:{ext:"mp4",height:1080,format_note:"HLS",preference:-10},132:{ext:"mp4",height:240,format_note:"HLS",preference:-10},151:{ext:"mp4",height:72,format_note:"HLS",preference:-10},133:{ext:"mp4",height:240,format_note:"video",acodec:"none",preference:-40},134:{ext:"mp4",height:360,format_note:"video",acodec:"none",preference:-40},135:{ext:"mp4",height:480,format_note:"video",acodec:"none",preference:-40},136:{ext:"mp4",height:720,format_note:"video",acodec:"none",preference:-40},137:{ext:"mp4",height:1080,format_note:"video",acodec:"none",preference:-40},138:{ext:"mp4",format_note:"video",acodec:"none",preference:-40},160:{ext:"mp4",height:144,format_note:"video",acodec:"none",preference:-40},264:{ext:"mp4",height:1440,format_note:"video",acodec:"none",preference:-40},298:{ext:"mp4",height:720,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"h264"},299:{ext:"mp4",height:1080,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"h264"},266:{ext:"mp4",height:2160,format_note:"video",acodec:"none",preference:-40,vcodec:"h264"},139:{ext:"m4a",format_note:"audio",acodec:"aac",vcodec:"none",abr:48,preference:-50,container:"m4a_dash"},140:{ext:"m4a",format_note:"audio",acodec:"aac",vcodec:"none",abr:128,preference:-50,container:"m4a_dash"},141:{ext:"m4a",format_note:"audio",acodec:"aac",vcodec:"none",abr:256,preference:-50,container:"m4a_dash"},167:{ext:"webm",height:360,width:640,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},168:{ext:"webm",height:480,width:854,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},169:{ext:"webm",height:720,width:1280,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},170:{ext:"webm",height:1080,width:1920,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},218:{ext:"webm",height:480,width:854,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},219:{ext:"webm",height:480,width:854,format_note:"video",acodec:"none",container:"webm",vcodec:"VP8",preference:-40},278:{ext:"webm",height:144,format_note:"video",acodec:"none",preference:-40,container:"webm",vcodec:"VP9"},242:{ext:"webm",height:240,format_note:"video",acodec:"none",preference:-40},243:{ext:"webm",height:360,format_note:"video",acodec:"none",preference:-40},244:{ext:"webm",height:480,format_note:"video",acodec:"none",preference:-40},245:{ext:"webm",height:480,format_note:"video",acodec:"none",preference:-40},246:{ext:"webm",height:480,format_note:"video",acodec:"none",preference:-40},247:{ext:"webm",height:720,format_note:"video",acodec:"none",preference:-40},248:{ext:"webm",height:1080,format_note:"video",acodec:"none",preference:-40},271:{ext:"webm",height:1440,format_note:"video",acodec:"none",preference:-40},272:{ext:"webm",height:2160,format_note:"video",acodec:"none",preference:-40},302:{ext:"webm",height:720,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"VP9"},303:{ext:"webm",height:1080,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"VP9"},308:{ext:"webm",height:1440,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"VP9"},313:{ext:"webm",height:2160,format_note:"video",acodec:"none",preference:-40,vcodec:"VP9"},315:{ext:"webm",height:2160,format_note:"video",acodec:"none",preference:-40,fps:60,vcodec:"VP9"},171:{ext:"webm",vcodec:"none",format_note:"audio",abr:128,preference:-50},172:{ext:"webm",vcodec:"none",format_note:"audio",abr:256,preference:-50},249:{ext:"webm",vcodec:"none",format_note:"audio",acodec:"opus",abr:50,preference:-50},250:{ext:"webm",vcodec:"none",format_note:"audio",acodec:"opus",abr:70,preference:-50},251:{ext:"webm",vcodec:"none",format_note:"audio",acodec:"opus",abr:160,preference:-50},_rtmp:{protocol:"rtmp"}};QueryString.decode=function(e){return e=e.replace(/\+/g," "),e=e.replace(/%([EF][0-9A-F])%([89AB][0-9A-F])%([89AB][0-9A-F])/gi,function(e,t,r,n){var o=parseInt(t,16)-224,a=parseInt(r,16)-128;if(0==o&&32>a)return e;var i=parseInt(n,16)-128,c=(o<<12)+(a<<6)+i;return c>65535?e:String.fromCharCode(c)}),e=e.replace(/%([CD][0-9A-F])%([89AB][0-9A-F])/gi,function(e,t,r){var n=parseInt(t,16)-192;if(2>n)return e;var o=parseInt(r,16)-128;return String.fromCharCode((n<<6)+o)}),e=e.replace(/%([0-7][0-9A-F])/gi,function(e,t){return String.fromCharCode(parseInt(t,16))})},QueryString.prototype.value=function(e){var t=this.dict[e];return t?t[t.length-1]:void 0},QueryString.prototype.values=function(e){var t=this.dict[e];return t?t:[]},QueryString.prototype.keys=function(){var e=[];for(var t in this.dict)e.push(t);return e};var Queue=function(){var e=(new $.Deferred).resolve();return function(t,r){return e=e.then(t,r||t)}},queue=Queue(),LAST_PLAYER_URL=null,LAST_FUNC=null;
     var bod = this.body;
     var dis = this;
+    dis.menuBar([
+        {
+            'title': 'View',
+            context: [
+                {
+                    title: 'Minimize',
+                    callback: function() { dis.front().toggleMin(); }
+                }, {}, {
+                    title: 'Exit',
+                    callback: function() { dis.close(); }
+                }
+            ]
+        }, {
+            'title': 'Help',
+            context: [
+                {
+                    title: 'Help',
+                    callback: function() { system.loader('webdows/welcome.js') }
+                }, {}, {
+                    title: 'About Extractor',
+                    callback: function() { new explorer.window().title('About Extractor').body.html('krisdb2009 2017, Using api.belowaverage.org/v1/youtube-dl/. Youtube-DL created by https://github.com/rg3.'); }
+                }
+            ]
+        }
+    ]);
     bod.html('<div class="wrapper"><img class="logo" src="programs/Youtube Extractor/logo.png"/><label for="title">Title </label><input class="stat" id="title" type="text" disabled/><br><label for="upl">Uploader </label><input class="stat" id="upl" type="text" disabled/><br><label for="views">Views </label><input class="stat" id="views" type="text" disabled/><br><label for="date">Upload Date </label><input class="stat" id="date" type="text" disabled/><br><input class="extract" placeholder="Paste YouTube URL" type="text"/><div class="results"></div></div>');
     bod.css({'display':'flex', 'justify-content':'center', 'align-items':'center'});
     bod.find('div.wrapper').attr('style', 'position:relative;width:470px;margin-left:auto;margin-right:auto;');
@@ -23,61 +47,69 @@ new explorer.window()
     bod.find('img.logo').attr('style', 'margin-right:10px;float:left;width:100px;height:100px;display:inline-block;');
     bod.find('div.results').attr('style', 'margin-top:10px;width:100%;height:205px;overflow:auto;')
     bod.find('input.extract').on('input', function() {
-        extract($(this).val()).done(function(r) {
-            if(r !== null) {
-                bod.find('img.logo').attr('src', r.thumbnail);
-                bod.find('#title.stat').val(r.title);
-                bod.find('#upl.stat').val(r.uploader);
-                bod.find('#views.stat').val(r.view_count);
-                bod.find('#date.stat').val(r.upload_date);
-                bod.find('div.results').html('');
-                var count = 0;
-                $.each(r.formats, function(k, v) {
-                    v.note = '';
-                    var style = '';
-                    if(typeof v.height !== 'undefined') {
-                        v.height = v.height+'p';
-                    }
-                    if(typeof v.format_note !== 'undefined') {
-                        if(v.format_note == 'video') {
-                            v.note = 'Video Only';
-                        } else if(v.format_note == 'audio') {
-                            v.height = 'Audio Only';
-                        }
-                    }
-                    if(count % 2 === 0 ) {
-                        style = ' style="background-color:rgba(0,0,0,.1);"';
-                    }
-                    bod.find('div.results').append('<div'+style+' content="'+v.url+'" class="result"><span>'+v.ext+'</span><span class="mid">'+v.height+'</span><span>'+v.note+'</span><button>Download</button><button>Play</button></div>');
-                    count = count + 1;
-                });
-                bod.find('div.results div.result span').attr('style', 'margin-right:5px;');
-                bod.find('div.results div.result span.mid').css('color', 'gray');
-                bod.find('div.results div.result button').attr('style', 'float:right;margin-right:3px;').click(function() {
-                    var dlthis = new explorer.window()
-                    .title('Youtube Player')
-                    .icon('programs/Youtube Extractor/logo.png')
-                    .center();
-                    var dlwin = dlthis.body;
-                    if($(this).text() == 'Play') {
-                        dlwin.html('<video style="border:0px;position:absolute;top:0px;left:0px;width:100%;height:100%;" controls src="'+$(this).parent().attr('content')+'" autoplay></video>');
-                        dlwin.css('background-color', 'black');
-                    } else {
-                        dlwin.css('text-align', 'center');
-                        dlwin.html('<br><br><a class="dl" href="'+$(this).parent().attr('content')+'" download>Downloading...</a>');
-                        dlwin.find('a.dl').click(function() {
-                            dlthis.close();
-                        });
-                        dlwin.find('a.dl')[0].click();
-                    }
-                });
-            } else {
+        bod.find('#title.stat').val('Checking URL');
+        dis.icon('programs/Youtube Extractor/hourglass.gif');
+        $.get('https://api.belowaverage.org/v1/youtube-dl/?token='+bod.find('input.extract').val(), function(token) {
+            if(token == 'Please enter a youtube ID') {
+                dis.icon('programs/Youtube Extractor/logo.png')
                 bod.find('img.logo').attr('src', 'programs/Youtube Extractor/logo.png');
-                bod.find('#title.stat').val('');
+                bod.find('#title.stat').val('Youtube URL not valid.');
                 bod.find('#upl.stat').val('');
                 bod.find('#views.stat').val('');
                 bod.find('#date.stat').val(''); 
                 bod.find('div.results').html('');
+            } else {
+                bod.find('#title.stat').val('Loading info...');
+                $.getJSON('https://api.belowaverage.org/v1/youtube-dl/?json='+token, function(data) {
+                    dis.icon('programs/Youtube Extractor/logo.png');
+                    bod.find('img.logo').attr('src', data.thumbnail);
+                    bod.find('#title.stat').val(data.title);
+                    bod.find('#upl.stat').val(data.uploader);
+                    bod.find('#views.stat').val(data.view_count);
+                    bod.find('#date.stat').val(data.upload_date);
+                    bod.find('div.results').html('');
+                    var count = 0;
+                    $.each(data.formats, function(k, v) {
+                        v.note = '';
+                        var style = '';
+                        if(typeof v.height !== 'undefined') {
+                            v.height = v.height+'p';
+                        }
+                        if(count % 2 === 0 ) {
+                            style = ' style="background-color:rgba(0,0,0,.1);"';
+                        }
+                        bod.find('div.results').append('<div'+style+' content="'+v.url+'" class="result"><span>'+v.ext+'</span><span class="mid">'+v.format+'</span><button>Download</button><button>Play</button></div>');
+                        count = count + 1;
+                    });
+                    bod.find('div.results div.result span').attr('style', 'margin-right:5px;');
+                    bod.find('div.results div.result span.mid').css('color', 'gray');
+                    bod.find('div.results div.result button').attr('style', 'float:right;margin-right:3px;').click(function() {
+                        var dlthis = new explorer.window()
+                        .title('Youtube Player')
+                        .icon('programs/Youtube Extractor/logo.png')
+                        .center();
+                        var dlwin = dlthis.body;
+                        if($(this).text() == 'Play') {
+                            dlwin.html('<video style="border:0px;position:absolute;top:0px;left:0px;width:100%;height:100%;" controls src="'+$(this).parent().attr('content')+'" autoplay></video>');
+                            dlwin.css('background-color', 'black');
+                        } else {
+                            dlwin.css('text-align', 'center');
+                            dlwin.html('<br><br><a class="dl" href="'+$(this).parent().attr('content')+'" download>Downloading...</a>');
+                            dlwin.find('a.dl').click(function() {
+                                dlthis.close();
+                            });
+                            dlwin.find('a.dl')[0].click();
+                        }
+                    });
+                }).fail(function() {
+                    dis.icon('programs/Youtube Extractor/logo.png');
+                    bod.find('img.logo').attr('src', 'programs/Youtube Extractor/logo.png');
+                    bod.find('#title.stat').val('');
+                    bod.find('#upl.stat').val('');
+                    bod.find('#views.stat').val('');
+                    bod.find('#date.stat').val(''); 
+                    bod.find('div.results').html('');
+                });
             }
         });
     });
