@@ -27,14 +27,12 @@ var explorer = {
         return themeName;
     },
     initiate : function() {
-        $('#bootlog').append('<div>explorer.js . . . GOOD</div>');
         $('.explorer').remove();
         $('noscript').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
-        $('body').append('<div id="load"></div><div style="visibility:hidden;" id="open"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="e"></span></div><div style="visibility:hidden;" class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         explorer.start.initiate();
-        var open = new Audio('webdows/resources/explorer/1.ogg');
         $("#taskbar #middleframe").sortable({
             revert: true,
             axis: "x",
@@ -47,45 +45,6 @@ var explorer = {
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
         var theme = explorer.theme();
-        var winl = new explorer.window();
-        $('#bootlog').append('<div>Initializing Explorer . . . GOOD</div>');
-        $('#bootlog').append('<div>Loading Theme "'+theme+'" </div>');
-        var timer = setInterval(function() {
-            $('#bootlog div').last().append('. . . ');
-            if(document.readyState == 'complete') {
-                clearInterval(timer);
-                function ani() {
-                    $('#bootlog div').last().append('GOOD');
-                    $('#bootlog').append('Starting Explorer . . .');
-                    setTimeout(function(){
-                        $('#bootlog').remove();
-                        $('body #load').remove();
-                        setTimeout(function() {
-                            $('body #desktop.explorer').removeAttr('style');
-                            var anim = $('body #open').removeAttr('style').clone();
-                            $('body #open').remove();
-                            $('body').append(anim);
-                            open.play();
-                            winl.close();
-                            explorer.start.toggle();
-                            setTimeout(function() {
-                                $('body #open').remove();
-                            }, 3000);  
-                        }, 1000);
-                    }, 1000);
-                }
-                if(system.is.mobile()) {
-                    $('body #load').css('background-image','url(\'webdows/resources/explorer/2.gif\')');
-                    $('body #load').on('click', function() {
-                        open.play();
-                        open.pause();
-                        ani();
-                    });
-                } else {
-                    ani();
-                }
-            }
-        }, 100);
     },
     start : {
         toggle : function() {
