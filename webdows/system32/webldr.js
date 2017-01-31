@@ -19,13 +19,18 @@ function list(obj, path) {
 list(system.files, './');
 function wfsLoad(list, i) {
     if(typeof list[i] == 'string') {
+        $('#bootlog div').last().append('<div>'+list[i]+'. . . ');
+        var loadint = setInterval(function() {
+            $('#bootlog div').last().append('. ');
+        }, 100);
         $.ajax({
             dataType: "text",
             async: true,
             cache: true,
             url: list[i],
             success: function() {
-                $('#bootlog div').last().append('<div>'+list[i]+'</div>');
+                clearInterval(loadint);
+                $('#bootlog div').last().append('GOOD</div>');
                 wfsLoad(list, i + 1);
             }
         });
