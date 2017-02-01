@@ -4,6 +4,7 @@ Liscense: MIT
 Author: krisdb2009
 File: webdows/system32/webldr.js
 */
+$('#bootlog').append('<pre>Checking SYSTEM.FILES.WEBDOWS...</pre>');
 var loadList = [];
 var li = 0;
 var loaded = false;
@@ -16,12 +17,14 @@ function list(obj, path) {
         }
     });
 }
-list(system.files, './');
+list(system.files.webdows, 'webdows/');
 function wfsLoad(list, i) {
     if(typeof list[i] == 'string') {
-        $('#bootlog div').last().append('<div>'+list[i]+'. . . ');
+        $('#bootlog').append('<pre>'+list[i]+'. . .</pre> ');
+        $(document).scrollTop($(document).height());
         var loadint = setInterval(function() {
-            $('#bootlog div').last().append('. ');
+            $('#bootlog pre').last().append(' .');
+            $(document).scrollTop($(document).height());
         }, 100);
         $.ajax({
             dataType: "text",
@@ -30,8 +33,13 @@ function wfsLoad(list, i) {
             url: list[i],
             success: function() {
                 clearInterval(loadint);
-                $('#bootlog div').last().append('GOOD</div>');
+                $('#bootlog pre').last().append('GOOD');
+                $(document).scrollTop($(document).height());
                 wfsLoad(list, i + 1);
+            },
+            error: function(jq) {
+                clearInterval(loadint);
+                system.error('WEBLDR.JS Cannot find the file specified: '+jq.status, list[i]);
             }
         });
     } else {
@@ -44,5 +52,6 @@ var timer = setInterval(function() {
     if(loaded) {
         clearInterval(timer);
         system.force_load('webdows/explorer.js');
+        $('#bootlog').remove();
     }
 }, 100);

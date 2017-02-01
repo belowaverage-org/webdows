@@ -28,9 +28,8 @@ var explorer = {
     },
     initiate : function() {
         $('.explorer').remove();
-        $('noscript').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
-        $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
+        $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
         $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
@@ -90,6 +89,7 @@ var explorer = {
             $('#taskbar #start').click(function() {
                 explorer.start.toggle();
             });
+            explorer.start.toggle();
         },
         append : function(left, right) {
             left = typeof left !== 'undefined' ? left : [];
@@ -625,5 +625,5 @@ var explorer = {
 explorer.initiate();
 $(document).ready(function() {
     system.loader('webdows/explorer_ext.js');
-    system.loader('startup.js');
+    system.loader('webdows/config/startup.js');
 });
