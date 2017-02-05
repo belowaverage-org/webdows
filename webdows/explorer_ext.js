@@ -35,17 +35,34 @@ $.extend(explorer, {
                     });
                     $.each(dir, function(folder) {
                         var file = this;
+                        var name = '';
+                        var icon = '';
+                        var type = ''
                         if(typeof file.valueOf() == 'object') {
-                            var item = folder;
+                            type = 'folder';
+                            name = folder;
+                            icon = 'webdows/resources/icons/fold.ico';
                         } else if(typeof file.valueOf() == 'string') {
-                            var item = file;
+                            type = 'file';
+                            name = file;
+                            icon = 'webdows/resources/icons/file.ico';
+                            switch(file.split('.').pop()) {
+                                case 'txt':   icon = 'webdows/resources/icons/note.ico'; break;
+                                case 'js':    icon = 'webdows/resources/icons/exei.ico'; break;
+                                case 'png':   icon = 'webdows/resources/icons/pngi.ico'; break;
+                                case 'gif':   icon = 'webdows/resources/icons/gifi.ico'; break;
+                                case 'jpg':   icon = 'webdows/resources/icons/jpgi.ico'; break;
+                                case 'ico':   icon = 'webdows/resources/icons/bmpi.ico'; break;
+                            }
                         }
-                        body.append('<div class="icon links" style="margin:10px;position:relative;display:inline-block;width:50px;height:50px;"><span style="top:100%;width:100%;position:absolute;text-align:center;font-size:12px;">'+item+'</span></div>');
+                        body.append('<div title="'+name+'" class="icon links '+type+'" style="background-image:url(\''+icon+'\');margin:10px;position:relative;display:inline-block;width:50px;height:50px;"><span style="top:100%;width:100%;position:absolute;text-align:center;font-size:12px;">'+name+'</span></div>');
                     });
                 }
             };
-            body.on('dblclick', 'div.links', function() {
+            body.on('dblclick', 'div.links.folder', function() {
                 explore(win.winid.find('input[type=text]').val()+'/'+$(this).find('span').html());
+            });
+            body.on('dblclick', 'div.links.file', function() {
                 
             });
             win.winid.find('.ttl .icon').css('opacity','0');
