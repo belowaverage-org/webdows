@@ -118,6 +118,7 @@ $('#desktop.explorer').on('contextmenu', function(e) {
         ]);
     }
 });
-system.loader('webdows/welcome.js');
-system.loader('webdows/run.js');
-system.loader('webdows/resources/explorer/animation.js');
+//system.loader('webdows/welcome.js');
+//system.loader('webdows/run.js');
+//system.loader('webdows/resources/explorer/animation.js');
+explorer.file_explorer();
