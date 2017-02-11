@@ -182,38 +182,38 @@ var explorer = {
     },
     window : function(winObj) {
         /** init **/
+        this.id = system.guid();
         if(typeof winObj == 'undefined') {
-            var windowID = system.guid();
-            $('#desktop').append('<div class="window" windowID="'+windowID+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
-            $('#taskbar #middleframe').append('<span class="button" windowID="'+windowID+'"><span class="icon"></span><span class="title"><span></span></span>');
-            this.winid = $('.window[windowID='+windowID+']');
+            $('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
+            $('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
+            this.jq = $('.window[windowID='+this.id+']');
         } else {
-            this.winid = $(winObj);
+            this.jq = $(winObj);
         }
         var win = this;
         /** endINIT **/
-        this.body = this.winid.find('.body');
+        this.body = this.jq.find('.body');
         this.callback = function(callback) {
             callback.call(this);
             return this;
         }
 		this.center = function(position, offsetX, offsetY) {
             var explorer = $('#desktop.explorer');
-			var top = (explorer.height() - this.winid.outerHeight()) / 2;
-			var left = (explorer.width() - this.winid.outerWidth()) / 2;
+			var top = (explorer.height() - this.jq.outerHeight()) / 2;
+			var left = (explorer.width() - this.jq.outerWidth()) / 2;
             if(typeof position !== 'undefined') {
                 pchar = position.split(' ');
                 if($.inArray('top', pchar) !== -1) {
                     top = 0;
                 }
                 if($.inArray('bottom', pchar) !== -1) {
-                    top = explorer.height() - this.winid.outerHeight();
+                    top = explorer.height() - this.jq.outerHeight();
                 }
                 if($.inArray('left', pchar) !== -1) {
                     left = 0;
                 }
                 if($.inArray('right', pchar) !== -1) {
-                    left = explorer.width() - this.winid.outerWidth();
+                    left = explorer.width() - this.jq.outerWidth();
                 }
             }
             if(typeof offsetX !== 'undefined') {
@@ -222,7 +222,7 @@ var explorer = {
             if(typeof offsetY !== 'undefined') {
                 top = top + offsetY;
             }
-			this.winid.css({'position':'absolute', 'margin':0, 'top': top+'px', 'left': left+'px'});
+			this.jq.css({'position':'absolute', 'margin':0, 'top': top+'px', 'left': left+'px'});
             return this;
 		};
         this.closeWith = function(parent) {
@@ -239,8 +239,8 @@ var explorer = {
         this.menuBar = function(buttArr) {
             var con = null;
             var clicked = false;
-            var men = $('<div class="menuBar"></div>').insertAfter(this.winid.find('.body'));
-            this.winid.addClass('menuBar');
+            var men = $('<div class="menuBar"></div>').insertAfter(this.jq.find('.body'));
+            this.jq.addClass('menuBar');
             $('body').on('mousedown mouseup', function(e) {
                 if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
                     clicked = false;
@@ -269,10 +269,10 @@ var explorer = {
             return this;
         };
         this.close = function() {
-            this.winid.css('z-index', '999').addClass('close');
-            $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+']').remove();
+            this.jq.css('z-index', '999').addClass('close');
+            $('#taskbar #middleframe .button[windowID='+this.jq.attr('windowID')+']').remove();
             var topZ = -1;
-            var topID = this.winid;
+            var topID = this.jq;
             $('.window:not(.close)').each(function() {
                 if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
                     topZ = $(this).css('z-index');
@@ -280,58 +280,58 @@ var explorer = {
                 }
             });
             explorer.window(topID).front();
-            var winid = this.winid;
+            var jq = this.jq;
             setTimeout(function() { //Wait for CSS animation.
-                winid.remove();
+                jq.remove();
             }, 1000);
             return this;
         };
         this.controlsArr = [];
         this.controls = function(array) {
             this.controlsArr = array;
-            $.each(this.winid.find('.minmaxclose span'), function() {
+            $.each(this.jq.find('.minmaxclose span'), function() {
                 if(!$(this).hasClass('close')) {
                     $(this).remove();
                 }
             });
             if($.inArray('max', array) !== -1) {
-                this.winid.find('.minmaxclose').prepend('<span class="max"></span>');
-                this.winid.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
-                this.winid.resizable('enable');
-                this.winid.find('.ui-resizable-handle').show();
-                this.winid.find('.ttl, .minmaxclose .max').off();
-                $('.window[windowID='+this.winid.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
+                this.jq.find('.minmaxclose').prepend('<span class="max"></span>');
+                this.jq.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+                this.jq.resizable('enable');
+                this.jq.find('.ui-resizable-handle').show();
+                this.jq.find('.ttl, .minmaxclose .max').off();
+                $('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
                     e.data.window.toggleMax();
                 });
-                $('.window[windowID='+this.winid.attr('windowID')+'] .ttl').dblclick({window: this}, function(e) {
+                $('.window[windowID='+this.jq.attr('windowID')+'] .ttl').dblclick({window: this}, function(e) {
                     if(!$(e.target).is('.icon')) {
                         e.data.window.toggleMax();
                     }
                 });
-            } else if(typeof this.winid.resizable('instance') !== 'undefined') {
-                this.winid.resizable('disable');
-                this.winid.find('.ui-resizable-handle').hide();
-                this.winid.find('.ttl').off();
+            } else if(typeof this.jq.resizable('instance') !== 'undefined') {
+                this.jq.resizable('disable');
+                this.jq.find('.ui-resizable-handle').hide();
+                this.jq.find('.ttl').off();
             }
             if($.inArray('min', array) !== -1) {
-                this.winid.find('.minmaxclose').prepend('<span class="min"></span>');
-                $('.window[windowID='+this.winid.attr('windowID')+'] .minmaxclose .min').click({window: this}, function(e) {
+                this.jq.find('.minmaxclose').prepend('<span class="min"></span>');
+                $('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .min').click({window: this}, function(e) {
                     e.data.window.toggleMin();
                 });
             }
             return this;
         };
         this.toggleMin = function() {
-            if(this.winid.hasClass('active') || this.winid.hasClass('minimized')) {
-                if(this.winid.hasClass('minimized')) {
-                    this.winid.removeClass('minimized');
+            if(this.jq.hasClass('active') || this.jq.hasClass('minimized')) {
+                if(this.jq.hasClass('minimized')) {
+                    this.jq.removeClass('minimized');
                 } else {
-                    this.winid.addClass('minimized');
+                    this.jq.addClass('minimized');
                 }
             }
             this.front();
             var topZ = -1;
-            var topID = this.winid;
+            var topID = this.jq;
             $('.window').each(function() {
                 if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
                     topZ = $(this).css('z-index');
@@ -342,62 +342,62 @@ var explorer = {
             return this;
         };
         this.toggleMax = function() {
-            if(this.winid.hasClass('active') || this.winid.hasClass('maximized')) {
-                if(this.winid.hasClass('maximized')) {
-                    this.winid.removeClass('maximized');
+            if(this.jq.hasClass('active') || this.jq.hasClass('maximized')) {
+                if(this.jq.hasClass('maximized')) {
+                    this.jq.removeClass('maximized');
                 } else {
-                    this.winid.addClass('maximized');
+                    this.jq.addClass('maximized');
                 }
             }
             return this;
         };
         this.resize = function(width, height) {
-            this.winid.css({'width':width+'px','height':height+'px'});
+            this.jq.css({'width':width+'px','height':height+'px'});
             return this;
         };
         this.icon = function(url) {
             var css = {'background-image':"url('"+url+"')"};
-            this.winid.find('.ttl .icon').css(css);
-            $('#taskbar #middleframe .button[windowID="'+this.winid.attr('windowID')+'"] .icon').css(css);
+            this.jq.find('.ttl .icon').css(css);
+            $('#taskbar #middleframe .button[windowID="'+this.jq.attr('windowID')+'"] .icon').css(css);
             return this;
         };
         this.title = function(title) {
-            this.winid.find('.ttl .title').text(title);
-            $('#taskbar #middleframe .button[windowID='+this.winid.attr('windowID')+'] .title').text(title);
+            this.jq.find('.ttl .title').text(title);
+            $('#taskbar #middleframe .button[windowID='+this.jq.attr('windowID')+'] .title').text(title);
             return this;
         };
         this.front = function() {
             var count = $('.window').length;
-            var fronte = this.winid.css('z-index');
+            var fronte = this.jq.css('z-index');
             if(fronte == '0' || fronte == 'auto') {
                 var fronte = count;
             }
-            this.winid.css('z-index', count);
-            var winid = this.winid;
+            this.jq.css('z-index', count);
+            var jq = this.jq;
             $(".window").each(function(index) {
                 var looped = $(this).css('z-index');
                 $(this).removeClass('active');
                 $('#taskbar #middleframe .button[windowID="'+$(this).attr('windowID')+'"]').removeClass('active');
-                if(looped >= fronte && $(this)[0] !== winid[0]) {
+                if(looped >= fronte && $(this)[0] !== jq[0]) {
                     var minzin = $(this).css('z-index') - 1;
                     $(this).css('z-index', minzin);
                 }
             });
-            if(!this.winid.hasClass('minimized')) {
-                this.winid.addClass('active');
-                $('#taskbar #middleframe .button[windowID="'+this.winid.attr('windowID')+'"]').addClass('active');
+            if(!this.jq.hasClass('minimized')) {
+                this.jq.addClass('active');
+                $('#taskbar #middleframe .button[windowID="'+this.jq.attr('windowID')+'"]').addClass('active');
             }
             return this;
         };
         if(typeof winObj == 'undefined') {
             $('#taskbar #middleframe').sortable("refresh");
-            $(this.winid).mousedown({window: this}, function(e) {
+            $(this.jq).mousedown({window: this}, function(e) {
                 e.data.window.front();
             });
-            $('#desktop').on('mousedown', {winid: this.winid}, function(e) {
-                var winid = e.data.winid.attr('windowID');
-                if(!$(e.target).parents('.window[windowID='+winid+']').length && !$(e.target).is('.window[windowID='+winid+']') && !$(e.target).is('#taskbar #middleframe .button[windowID='+winid+']') && !$(e.target).parents('#taskbar #middleframe .button[windowID='+winid+']').length) {
-                    var elm = $('.window[windowID='+winid+'], #taskbar #middleframe .button[windowID='+winid+']');
+            $('#desktop').on('mousedown', {id: this.id}, function(e) {
+                var id = e.data.id;
+                if(!$(e.target).parents('.window[windowID='+id+']').length && !$(e.target).is('.window[windowID='+id+']') && !$(e.target).is('#taskbar #middleframe .button[windowID='+id+']') && !$(e.target).parents('#taskbar #middleframe .button[windowID='+id+']').length) {
+                    var elm = $('.window[windowID='+id+'], #taskbar #middleframe .button[windowID='+id+']');
                     if(elm.hasClass('active')) {
                         elm.removeClass('active');
                     }
@@ -421,14 +421,14 @@ var explorer = {
                     }
                 ];
                 if($.inArray('max', win.controlsArr) !== -1) {
-                    if(win.winid.hasClass('maximized')) {
+                    if(win.jq.hasClass('maximized')) {
                         menu[0].callback = function() { win.front().toggleMax(); };
                     } else {
                         menu[2].callback = function() { win.front().toggleMax(); };
                     }
                 }
                 if($.inArray('min', win.controlsArr) !== -1) {
-                    if(win.winid.hasClass('minimized')) {
+                    if(win.jq.hasClass('minimized')) {
                         menu[0].callback = function() { win.front().toggleMin(); };
                         menu[2].callback = undefined;
                     } else {
@@ -437,25 +437,25 @@ var explorer = {
                 }
                 return menu;                
             }
-            $('.window[windowID='+windowID+'] .ttl .icon').click({window: this}, function(e) {
+            $('.window[windowID='+this.id+'] .ttl .icon').click({window: this}, function(e) {
                 var men = new explorer.context().append(menu());
-                men.location($(this).offset().left - men.width() + $(this).width(), $(this).offset().top + $(this).height());
+                men.location($(this).offset().left, $(this).offset().top + $(this).height());
             }).dblclick({window: this}, function(e) {
-                e.data.window.winid.trigger('contextclose');
+                e.data.window.jq.trigger('contextclose');
                 e.data.window.close();
             });
-            $('#taskbar #middleframe .button[windowID='+windowID+']').contextmenu({window: this}, function(e) {
+            $('#taskbar #middleframe .button[windowID='+this.id+']').contextmenu({window: this}, function(e) {
                 new explorer.context()
                 .location(e.pageX, e.pageY)
                 .append(menu());
             });
-            $('#taskbar #middleframe .button[windowID='+windowID+']').click({window: this}, function(e) {
+            $('#taskbar #middleframe .button[windowID='+this.id+']').click({window: this}, function(e) {
                 e.data.window.toggleMin();
             });
-            $('.window[windowID='+windowID+'] .minmaxclose .close').click({window: this}, function(e) {
+            $('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
-            $(this.winid).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
+            $(this.jq).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
@@ -467,18 +467,18 @@ var explorer = {
         var dis = this;
         this.id = system.guid();
         $('#desktop').append('<div contextID="'+this.id+'" class="context"></div>');
-        this.jqid = $('#desktop div.context[contextID='+this.id+']');
-        this.jqid.contextmenu(function(e) {
+        this.jq = $('#desktop div.context[contextID='+this.id+']');
+        this.jq.contextmenu(function(e) {
             e.stopPropagation();
             e.preventDefault();
         });
         $('#desktop').on('mousedown mouseup contextclose', {context: this}, function(e) {
             if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
-				e.data.context.jqid.remove();
+				e.data.context.jq.remove();
 			}
         });
         this.hover = false;
-        this.jqid.hover(function() {
+        this.jq.hover(function() {
             dis.hover = true;
         }, function() {
             dis.hover = false;
@@ -486,23 +486,23 @@ var explorer = {
         /** EndINIT **/
         /** Functions **/
         this.width = function() {
-            var cache = this.jqid.attr('style');
-            this.jqid.attr('style', '');
-            var width = this.jqid.outerWidth();
-            this.jqid.attr('style', cache);
+            var cache = this.jq.attr('style');
+            this.jq.attr('style', '');
+            var width = this.jq.outerWidth();
+            this.jq.attr('style', cache);
             return width;
         };
         this.height = function() {
-            var cache = this.jqid.attr('style');
-            this.jqid.attr('style', '');
-            var height = this.jqid.outerHeight();
-            this.jqid.attr('style', cache);
+            var cache = this.jq.attr('style');
+            this.jq.attr('style', '');
+            var height = this.jq.outerHeight();
+            this.jq.attr('style', cache);
             return height;
         };
         /** EndFunctions **/
         /** ChainFunctions **/
         this.append = function(struc) {
-            var jqid = this.jqid;
+            var jq = this.jq;
             $.each(struc, function(k, v) {
                 if(typeof v.title !== 'undefined') {
                     var callid = system.guid();
@@ -520,8 +520,8 @@ var explorer = {
                     } else {
                         var icon = 'url(\''+v.icon+'\')';
                     }
-                    jqid.append('<div callbackID="'+callid+'" class="button'+arrow+disabled+'"><span class="icon" style="background-image:'+icon+';"></span><span class="title">'+v.title+'</span></div>');
-                    var button = jqid.find('.button[callbackID='+callid+']');
+                    jq.append('<div callbackID="'+callid+'" class="button'+arrow+disabled+'"><span class="icon" style="background-image:'+icon+';"></span><span class="title">'+v.title+'</span></div>');
+                    var button = jq.find('.button[callbackID='+callid+']');
                     if(typeof v.context !== 'undefined') {
                         var sub = null;
                         var timer = null;
@@ -529,7 +529,7 @@ var explorer = {
                             if(sub == null) {
                                 timer = setTimeout(function() {
                                     sub = new explorer.context().append(v.context); 
-                                    var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jqid.outerWidth(); var sh = sub.jqid.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
+                                    var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jq.outerWidth(); var sh = sub.jq.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
                                     x = bx + bw;
                                     y = by;
                                     if(xlim < bx + bw + sw) {
@@ -544,17 +544,17 @@ var explorer = {
                                     button.on('unhover', function() {
                                         setTimeout(function() {
                                             if(!button.hasClass('hovered') && sub !== null) {
-                                                sub.jqid.remove();
+                                                sub.jq.remove();
                                                 sub = null;
                                                 button.unbind('unhover');
                                             }
                                         }, 400);
                                     });
                                     button.parent().on('remove', function() {
-                                        sub.jqid.remove();
+                                        sub.jq.remove();
                                         sub = null;
                                     });
-                                    sub.jqid.hover(function() {
+                                    sub.jq.hover(function() {
                                         button.trigger('mouseover');
                                     });
                                 }, 400);
@@ -567,7 +567,7 @@ var explorer = {
                     }
                     button.on('mouseover', function() {
                         var button = $(this);
-                        $.each(jqid.find('.button'), function() {
+                        $.each(jq.find('.button'), function() {
                             if($(this)[0] !== button[0]) {
                                 $(this).removeClass('hovered');
                                 $(this).trigger('unhover');
@@ -578,7 +578,7 @@ var explorer = {
                         }
                     });
                 } else {
-                    jqid.append('<div class="hr"></div>');
+                    jq.append('<div class="hr"></div>');
                 }
             });
             if(typeof this.x !== 'undefined' && typeof this.y !== 'undefined') {
@@ -611,11 +611,11 @@ var explorer = {
             } else {
                 y = y;
             }
-            this.jqid.attr('style', 'left:'+x+'px;top:'+y+'px;');
+            this.jq.attr('style', 'left:'+x+'px;top:'+y+'px;');
             return this;
         };
         this.close = function() {
-            this.jqid.remove();
+            this.jq.remove();
             return this;
         };
         /** EndChainFunctions **/

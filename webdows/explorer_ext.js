@@ -19,8 +19,64 @@ $.extend(explorer, {
         .callback(function() {
             var win = this;
             var body = this.body;
+            var id = this.id;
+            win.jq.append(`
+            <style>
+                .window[windowid=`+id+`] input[type=text] {
+                    width:calc(100% - 80px);
+                    position:absolute;
+                    top:32px;left:68px;
+                    background-color:rgba(255,255,255,0.6);
+                    border:1px solid rgba(0,0,0,0.2);
+                    border-top:1px solid rgba(0,0,0,0.5);
+                    box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);
+                }
+                .window[windowid=`+id+`] input[type=text]:hover, .window[windowid=`+id+`] input[type=text]:focus {
+                    background-color:white;
+                }
+                .window[windowid=`+id+`] .navbutts {
+                    image-rendering:pixelated;
+                    width:57px;
+                    height:27px;
+                    background-image:url('webdows/resources/explorer/4.png');
+                    position:absolute;
+                    top:30px;
+                    left:6px;
+                }
+                .window[windowid=`+id+`] .ttl .icon, .window[windowid=`+id+`] .ttl .title {
+                    opacity:0;
+                }
+                .window[windowid=`+id+`] .links {
+                    margin:10px;
+                    position:relative;
+                    display:inline-block;
+                    width:50px;
+                    height:50px;
+                }
+                .window[windowid=`+id+`] .links.focus {
+                    background-color:red;
+                }
+                .window[windowid=`+id+`] .links span {
+                    margin-left:-5px;
+                    top:50px;
+                    width:60px;
+                    position:absolute;
+                    text-align:center;
+                    font-size:12px;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                }
+                .window[windowid=`+id+`] .links.focus span {
+                    white-space:inherit;
+                    overflow:inherit;
+                    text-overflow:inherit;
+                    word-break:break-all;
+                }
+            </style>
+            `);
             function explore(location) {
-                win.winid.find('input[type=text]').val(location);
+                win.jq.find('input[type=text]').val(location);
                 body.html('');
                 if(typeof location !== 'string') {
                     var location = '';
@@ -55,31 +111,28 @@ $.extend(explorer, {
                                 case 'ico':   icon = 'webdows/resources/icons/bmpi.ico'; break;
                             }
                         }
-                        body.append('<div title="'+name+'" class="icon links '+type+'" style="background-image:url(\''+icon+'\');margin:10px;position:relative;display:inline-block;width:50px;height:50px;"><span style="top:100%;width:100%;position:absolute;text-align:center;font-size:12px;">'+name+'</span></div>');
+                        body.append('<div title="'+name+'" class="icon links '+type+'" style="background-image:url(\''+icon+'\');"><span>'+name+'</span></div>');
                     });
                 }
             };
             body.on('dblclick', 'div.links.folder', function() {
-                explore(win.winid.find('input[type=text]').val()+'/'+$(this).find('span').html());
+                explore(win.jq.find('input[type=text]').val()+'/'+$(this).find('span').html());
             });
             body.on('dblclick', 'div.links.file', function() {
                 
             });
-            win.winid.find('.ttl .icon').css('opacity','0');
-            win.winid.append('<span class="navbutts" style="image-rendering: pixelated;width:57px;height:27px;background-image:url(\'webdows/resources/explorer/4.png\');position:absolute;top:30px;left:6px;"><span style="display:inline-block;width:25px;height:25px;margin:1px 3px 0px 2px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:25px;height:25px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input value="'+location+'" type="text" style="width:calc(100% - 80px);position:absolute;top:32px;left:68px;background-color:rgba(255,255,255,0.6);border:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.5);box-shadow:inset 1px 1px 0px rgba(255,255,255,0.3),inset -1px -1px 0px rgba(255,255,255,0.3);"/>');
-            win.winid.find('input[type=text]').keyup(function(e) {
+            body.on('click', 'div.links', function(e) {
+                body.find('div.links').removeClass('focus');
+                $(this).addClass('focus');
+                e.stopImmediatePropagation();
+            });
+            body.click(function() {
+                body.find('div.links').removeClass('focus');
+            });
+            win.jq.append('<span class="navbutts"><span style="display:inline-block;width:25px;height:25px;margin:1px 3px 0px 2px;background-image:url(\'webdows/resources/explorer/6.png\');"></span><span style="display:inline-block;width:25px;height:25px;background-image:url(\'webdows/resources/explorer/7.png\');"></span></span><input value="'+location+'" type="text"/>');
+            win.jq.find('input[type=text]').keyup(function(e) {
                 if(e.which == 13) {
                     explore($(this).val());
-                }
-            });
-            win.winid.find('.navbutts').on('hover', function() {
-                
-            });
-            win.winid.find('input[type=text]').on('mouseover focusin', function() {
-                $(this).css('background-color', 'white');
-            }).on('mouseout focusout', function() {
-                if(!$(this).is(':focus')) {
-                    $(this).css('background-color', 'rgba(255,255,255,.6)');
                 }
             });
             explore(location);
