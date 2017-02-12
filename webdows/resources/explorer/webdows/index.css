@@ -732,3 +732,22 @@ content:"\25B6";
 float:right;
 margin-right:2px;
 }
+
+::-webkit-scrollbar {
+width:17px;
+background:linear-gradient(to right, #e1e1e1 0%,#ededed 15%,#eeeeee 51%,#f0f0f0 100%);
+border-left:1px solid #f6f6f6;
+border-right:1px solid #e8e8e8;
+
+}
+::-webkit-scrollbar-thumb {
+width:15px;
+border-left:1px solid #f6f6f6;
+border-right:1px solid #e8e8e8;
+background:url('sb1.png'), linear-gradient(to right, #f3f3f3 0%,#e7e7e9 50%,#d7d8da 51%,#bfbfc2 100%);
+background-repeat:no-repeat;
+background-position:50% 50%;
+image-rendering:pixelated;
+border-radius:3px;
+box-shadow:inset -1px 0px 0px #979797, inset 1px 0px 0px #979797, inset 0px -1px 0px #979797, inset 0px 1px 0px #979797, inset -2px -2px 0px rgba(255,255,255,.3), inset 0px 2px 0px rgba(255,255,255,.3);
+}
