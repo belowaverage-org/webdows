@@ -1,10 +1,10 @@
 <img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/banner.png">
 <hr>
 <p align="center">
-<img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/dev.png">
-<img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/docs.png">
-<img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/demo.png">
-<img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/website.png">
+<a href="https://belowaverage.org/webdows/"><img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/dev.png"></a>
+<a href="https://github.com/belowaverage-org/webdows/wiki"><img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/docs.png"></a>
+<a href="http://webdows.belowaverage.org/"><img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/demo.png"></a>
+<a href="https://belowaverage.org/"><img src="https://raw.githubusercontent.com/belowaverage-org/webdows/master/Public/Pictures/website.png"></a>
 </p>
 <hr>
 <h2 align="center">Webdows is a dynamic window API for the web browser designed to look and feel like Microsoft Windows</h2>
