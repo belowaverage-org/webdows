@@ -22,7 +22,7 @@ $('#bootlog').append('<pre>Platform. . .GOOD</pre>');
 function blueScreen(error) {
     $('body').attr('style','');
     $('body').css({'background-color':'blue','font-family':'Courier','color':'white'});
-    $('body').html('Webdows (c) 2015 - 2016<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
+    $('body').html('Webdows (c) 2015 - 2017<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
     $('body').append(error);
 }
 var legacySetTimeout = setTimeout;
@@ -33,8 +33,11 @@ setTimeout = function(callback, interval) {
 $('noscript').remove();
 /*! Error Handler */
 window.onerror = function(message, source) {
-    system.error(message, source);
+    system.error(message, 'onerror '+source);
 };
+$(document).ajaxError(function(e, jqxhr, s, error) {
+    system.error('HTTP Status: '+jqxhr.status+'<br>'+error, 'ajaxError '+s.url);
+});
 /*! System Class */
 var system = {
     formatAMPM : function(date) {
@@ -60,6 +63,25 @@ var system = {
             blueScreen('SYSTEMHALT @ '+filePath+'<br><br>'+errorMessage);
         }
     },
+    registry : {
+        set : function(key, value) {
+            if(typeof value == 'undefined' || value == '') {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+        },
+        get : function(key) {
+            var ret = JSON.parse(localStorage.getItem(key))
+            if(ret == null) {
+                ret = undefined;
+            }
+            return ret;
+        },
+        clear : function() {
+            localStorage.clear();
+        }
+    },
     is : {
         mobile : function() {
             var ret = false;
@@ -82,31 +104,20 @@ var system = {
             url: path,
             dataType: "text",
             cache: true
-        }).fail(function(jq, textStatus) {
-            system.error(textStatus, path);
         }).done(function(data) {
             try {
                 eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
                 successTF = true;
             } catch(e) {
-                system.error(e, path);
+                system.error(e, 'system.loader '+path);
             }
         }).always(function() {
             if(typeof callback !== 'undefined') {
                 callback.call(successTF);
             }
         });
-    },
-    force_load : function(path) {
-        var flid = system.guid();
-        $('head').append('<script forceloadID="'+flid+'" src="'+path+'"></script>');
-        $('head').find('script[forceloadID='+flid+']').remove();
     }
 };
 $('#bootlog').append('<pre>SYSTEM CLASS. . .GOOD</pre>');
-$('#bootlog').append('<pre>Loading WFS.JSON into memory...</pre>');
-$.getJSON('webdows/config/wfs.json', function(files) {
-    $('#bootlog').append('<pre>Passing to WEBLDR.JS. . .<br>---------------------------</pre>');
-    system.files = files;
-    system.loader('webdows/system32/webldr.js');
-});
+$('#bootlog').append('<pre>Passing to WEBLDR.JS. . .<br>---------------------------</pre>');
+system.loader('webdows/system32/webldr.js');

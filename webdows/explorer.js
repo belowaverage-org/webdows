@@ -623,7 +623,6 @@ var explorer = {
     }
 };
 explorer.initiate();
-$(document).ready(function() {
-    system.loader('webdows/explorer_ext.js');
-    system.loader('webdows/config/startup.js');
+system.loader('webdows/explorer_ext.js', function() {
+    system.loader('webdows/config/explorer.startup.js');
 });
