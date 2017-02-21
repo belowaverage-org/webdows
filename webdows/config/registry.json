@@ -1,4 +1,14 @@
 {
-    "explorer.theme":"webdows",
-    "test":"123"
+    "explorer": {
+        "theme": "webdows"
+    },
+    "system": {
+        "files": {
+            "ext": {
+                "txt": {
+                    
+                }
+            }
+        }
+    }
 }

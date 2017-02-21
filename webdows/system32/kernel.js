@@ -68,15 +68,21 @@ var system = {
             if(typeof value == 'undefined' || value == '') {
                 localStorage.removeItem(key);
             } else {
-                localStorage.setItem(key, JSON.stringify(value));
+                if(typeof value == 'object') {
+                    $.each(value, function(k) {
+                        system.registry.set(key+'/'+k, this.valueOf());                       
+                    });
+                } else {
+                    localStorage.setItem(key, value);   
+                }
             }
         },
         get : function(key) {
-            var ret = JSON.parse(localStorage.getItem(key))
-            if(ret == null) {
-                ret = undefined;
-            }
-            return ret;
+            $.each(localStorage, function(k) {
+                if(k.split(key).length == 2) {
+                    console.log(k);
+                }
+            });
         },
         clear : function() {
             localStorage.clear();
