@@ -65,8 +65,15 @@ var system = {
     },
     registry : {
         set : function(key, value) {
-            if(typeof value == 'undefined' || value == '') {
-                localStorage.removeItem(key);
+            if(typeof key == 'undefined' || key == '') {
+                key = '';
+            }
+            if(typeof value == 'undefined') {
+                $.each(localStorage, function(k) {
+                    if(k.startsWith(key)) {
+                        localStorage.removeItem(k); 
+                    }
+                });
             } else {
                 if(typeof value == 'object') {
                     $.each(value, function(k) {
@@ -78,14 +85,37 @@ var system = {
             }
         },
         get : function(key) {
+            var ret = {};
+            if(typeof key == 'undefined' || key == '') {
+                key = '';
+            }
             $.each(localStorage, function(k) {
-                if(k.split(key).length == 2) {
-                    console.log(k);
+                if(k.startsWith(key)) {
+                    k = k.replace(key, '');
+                    var split = k.split('/');
+                    var next = k.split('/').shift();
+                    if(split.length == 1) {
+                        var data = this.valueOf();
+                        if(k == '') {
+                            ret = data;
+                            return false;
+                        } else {
+                            ret[k] = data;
+                        }
+                    } else if(typeof ret[next] !== 'object') {
+                        if(next == '') {
+                            ret = system.registry.get(key+next+'/');
+                            return false;
+                        } else {
+                            ret[next] = system.registry.get(key+next+'/');
+                        }
+                    }
                 }
             });
-        },
-        clear : function() {
-            localStorage.clear();
+            if($.isEmptyObject(ret)) {
+                ret = undefined;
+            }
+            return ret;
         }
     },
     is : {
