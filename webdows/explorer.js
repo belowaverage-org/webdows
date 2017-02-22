@@ -27,10 +27,11 @@ var explorer = {
         return themeName;
     },
     initiate : function() {
-        $('.explorer').remove();
+        $('#desktop.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
         $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
         $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
+        $('#desktop.explorer').hide();
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
             revert: true,
@@ -44,6 +45,9 @@ var explorer = {
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
         var theme = explorer.theme();
+        setTimeout(function() {
+            $('#desktop.explorer').show();
+        }, 300);
     },
     start : {
         toggle : function() {
