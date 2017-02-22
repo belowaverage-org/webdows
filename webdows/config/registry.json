@@ -6,7 +6,27 @@
         "files": {
             "ext": {
                 "txt": {
-                    
+                    "icon": "webdows/resources/icons/note.ico",
+                    "defaultProgram": "webdows/notepad.js"
+                },
+                "js": {
+                    "icon": "webdows/resources/icons/exei.ico"
+                },
+                "png": {
+                    "icon": "webdows/resources/icons/pngi.ico",
+                    "defaultProgram": ""
+                },
+                "gif": {
+                    "icon": "webdows/resources/icons/gifi.ico",
+                    "defaultProgram": ""
+                },
+                "jpg": {
+                    "icon": "webdows/resources/icons/jpgi.ico",
+                    "defaultProgram": ""
+                },
+                "ico": {
+                    "icon": "webdows/resources/icons/bmpi.ico",
+                    "defaultProgram": ""
                 }
             }
         }

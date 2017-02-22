@@ -75,9 +75,18 @@ var system = {
                     }
                 });
             } else {
+                while(key.startsWith('/')) {
+                    key = key.substr(1);
+                }
+                while(key.endsWith('/')) {
+                    key = key.slice(0, -1);
+                }
                 if(typeof value == 'object') {
+                    if(key !== '') {
+                        key = key + '/';
+                    }
                     $.each(value, function(k) {
-                        system.registry.set(key+'/'+k, this.valueOf());                       
+                        system.registry.set(key+k, this.valueOf());                       
                     });
                 } else {
                     localStorage.setItem(key, value);   
