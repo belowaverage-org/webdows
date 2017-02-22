@@ -4,6 +4,20 @@ Liscense: MIT
 Author: krisdb2009
 File: webdows/system32/webldr.js
 */
+$('#bootlog').append('<pre>Checking registry...</pre>');
+if(typeof system.registry.get('HKEY_LOCAL_WEBDOWS') == 'undefined') {
+    $('#bootlog').append('<pre>Registry missing data! Downloading new registry...</pre>');
+    $.ajax({
+        url: 'webdows/config/registry.json',
+        dataType: 'json',
+        async: true,
+        success: function(data) {
+            $('#bootlog').append('<pre>Download finished, applying new registry...</pre>');
+            system.registry.set('HKEY_LOCAL_WEBDOWS', data);
+        }
+    });
+}
+$('#bootlog').append('<pre>Good<br>---------------------------</pre>');
 $.getJSON('webdows/config/wfs.json', function(files) {
     system.files = files;
     $('#bootlog').append('<pre>Loading and checking SYSTEM.FILES.WEBDOWS...</pre>');
@@ -22,10 +36,10 @@ $.getJSON('webdows/config/wfs.json', function(files) {
     list(system.files.webdows, 'webdows/');
     function wfsLoad(list, i) {
         if(typeof list[i] == 'string') {
-            $('#bootlog').append('<pre>'+list[i]+'. . .</pre> ');
+            $('#bootlog').append('<pre>'+list[i]+'...</pre> ');
             $(document).scrollTop($(document).height());
             var loadint = setInterval(function() {
-                $('#bootlog pre').last().append(' .');
+                $('#bootlog pre').last().append('.');
                 $(document).scrollTop($(document).height());
             }, 100);
             $.ajax({
