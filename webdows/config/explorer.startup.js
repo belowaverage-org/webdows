@@ -118,6 +118,12 @@ $('#desktop.explorer').on('contextmenu', function(e) {
         ]);
     }
 });
+new explorer.window().resize(150, 100).title('Animation Button').controls([]).center('bottom left', 20, -50).callback(function() {
+    this.body.html('<button style="width:calc(100% - 20px);height:calc(100% - 20px);margin:10px;">Play boot animation</button>');
+    this.body.find('button').click(function() {
+        system.loader('webdows/resources/explorer/animation.js');
+    });
+});
 //system.loader('webdows/welcome.js');
 //system.loader('webdows/run.js');
 //system.loader('webdows/resources/explorer/animation.js');

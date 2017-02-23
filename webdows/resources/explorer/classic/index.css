@@ -5,9 +5,11 @@ Author: krisdb2009
 Date: 04/12/16
 File: webdows/resources/explorer/classic/index.css
 */
+* {
+font-family:NotoSans;
+}
 #desktop {
 background-size:100% 100%;
-font-family:NotoSans;
 background-color:#3C6DA3;
 cursor: url('cur.png'), default;
 }

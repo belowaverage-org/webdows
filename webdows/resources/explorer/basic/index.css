@@ -5,10 +5,12 @@ Author: krisdb2009
 Date: 04/30/16
 File: webdows/resources/explorer/basic/index.css
 */
+* {
+font-family:NotoSans;
+}
 #desktop {
 background-color:#909090;
 background-size:100% 100%;
-font-family:NotoSans;
 cursor: url('../webdows/cur.png'), default;
 }
 #taskbar  {

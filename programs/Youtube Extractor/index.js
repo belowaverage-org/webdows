@@ -39,6 +39,14 @@ new explorer.window()
             ]
         }
     ]);
+    function download(href) {
+        var id = system.guid();
+        var win = new explorer.window();
+        win.jq.hide();
+        win.body.append('<a id="'+id+'" style="" download="'+href+'" href="'+href+'">.</a>');
+        $('#'+id)[0].click();
+        win.close();
+    }
     bod.html('<div class="wrapper"><img class="logo" src="programs/Youtube Extractor/logo.png"/><label for="title">Title </label><input class="stat" id="title" type="text" disabled/><br><label for="upl">Uploader </label><input class="stat" id="upl" type="text" disabled/><br><label for="views">Views </label><input class="stat" id="views" type="text" disabled/><br><label for="date">Upload Date </label><input class="stat" id="date" type="text" disabled/><br><input class="extract" placeholder="Paste YouTube URL" type="text"/><div class="results"></div></div>');
     bod.css({'display':'flex', 'justify-content':'center', 'align-items':'center'});
     bod.find('div.wrapper').attr('style', 'position:relative;width:470px;margin-left:auto;margin-right:auto;');
@@ -73,35 +81,63 @@ new explorer.window()
                         bod.find('#date.stat').val(data.upload_date);
                         bod.find('div.results').html('');
                         bod.find('input.extract').attr('disabled', false);
-                        bod.find('div.results').append('<div class="result mp3"><span>MP3</span><span class="mid">High Quality MP3</span><button>Convert</button></div>');
+                        bod.find('div.results').append('<div class="result mp3"><span>MP3</span><span class="mid">High Quality MP3</span><button style="width:116px;">Convert</button></div>');
                         bod.find('div.result.mp3 button').click(function(e) {
                             e.stopImmediatePropagation();
                             new explorer.window()
                             .title('Youtube Extractor')
                             .closeWith(dis)
-                            .resize(200, 200)
+                            .resize(200, 130)
                             .center()
+                            .controls([])
                             .front()
                             .icon('programs/Youtube Extractor/logo.png')
                             .callback(function() {
                                 var body = this.body;
                                 var win = this;
-                                body.html('<button class="b">Best Quality</button><br><button class="g">Good Quality</button><br><button class="w">Worst Quality</button><br>Thumbnail<input checked type="checkbox">')
-                                body.find('button').click(function() {
+                                body.html('<button class="b">Best Quality</button><br><button class="g">Good Quality</button><br><button class="w">Worst Quality</button><br><button class="t">Embed Thumbnail<input style="right:5px;position:absolute;pointer-events:none;margin-top:2px;" checked type="checkbox"></button>')
+                                body.find('button').attr('style','width:calc(100% - 10px);margin-left:5px;line-height:16px;');
+                                body.find('.t').click(function() {
+                                    if($(this).find('input').attr('checked')) {
+                                        $(this).find('input').removeAttr('checked');
+                                    } else {
+                                        $(this).find('input').attr('checked', true);
+                                    }
+                                });
+                                body.find('.b, .g, .w').click(function() {
                                     win.close();
+                                    var additions = '';
+                                    if($(this).hasClass('b')) {
+                                        additions = 'quality=0';
+                                    }
+                                    if($(this).hasClass('g')) {
+                                        additions = 'quality=5';
+                                    }
+                                    if($(this).hasClass('w')) {
+                                        additions = 'quality=9';
+                                    }
+                                    if(body.find('input').attr('checked')) {
+                                        additions = additions + '&thumbnail';
+                                    }
                                     new explorer.window()
                                     .title('Youtube Extractor - Converter')
+                                    .resize(500, 410)
                                     .center()
                                     .front()
+                                    .controls([])
                                     .callback(function() {
+                                        var win = this;
                                         var log = this.body;
                                         $.get('https://api.belowaverage.org/v1/youtube-dl/?token='+url, function(token) {
-                                            $.get('https://api.belowaverage.org/v1/youtube-dl/?mp3='+token, function() {
-                                                //Done
-                                            });
+                                            download('https://api.belowaverage.org/v1/youtube-dl/?mp3='+token+'&'+additions);
                                             var interval = setInterval(function() {
                                                 $.get('https://api.belowaverage.org/v1/youtube-dl/?mp3='+token+'&log', function(resp) {
-                                                    log.html(resp);
+                                                    if(resp == 'Finished.') {
+                                                        clearInterval(interval);
+                                                        win.close();
+                                                    }
+                                                    log.html('<pre style="white-space:pre-wrap;font-size:10px;">'+resp+'</pre>');
+                                                    log.scrollTop(log[0].scrollHeight);
                                                 });
                                             }, 500);
                                         });
@@ -124,22 +160,15 @@ new explorer.window()
                         });
                         bod.find('div.results div.result span').attr('style', 'margin-right:5px;');
                         bod.find('div.results div.result span.mid').css('color', 'gray');
-                        bod.find('div.results div.result button').attr('style', 'float:right;margin-right:3px;').click(function() {
-                            var dlthis = new explorer.window()
-                            .title('Youtube Player')
-                            .icon('programs/Youtube Extractor/logo.png')
-                            .center();
-                            var dlwin = dlthis.body;
+                        bod.find('div.results div.result button').css({'float':'right','margin-right':'3px'}).click(function() {
+                            var vlink = $(this).parent().attr('content');
                             if($(this).text() == 'Play') {
-                                dlwin.html('<video style="border:0px;position:absolute;top:0px;left:0px;width:100%;height:100%;" controls src="'+$(this).parent().attr('content')+'" autoplay></video>');
-                                dlwin.css('background-color', 'black');
-                            } else {
-                                dlwin.css('text-align', 'center');
-                                dlwin.html('<br><br><a class="dl" href="'+$(this).parent().attr('content')+'" download>Downloading...</a>');
-                                dlwin.find('a.dl').click(function() {
-                                    dlthis.close();
+                                new explorer.window()
+                                .callback(function() {
+                                    this.body.html('<video controls style="width:100%;height:100%;position:absolute;" src="'+vlink+'"></video>');
                                 });
-                                dlwin.find('a.dl')[0].click();
+                            } else {
+                                download(vlink);
                             }
                         });
                     }).fail(function() {
