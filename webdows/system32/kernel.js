@@ -74,19 +74,18 @@ var system = {
             while(key.endsWith('/')) {
                 key = key.slice(0, -1);
             }
-            if(typeof value == 'undefined') {
-                $.each(localStorage, function(k) {
-                    if(key == '') {
-                        localStorage.removeItem(k); 
-                    }
-                    if(k.startsWith(key+'/')) {
-                        localStorage.removeItem(k); 
-                    }
-                    if(k == key) {
-                        localStorage.removeItem(k); 
-                    }
-                });
-            } else {
+            $.each(localStorage, function(k) {
+                if(key == '') {
+                    localStorage.removeItem(k); 
+                }
+                if(k.startsWith(key+'/')) {
+                    localStorage.removeItem(k); 
+                }
+                if(k == key) {
+                    localStorage.removeItem(k); 
+                }
+            });
+            if(typeof value !== 'undefined') {
                 if(typeof value == 'object') {
                     if(key !== '') {
                         key = key + '/';
@@ -101,12 +100,18 @@ var system = {
         },
         get : function(key) {
             var ret = {};
-            if(typeof key == 'undefined' || key == '') {
+            if(typeof key == 'undefined') {
                 key = '';
             }
             $.each(localStorage, function(k) {
-                if(k.startsWith(key)) {
-                    k = k.replace(key, '');
+                if(key == '' || k == key || k.startsWith(key+'/')) {
+                    var path = '';
+                    if(k.startsWith(key+'/')) {
+                        path = key+'/';
+                    } else {
+                        path = key;
+                    }
+                    k = k.replace(path, '');
                     var split = k.split('/');
                     var next = k.split('/').shift();
                     if(split.length == 1) {
@@ -119,10 +124,11 @@ var system = {
                         }
                     } else if(typeof ret[next] !== 'object') {
                         if(next == '') {
-                            ret = system.registry.get(key+next+'/');
+                            ret = system.registry.get(path+next+'/');
                             return false;
                         } else {
-                            ret[next] = system.registry.get(key+next+'/');
+                            ret[next] = system.registry.get(path+next);
+                            
                         }
                     }
                 }
