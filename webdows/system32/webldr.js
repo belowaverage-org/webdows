@@ -21,13 +21,17 @@ $('#bootlog').append('<pre>Good<br>---------------------------</pre>');
 $.getJSON('webdows/config/wfs.json', function(files) {
     system.files = files;
     $('#bootlog').append('<pre>Loading and checking SYSTEM.FILES.WEBDOWS...</pre>');
-    var loadList = [];
-    var li = 0;
-    var loaded = false;
+    system.bootLoader = {
+        loadList: [],
+        total: 0,
+        current: 0,
+        loaded: false
+    };
+    system.loader('webdows/bootloader.js');
     function list(obj, path) {
         $.each(obj, function(k) {
             if(typeof this.valueOf() == 'string') {
-                loadList[li++] = path+this;
+                system.bootLoader.loadList[system.bootLoader.total++] = path+this;
             } else if(typeof this.valueOf() == 'object') {
                 list(this.valueOf(), path+k+'/');
             }
@@ -51,6 +55,7 @@ $.getJSON('webdows/config/wfs.json', function(files) {
                     clearInterval(loadint);
                     $('#bootlog pre').last().append('GOOD');
                     $(document).scrollTop($(document).height());
+                    system.bootLoader.current++;
                     wfsLoad(list, i + 1);
                 },
                 error: function(jq) {
@@ -59,13 +64,13 @@ $.getJSON('webdows/config/wfs.json', function(files) {
                 }
             });
         } else {
-            loaded = true;
+            system.bootLoader.loaded = true;
             return;
         }
     }
-    wfsLoad(loadList, 0);
+    wfsLoad(system.bootLoader.loadList, 0);
     var timer = setInterval(function() {
-        if(loaded) {
+        if(system.bootLoader.loaded) {
             clearInterval(timer);
             $.ajax({
                 url: 'webdows/explorer.js',

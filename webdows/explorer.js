@@ -47,7 +47,7 @@ var explorer = {
         var theme = explorer.theme();
         setTimeout(function() {
             $('#desktop.explorer').show();
-        }, 300);
+        }, 1000);
     },
     start : {
         toggle : function() {

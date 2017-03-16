@@ -126,5 +126,5 @@ new explorer.window().resize(150, 100).title('Animation Button').controls([]).ce
 });
 //system.loader('webdows/welcome.js');
 //system.loader('webdows/run.js');
-//system.loader('webdows/resources/explorer/animation.js');
+system.loader('webdows/resources/explorer/animation.js');
 explorer.file_explorer();
