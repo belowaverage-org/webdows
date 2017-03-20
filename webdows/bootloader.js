@@ -1,7 +1,7 @@
 $('#bootlog').append(`
 <style>
     #bootloader {
-        background-color:rgba(0,0,0,.9);
+        background-color:black;
         position:fixed;
         top:0px;
         left:0px;
@@ -11,15 +11,14 @@ $('#bootlog').append(`
     }
     #bootloader #logo {
         position:absolute;
-        top:calc(50% - 150px);
-        left:calc(50% - 100px);
-        width:200px;
-        height:200px;
-        background-image:url('webdows/resources/explorer/1.png');
-        animation:ani 5s infinite ease-in-out;
+        top:calc(50% - 140px);
+        left:calc(50% - 80px);
+        width:160px;
+        height:160px;
+        background-image:url('webdows/resources/icons/bwlg.png');
+        background-size:100% 100%;
     }
     #bootloader #progress {
-        box-shadow:inset 0px 1px 0px #363636;
         position:absolute;
         top:calc(50% + 50px);
         left:calc(50% - 100px);
@@ -47,7 +46,6 @@ $('#bootlog').append(`
         margin-top:4px;
         margin-left:5px;
         background-color:#e0e0e0;
-        background-image:linear-gradient(to bottom, rgba(0,0,0,.1) 0%,rgba(0,0,0,.5) 100%), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMQEiAWeIepJQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAR0lEQVQY02NgQAL///+3/o8KNjOgKdiPpsAUWdIGTXIjuu4DSJL/0HU7oelej677IJpuA2RJFzTda9F1H0GS/Pv//389ZHkA6/+W9gk5rDIAAAAASUVORK5CYII=');
         animation:1s mov infinite linear;
     }
     @keyframes mov {
@@ -56,12 +54,6 @@ $('#bootlog').append(`
         }
         100% {
             background-position:16px 0px;
-        }
-    }
-    @keyframes ani {
-        50% {
-            opacity:.5;
-            filter:grayscale(50%);
         }
     }
 </style>
