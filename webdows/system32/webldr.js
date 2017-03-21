@@ -27,7 +27,7 @@ $.getJSON('webdows/config/wfs.json', function(files) {
         current: 0,
         loaded: false
     };
-    system.loader('webdows/bootloader.js');
+    system.loader('webdows/system32/loadscrn.js');
     function list(obj, path) {
         $.each(obj, function(k) {
             if(typeof this.valueOf() == 'string') {

@@ -1,6 +1,7 @@
+var id = system.guid();
 $('#bootlog').append(`
 <style>
-    #bootloader {
+    #`+id+` {
         background-color:black;
         position:fixed;
         top:0px;
@@ -8,8 +9,9 @@ $('#bootlog').append(`
         width:100%;
         height:100%;
         z-index:100000;
+        cursor:none;
     }
-    #bootloader #logo {
+    #`+id+` #logo {
         position:absolute;
         top:calc(50% - 140px);
         left:calc(50% - 80px);
@@ -18,7 +20,7 @@ $('#bootlog').append(`
         background-image:url('webdows/resources/icons/bwlg.png');
         background-size:100% 100%;
     }
-    #bootloader #progress {
+    #`+id+` #progress {
         position:absolute;
         top:calc(50% + 50px);
         left:calc(50% - 100px);
@@ -27,7 +29,7 @@ $('#bootlog').append(`
         background-color:#212121;
         border-radius:10px;
     }
-    #bootloader #progress::before {
+    #`+id+` #progress::before {
         content:'';
         position:absolute;
         width:calc(100% - 10px);
@@ -37,7 +39,7 @@ $('#bootlog').append(`
         background-color:#363636;
         border-radius:5px;
     }
-    #bootloader #progressFill {
+    #`+id+` #progressFill {
         position:absolute;
         max-width:calc(100% - 10px);
         min-width:10px;
@@ -57,16 +59,24 @@ $('#bootlog').append(`
         }
     }
 </style>
-<div id="bootloader">
+<div id="`+id+`">
     <div id="logo"></div>
     <div id="progress">
         <div id="progressFill"></div>
     </div>
 </div>
 `);
+function cleanup () {
+    $('#'+id).remove();
+}
+$(document).bind('mousedown.bload', '#'+id, function() {
+    cleanup();
+    $(document).unbind('mousedown.bload');
+});
 var timer = setInterval(function() {
-    $('#bootloader #progress #progressFill').css('width', (system.bootLoader.current / system.bootLoader.total * 100)+'%');
+    $('#'+id+' #progress #progressFill').css('width', (system.bootLoader.current / system.bootLoader.total * 100)+'%');
     if(system.bootLoader.loaded) {
         clearInterval(timer);
+        cleanup();
     }
 }, 10);
