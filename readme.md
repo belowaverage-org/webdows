@@ -11,36 +11,44 @@
 <hr>
 <h1>Features</h1>
 * Simple API
+
 * Built in preloader
+
 * Well documented (Comming soon)
+
 * Supported by Chrome, Safari, Firefox, Edge, and IE 10+
+
 * Utilizes jQuery
+
 * 99% CSS vector design. *Bitmaps rarely used for styling*
+
 * Customizable themes
 
 <h1>Simple API</h1>
 <h3>Making a window</h3>
-```javascript
-new explorer.window()
-.title('Hello World')
-.resize(200, 200)
-.callback(function() {
-  this.body.html('Test 123');
-});
-```
+
+    javascript
+    new explorer.window()
+    .title('Hello World')
+    .resize(200, 200)
+    .callback(function() {
+    this.body.html('Test 123');
+    });
+    
 <img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/simpleapi1.PNG">
 
 <h3>Creating a context menu</h3>
-```javascript
-new explorer.context()
-.append([
-  {
-    title: 'Hello'
-  }, {}, 
-  {
-    title: 'World',
-    callback: function() { console.log('World Clicked'); }
-  }
-]);
-```
+  
+    javascript
+      new explorer.context()
+    .append([
+    {
+       title: 'Hello'
+    }, {}, 
+    {
+      title: 'World',
+      callback: function() { console.log('World Clicked'); }
+    }
+    ]);
+
 <img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/context.png">
