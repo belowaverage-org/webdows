@@ -214,8 +214,8 @@ background-color: rgba(0,0,0,.4);
 background-image:repeating-linear-gradient(65deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 42%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 90%), linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 21%,rgba(255,255,255,.2) 33%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 100%);
 background-size:auto, 100% 300px;
 background-repeat:repeat, no-repeat;
-min-height:38px;
-min-width:117px;
+min-height:100px;
+min-width:150px;
 transition:opacity .2s linear, transform .2s linear;
 animation:open .2s linear;
 }
@@ -419,9 +419,6 @@ overflow:auto;
 .window.active .body {
 border:1px solid rgba(0,0,0,.8);
 }
-.window.menuBar .body {
-padding-top:19px;
-}
 .window .ui-resizable-handle {
 position:absolute;
 }
@@ -481,15 +478,27 @@ cursor:nw-resize;
 left:0px;
 top:0px;
 }
+.window.menuBar .body {
+top:48px;
+border-top:none;
+border-top-left-radius:0px;
+border-top-right-radius:0px;
+}
 .window.menuBar .menuBar {
-height:17px;
+height:18px;
 background:linear-gradient(to bottom, #fdfeff 0%,#e5e9f5 33%,#e5e9f5 33%,#d5dbeb 34%,#e0e6f6 100%);
 position:absolute;
-top:29px;
-left:7px;
-right:7px;
-border-bottom:1px solid #b6bccc;
+top:28px;
+left:6px;
+right:6px;
+/*border-bottom:1px solid #b6bccc;*/
 padding-top:1px;
+border-top:1px solid rgba(0,0,0,.7);
+border-left:1px solid rgba(0,0,0,.7);
+border-right:1px solid rgba(0,0,0,.7);
+box-shadow:-1px 0px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4), 0px -1px 0px rgba(255,255,255,.4), inset 0px -1px 0px #b6bccc;
+border-top-left-radius:2px;
+border-top-right-radius:2px;
 }
 .window.menuBar .menuBar span {
 vertical-align:top;
@@ -732,13 +741,17 @@ content:"\25B6";
 float:right;
 margin-right:2px;
 }
-
 ::-webkit-scrollbar {
 width:17px;
 background:linear-gradient(to right, #e1e1e1 0%,#ededed 15%,#eeeeee 51%,#f0f0f0 100%);
 border-left:1px solid #f6f6f6;
 border-right:1px solid #e8e8e8;
-
+}
+::-webkit-scrollbar:horizontal {
+height:17px;
+background:linear-gradient(to bottom, #e1e1e1 0%,#ededed 15%,#eeeeee 51%,#f0f0f0 100%);
+border-top:1px solid #f6f6f6;
+border-bottom:1px solid #e8e8e8;
 }
 ::-webkit-scrollbar-thumb {
 width:15px;
@@ -750,4 +763,12 @@ background-position:50% 50%;
 image-rendering:pixelated;
 border-radius:3px;
 box-shadow:inset -1px 0px 0px #979797, inset 1px 0px 0px #979797, inset 0px -1px 0px #979797, inset 0px 1px 0px #979797, inset -2px -2px 0px rgba(255,255,255,.3), inset 0px 2px 0px rgba(255,255,255,.3);
+}
+::-webkit-scrollbar-thumb:horizontal {
+height:15px;
+border-top:1px solid #f6f6f6;
+border-bottom:1px solid #e8e8e8;
+background:url('sb2.png'), linear-gradient(to bottom, #f3f3f3 0%,#e7e7e9 50%,#d7d8da 51%,#bfbfc2 100%);
+background-repeat:no-repeat;
+background-position:50% 50%;
 }
