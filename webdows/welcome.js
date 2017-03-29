@@ -10,7 +10,7 @@ new explorer.window()
 .resize(570, 300)
 .center()
 .icon('webdows/resources/icons/logo.png')
-.controls(['min','max'])
+.controls(['min'])
 .callback(function() {
     var butts = [
         {
@@ -31,13 +31,13 @@ new explorer.window()
             text: 'GitHub',
             icon: 'webdows/resources/icons/ghub.png',
             callback: function() {
-                window.open('https://github.com/krisdb2009/webdows', '_blank');
+                window.open('https://github.com/belowaverage-org/webdows', '_blank');
             }
         }, {
             text: 'Docs',
             icon: 'webdows/resources/icons/wpad.ico',
             callback: function() {
-                window.open('https://github.com/krisdb2009/webdows/wiki', '_blank');
+                window.open('https://github.com/belowaverage-org/webdows/wiki', '_blank');
             }
         }, {
             text: 'Website',
@@ -49,7 +49,7 @@ new explorer.window()
             text: 'Help',
             icon: 'webdows/resources/icons/ques.ico',
             callback: function() {
-                window.open('https://github.com/krisdb2009/webdows/issues', '_blank');
+                window.open('https://github.com/belowaverage-org/webdows/issues', '_blank');
             }
         }
     ];
