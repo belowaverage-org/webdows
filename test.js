@@ -34,7 +34,15 @@ new explorer.window()
 .body
 .html(`
     <button>Button</button>
+    
+    <input name="asdf" type="radio">
+    <input name="asdf" type="radio">|
+    <input name="asd" type="radio">
+    <input name="asd" type="radio">|
+    <input name="as" type="radio">|
     <input type="radio">
+    <input type="radio">
+    
     <input type="checkbox">
     <progress value="50" max="100"></progress>
     <input type="range">

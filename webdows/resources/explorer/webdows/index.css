@@ -772,3 +772,15 @@ background:url('sb2.png'), linear-gradient(to bottom, #f3f3f3 0%,#e7e7e9 50%,#d7
 background-repeat:no-repeat;
 background-position:50% 50%;
 }
+input[type=radio] {
+display:none;
+}
+.input.radio {
+width:10px;
+height:10px;
+display:inline-block;
+background-color:white;
+}
+.input.radio.checked {
+background-color:red;
+}

@@ -48,6 +48,23 @@ var explorer = {
         setTimeout(function() {
             $('#desktop.explorer').show();
         }, 1000);
+        $('#desktop.explorer').on('DOMSubtreeModified', '.window .body', function() {
+            var bod = $(this);
+            $.each(bod.find('input'), function() {
+                if($(this).attr('type') == 'radio' && !$(this).hasClass('replaced')) {
+                    var rad = $(this);
+                    var name = rad.attr('name');
+                    var rep = $('<span class="input radio"></span>');
+                    rep.attr('name', name).click(function() {
+                        rad.click();
+                    });
+                    rad.addClass('replaced').after(rep).change(function() {
+                        bod.find('.input.radio[name='+name+']').removeClass('checked');
+                        rep.addClass('checked');
+                    });
+                }
+            });
+        });
     },
     start : {
         toggle : function() {
