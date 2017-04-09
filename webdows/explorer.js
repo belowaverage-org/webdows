@@ -7,31 +7,22 @@ File: webdows/explorer.js
 var explorer = {
     theme : function(themeName, extraCSS) {
         if(typeof themeName == 'undefined') {
-            if(localStorage.getItem("theme") == null) {
-                var themeName = 'webdows';
-            } else {
-                var themeName = localStorage.getItem("theme");
-            }
+            var themeName = system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/theme/default');
         }
         if(typeof extraCSS == 'undefined') {
-            if(localStorage.getItem("themeCSS") == null) {
-                var extraCSS = '';
-            } else {
-                var extraCSS = localStorage.getItem("themeCSS");
-            }
+            var extraCSS = system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/theme/extraCSS');
         }
-        localStorage.setItem("theme", themeName);
-        localStorage.setItem("themeCSS", extraCSS);
+        system.registry.set('HKEY_LOCAL_WEBDOWS/explorer/theme/default', themeName);
+        system.registry.set('HKEY_LOCAL_WEBDOWS/explorer/theme/extraCSS', extraCSS);
         $('head style').html(extraCSS);
         $('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
         return themeName;
     },
     initiate : function() {
         $('#desktop.explorer').remove();
-        $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">');
-        $('head').append('<link class="explorer" id="theme" href="" rel="stylesheet" type="text/css">');
+        $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css"><link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
         $('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
-        $('#desktop.explorer').hide();
+        $('#desktop.explorer').attr('style', 'visibility:hidden;');
         explorer.start.initiate();
         $("#taskbar #middleframe").sortable({
             revert: true,
@@ -46,7 +37,7 @@ var explorer = {
         }, 1000);
         var theme = explorer.theme();
         setTimeout(function() {
-            $('#desktop.explorer').show();
+            $('#desktop.explorer').removeAttr('style');
         }, 1000);
         $('#desktop.explorer').on('DOMSubtreeModified', '.window .body', function() {
             var bod = $(this);

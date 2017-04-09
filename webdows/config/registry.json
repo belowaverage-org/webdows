@@ -1,6 +1,9 @@
 {
     "explorer": {
-        "theme": "webdows"
+        "theme": {
+            "default": "webdows",
+            "extraCSS": "/* HKEY_LOCAL_WEBDOWS/explorer/theme/extraCSS */"
+        }
     },
     "system": {
         "files": {
