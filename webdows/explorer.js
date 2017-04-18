@@ -18,6 +18,55 @@ var explorer = {
         $('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
         return themeName;
     },
+    drag : function(target, handle, callback) {
+        if(typeof handle == 'undefined') {
+            handl = '';
+        } else if(typeof handle == 'function') {
+            callback = handle;
+            handl = '';
+        } else {
+            handl = handle;
+        }
+        var mouseDown = false;
+        var dragging = null;
+        var offsetX = 0;
+        var offsetY = 0;
+        $('#desktop.explorer').on('mousedown touchstart', target + ' ' + handl, function(e) {
+            if(e.which == 0 || e.which == 1) {
+                mouseDown = true;
+                dragging = e.target;
+                var handPos = $(dragging).offset();
+                var dragPos = $(dragging).position();
+                if(typeof e.touches == 'undefined') {
+                    offsetX = handPos.left - e.clientX - dragPos.left;
+                    offsetY = handPos.top - e.clientY - dragPos.top;
+                } else {
+                    offsetX = handPos.left - e.touches[0].clientX - dragPos.left;
+                    offsetY = handPos.top - e.touches[0].clientY - dragPos.top;
+                }
+            }
+        }).on('mouseup touchend', function(e) {
+            if(e.which == 0 || e.which == 1) {
+                mouseDown = false;
+            }
+        }).on('mousemove touchmove', function(e) {
+            if(mouseDown) {
+                e.preventDefault();
+                if(typeof e.touches == 'undefined') {
+                    var x = e.clientX + offsetX;
+                    var y = e.clientY + offsetY;
+                } else {
+                    var x = e.touches[0].clientX + offsetX;
+                    var y = e.touches[0].clientY + offsetY;
+                }
+                if(typeof callback == 'undefined') {
+                    $(dragging).parents(target).css({'left':x,'top':y});
+                } else {
+                    callback.call({'x':x,'y':y});
+                }
+            }
+        });
+    },
     initiate : function() {
         $('#desktop.explorer').remove();
         $('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css"><link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
@@ -35,7 +84,9 @@ var explorer = {
             var date = new Date();
             $('#taskbar #time').html(system.formatAMPM(date));
         }, 1000);
-        var theme = explorer.theme();
+        setTimeout(function() {
+            var theme = explorer.theme();
+        }, 100);
         setTimeout(function() {
             $('#desktop.explorer').removeAttr('style');
         }, 1000);
@@ -56,6 +107,7 @@ var explorer = {
                 }
             });
         });
+        explorer.drag('.window', '.ttl');
     },
     start : {
         toggle : function() {
@@ -467,7 +519,7 @@ var explorer = {
             $('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
-            $(this.jq).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
+            //$(this.jq).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
