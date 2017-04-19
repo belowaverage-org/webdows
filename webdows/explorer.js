@@ -19,30 +19,33 @@ var explorer = {
         return themeName;
     },
     drag : function(target, handle, callback) {
+        var search = '#desktop.explorer';
+        var mouseDown = false;
+        var targ = null;
+        var offsetX = 0;
+        var offsetY = 0;
         if(typeof handle == 'undefined') {
-            handl = '';
+            handl = null;
         } else if(typeof handle == 'function') {
             callback = handle;
-            handl = '';
+            handl = null;
         } else {
             handl = handle;
         }
-        var mouseDown = false;
-        var dragging = null;
-        var offsetX = 0;
-        var offsetY = 0;
-        $('#desktop.explorer').on('mousedown touchstart', target + ' ' + handl, function(e) {
-            if(e.which == 0 || e.which == 1) {
+        if(typeof target == 'object') {
+            search = target;
+        }
+        $(search).on('mousedown touchstart', handl, function(e) {
+            if((e.which == 0 || e.which == 1)) {
                 mouseDown = true;
-                dragging = e.target;
-                var handPos = $(dragging).offset();
-                var dragPos = $(dragging).position();
+                targ = $(e.target).closest(target);
+                var targPos = targ.position();
                 if(typeof e.touches == 'undefined') {
-                    offsetX = handPos.left - e.clientX - dragPos.left;
-                    offsetY = handPos.top - e.clientY - dragPos.top;
+                    offsetX = e.clientX - targPos.left;
+                    offsetY = e.clientY - targPos.top;
                 } else {
-                    offsetX = handPos.left - e.touches[0].clientX - dragPos.left;
-                    offsetY = handPos.top - e.touches[0].clientY - dragPos.top;
+                    offsetX = e.touches[0].clientX - targPos.left;
+                    offsetY = e.touches[0].clientY - targPos.top;
                 }
             }
         }).on('mouseup touchend', function(e) {
@@ -53,14 +56,14 @@ var explorer = {
             if(mouseDown) {
                 e.preventDefault();
                 if(typeof e.touches == 'undefined') {
-                    var x = e.clientX + offsetX;
-                    var y = e.clientY + offsetY;
+                    var x = e.clientX - offsetX;
+                    var y = e.clientY - offsetY;
                 } else {
-                    var x = e.touches[0].clientX + offsetX;
-                    var y = e.touches[0].clientY + offsetY;
+                    var x = e.touches[0].clientX - offsetX;
+                    var y = e.touches[0].clientY - offsetY;
                 }
                 if(typeof callback == 'undefined') {
-                    $(dragging).parents(target).css({'left':x,'top':y});
+                    targ.css({'left':x,'top':y});
                 } else {
                     callback.call({'x':x,'y':y});
                 }
@@ -90,6 +93,7 @@ var explorer = {
         setTimeout(function() {
             $('#desktop.explorer').removeAttr('style');
         }, 1000);
+        explorer.drag('.window', '.ttl');
         $('#desktop.explorer').on('DOMSubtreeModified', '.window .body', function() {
             var bod = $(this);
             $.each(bod.find('input'), function() {
@@ -107,7 +111,6 @@ var explorer = {
                 }
             });
         });
-        explorer.drag('.window', '.ttl');
     },
     start : {
         toggle : function() {
@@ -519,7 +522,6 @@ var explorer = {
             $('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
-            //$(this.jq).draggable({containment: "#desktop.explorer", handle: '.ttl', addClasses: false, iframeFix: true});
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
