@@ -67,8 +67,7 @@ margin-left:0px;
 background-size:100% 100%;
 background-image:url('so1.png');
 opacity:1;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
+image-rendering:-webkit-optimize-contrast;
 }
 #start:active::after {
 opacity:1;
@@ -90,8 +89,7 @@ margin-left:0px;
 background-size:100% 100%;
 background-image:url('so2.png');
 opacity:0;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
+image-rendering:-webkit-optimize-contrast;
 }
 #start::after {
 content:"";
@@ -102,8 +100,7 @@ margin-left:0px;
 background-size:100% 100%;
 background-image:url('so3.png');
 opacity:0;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: optimize-contrast;
+image-rendering:-webkit-optimize-contrast;
 }
 #taskbar #rightframe #time {
 color:white;

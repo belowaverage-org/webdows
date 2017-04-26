@@ -129,6 +129,8 @@ new explorer.window().resize(160, 100).title('Animation Button').controls([]).ce
     this.body.find('button.c').click(function() {
         explorer.theme();
     });
+	$('button.a').css('position', 'absolute');
+	explorer.drag('button.a');
 });
 //system.loader('webdows/welcome.js');
 system.loader('programs/ForkMe/index.js');

@@ -19,9 +19,7 @@ var explorer = {
         return themeName;
     },
     drag : function(target, handle, callback) {
-        var search = '#desktop.explorer';
         var mouseDown = false;
-        var targ = null;
         var offsetX = 0;
         var offsetY = 0;
         if(typeof handle == 'undefined') {
@@ -32,14 +30,10 @@ var explorer = {
         } else {
             handl = handle;
         }
-        if(typeof target == 'object') {
-            search = target;
-        }
-        $(search).on('mousedown touchstart', handl, function(e) {
+        $(target).on('mousedown touchstart', handl, function(e) {
             if((e.which == 0 || e.which == 1)) {
                 mouseDown = true;
-                targ = $(e.target).closest(target);
-                var targPos = targ.position();
+                var targPos = $(target).position();
                 if(typeof e.touches == 'undefined') {
                     offsetX = e.clientX - targPos.left;
                     offsetY = e.clientY - targPos.top;
@@ -52,7 +46,8 @@ var explorer = {
             if(e.which == 0 || e.which == 1) {
                 mouseDown = false;
             }
-        }).on('mousemove touchmove', function(e) {
+        });
+        $(target).parent().on('mousemove touchmove', function(e) {
             if(mouseDown) {
                 e.preventDefault();
                 if(typeof e.touches == 'undefined') {
@@ -63,7 +58,7 @@ var explorer = {
                     var y = e.touches[0].clientY - offsetY;
                 }
                 if(typeof callback == 'undefined') {
-                    targ.css({'left':x,'top':y});
+                    $(target).css({'left':x,'top':y});
                 } else {
                     callback.call({'x':x,'y':y});
                 }
@@ -93,7 +88,6 @@ var explorer = {
         setTimeout(function() {
             $('#desktop.explorer').removeAttr('style');
         }, 1000);
-        explorer.drag('.window', '.ttl');
         $('#desktop.explorer').on('DOMSubtreeModified', '.window .body', function() {
             var bod = $(this);
             $.each(bod.find('input'), function() {
@@ -114,17 +108,17 @@ var explorer = {
     },
     start : {
         toggle : function() {
-			var start = $('#desktop #startmenu');
-			if(start.hasClass('minimized')) {
-				start.removeClass('minimized');
+            var start = $('#desktop #startmenu');
+            if(start.hasClass('minimized')) {
+                start.removeClass('minimized');
                 if(!system.is.mobile()) {
                     $('#startmenu .search input').focus();
                 }
-			} else {
-				start.addClass('minimized');
+            } else {
+                start.addClass('minimized');
                 $('#startmenu .search input').val('');
                 explorer.start.allProgramsSearch('');
-			}
+            }
             if($('#startmenu .lllist').hasClass('all')) {
                 explorer.start.allProgramsToggle();
             }
@@ -168,8 +162,8 @@ var explorer = {
                 explorer.start.addRButton(v.title, v.icon, v.callback, v.context);
             });
         },
-		addRButton : function(title, icon, callback, context) {
-			var callbackID = system.guid();
+        addRButton : function(title, icon, callback, context) {
+            var callbackID = system.guid();
             var jqid = '#startmenu .rllist .button[callbackID='+callbackID+']';
             $('#startmenu .rllist').append('<div callbackID="'+callbackID+'" icon="'+icon+'" class="button">'+title+'</div>');
             $(jqid).click(callback).click(function() {
@@ -188,8 +182,8 @@ var explorer = {
                 });
             }
             return $('#startmenu .rllist .button[callbackID='+callbackID+']');
-		},
-		addLButton : function(title, icon, callback) {
+        },
+        addLButton : function(title, icon, callback) {
             var callbackID = system.guid();
             $('#startmenu .lllist').append('<div callbackID="'+callbackID+'" class="button"><span class="icon"></span>'+title+'</div>');
             if(typeof icon !== 'undefined') {
@@ -211,7 +205,7 @@ var explorer = {
                 ]);
             });
             return $('#startmenu .lllist .button[callbackID='+callbackID+']');
-		},
+        },
         allProgramsToggle : function() {
             var start = $('#startmenu .lllist');
             if(start.hasClass('all')) {
@@ -264,10 +258,10 @@ var explorer = {
             callback.call(this);
             return this;
         }
-		this.center = function(position, offsetX, offsetY) {
+        this.center = function(position, offsetX, offsetY) {
             var explorer = $('#desktop.explorer');
-			var top = (explorer.height() - this.jq.outerHeight()) / 2;
-			var left = (explorer.width() - this.jq.outerWidth()) / 2;
+            var top = (explorer.height() - this.jq.outerHeight()) / 2;
+            var left = (explorer.width() - this.jq.outerWidth()) / 2;
             if(typeof position !== 'undefined') {
                 pchar = position.split(' ');
                 if($.inArray('top', pchar) !== -1) {
@@ -289,9 +283,9 @@ var explorer = {
             if(typeof offsetY !== 'undefined') {
                 top = top + offsetY;
             }
-			this.jq.css({'position':'absolute', 'margin':0, 'top': top+'px', 'left': left+'px'});
+            this.jq.css({'position':'absolute', 'margin':0, 'top': top+'px', 'left': left+'px'});
             return this;
-		};
+        };
         this.closeWith = function(parent) {
             var child = this;
             parent.close = (function() {
@@ -522,6 +516,7 @@ var explorer = {
             $('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
                 e.data.window.close();
             });
+            explorer.drag(this.jq, '.ttl');
             this.controls(['min','max']);
             this.resize(300, 200);
             this.front();
@@ -540,8 +535,8 @@ var explorer = {
         });
         $('#desktop').on('mousedown mouseup contextclose', {context: this}, function(e) {
             if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
-				e.data.context.jq.remove();
-			}
+                e.data.context.jq.remove();
+            }
         });
         this.hover = false;
         this.jq.hover(function() {
