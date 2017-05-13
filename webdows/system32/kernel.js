@@ -20,160 +20,160 @@ $('#bootlog').append('<pre>jQuery UI TouchPunch...GOOD</pre>');
 $('#bootlog').append('<pre>Platform...GOOD</pre>');
 /*! Kernel Functions */
 function blueScreen(error) {
-    $('body').attr('style','');
-    $('body').css({'background-color':'blue','font-family':'Courier','color':'white'});
-    $('body').html('Webdows (c) 2015 - 2017<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
-    $('body').append(error);
+	$('body').attr('style','');
+	$('body').css({'background-color':'blue','font-family':'Courier','color':'white'});
+	$('body').html('Webdows (c) 2015 - 2017<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, disable or remove any newly installed software.<br><br>Technical information:<br><br>');
+	$('body').append(error);
 }
 var legacySetTimeout = setTimeout;
 setTimeout = function(callback, interval) {
-    return legacySetTimeout(callback, interval);
+	return legacySetTimeout(callback, interval);
 }
 /*! Remove NO SCRIPT */
 $('noscript').remove();
 /*! Error Handler */
 window.onerror = function(message, source) {
-    system.error(message, 'onerror '+source);
+	system.error(message, 'onerror '+source);
 };
 $(document).ajaxError(function(e, jqxhr, s, error) {
-    system.error('HTTP Status: '+jqxhr.status+'<br>'+error, 'ajaxError '+s.url);
+	system.error('HTTP Status: '+jqxhr.status+'<br>'+error, 'ajaxError '+s.url);
 });
 /*! System Class */
 var system = {
-    formatAMPM : function(date) {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
-    },
-    error : function(errorMessage, filePath) {
-        if(typeof explorer !== 'undefined') {
-            var errorWin = new explorer.window()
-            .center()
-            .title('ERROR: '+filePath)
-            .icon('webdows/resources/icons/aler.ico')
-            .body
-            .html(filePath+'<hr>'+errorMessage)
-            .css({'padding':'10px'});
-        } else {
-            blueScreen('SYSTEMHALT @ '+filePath+'<br><br>'+errorMessage);
-        }
-    },
-    registry : {
-        set : function(key, value) {
-            if(typeof key == 'undefined' || key == '') {
-                key = '';
-            }
-            while(key.startsWith('/')) {
-                key = key.substr(1);
-            }
-            while(key.endsWith('/')) {
-                key = key.slice(0, -1);
-            }
-            $.each(localStorage, function(k) {
-                if(key == '') {
-                    localStorage.removeItem(k); 
-                }
-                if(k.startsWith(key+'/')) {
-                    localStorage.removeItem(k); 
-                }
-                if(k == key) {
-                    localStorage.removeItem(k); 
-                }
-            });
-            if(typeof value !== 'undefined') {
-                if(typeof value == 'object') {
-                    if(key !== '') {
-                        key = key + '/';
-                    }
-                    $.each(value, function(k) {
-                        system.registry.set(key+k, this.valueOf());                       
-                    });
-                } else {
-                    localStorage.setItem(key, value);   
-                }
-            }
-        },
-        get : function(key) {
-            var ret = {};
-            if(typeof key == 'undefined') {
-                key = '';
-            }
-            $.each(localStorage, function(k) {
-                if(key == '' || k == key || k.startsWith(key+'/')) {
-                    var path = '';
-                    if(k.startsWith(key+'/')) {
-                        path = key+'/';
-                    } else {
-                        path = key;
-                    }
-                    k = k.replace(path, '');
-                    var split = k.split('/');
-                    var next = k.split('/').shift();
-                    if(split.length == 1) {
-                        var data = this.valueOf();
-                        if(k == '') {
-                            ret = data;
-                            return false;
-                        } else {
-                            ret[k] = data;
-                        }
-                    } else if(typeof ret[next] !== 'object') {
-                        if(next == '') {
-                            ret = system.registry.get(path+next+'/');
-                            return false;
-                        } else {
-                            ret[next] = system.registry.get(path+next);
-                            
-                        }
-                    }
-                }
-            });
-            if($.isEmptyObject(ret)) {
-                ret = undefined;
-            }
-            return ret;
-        }
-    },
-    is : {
-        mobile : function() {
-            var ret = false;
-                if(typeof window.orientation !== 'undefined'){
-                    ret = true;
-                }
-            return ret;
-        }
-    },
-    guid : function() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return 'WKGUID'+s4()+s4()+s4()+s4()+s4()+s4()+s4()+s4();
-    },
-    loader : function(path, callback) {
-        var successTF = false;
-        $.ajax({
-            type: "GET",
-            url: path,
-            dataType: "text",
-            cache: true
-        }).done(function(data) {
-            try {
-                eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
-                successTF = true;
-            } catch(e) {
-                system.error(e, 'system.loader '+path);
-            }
-        }).always(function() {
-            if(typeof callback !== 'undefined') {
-                callback.call(successTF);
-            }
-        });
-    }
+	formatAMPM : function(date) {
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12;
+		minutes = minutes < 10 ? '0'+minutes : minutes;
+		var strTime = hours + ':' + minutes + ' ' + ampm;
+		return strTime;
+	},
+	error : function(errorMessage, filePath) {
+		if(typeof explorer !== 'undefined') {
+			var errorWin = new explorer.window()
+			.center()
+			.title('ERROR: '+filePath)
+			.icon('webdows/resources/icons/aler.ico')
+			.body
+			.html(filePath+'<hr>'+errorMessage)
+			.css({'padding':'10px'});
+		} else {
+			blueScreen('SYSTEMHALT @ '+filePath+'<br><br>'+errorMessage);
+		}
+	},
+	registry : {
+		set : function(key, value) {
+			if(typeof key == 'undefined' || key == '') {
+				key = '';
+			}
+			while(key.startsWith('/')) {
+				key = key.substr(1);
+			}
+			while(key.endsWith('/')) {
+				key = key.slice(0, -1);
+			}
+			$.each(localStorage, function(k) {
+				if(key == '') {
+					localStorage.removeItem(k); 
+				}
+				if(k.startsWith(key+'/')) {
+					localStorage.removeItem(k); 
+				}
+				if(k == key) {
+					localStorage.removeItem(k); 
+				}
+			});
+			if(typeof value !== 'undefined') {
+				if(typeof value == 'object') {
+					if(key !== '') {
+						key = key + '/';
+					}
+					$.each(value, function(k) {
+						system.registry.set(key+k, this.valueOf());					   
+					});
+				} else {
+					localStorage.setItem(key, value);   
+				}
+			}
+		},
+		get : function(key) {
+			var ret = {};
+			if(typeof key == 'undefined') {
+				key = '';
+			}
+			$.each(localStorage, function(k) {
+				if(key == '' || k == key || k.startsWith(key+'/')) {
+					var path = '';
+					if(k.startsWith(key+'/')) {
+						path = key+'/';
+					} else {
+						path = key;
+					}
+					k = k.replace(path, '');
+					var split = k.split('/');
+					var next = k.split('/').shift();
+					if(split.length == 1) {
+						var data = this.valueOf();
+						if(k == '') {
+							ret = data;
+							return false;
+						} else {
+							ret[k] = data;
+						}
+					} else if(typeof ret[next] !== 'object') {
+						if(next == '') {
+							ret = system.registry.get(path+next+'/');
+							return false;
+						} else {
+							ret[next] = system.registry.get(path+next);
+							
+						}
+					}
+				}
+			});
+			if($.isEmptyObject(ret)) {
+				ret = undefined;
+			}
+			return ret;
+		}
+	},
+	is : {
+		mobile : function() {
+			var ret = false;
+				if(typeof window.orientation !== 'undefined'){
+					ret = true;
+				}
+			return ret;
+		}
+	},
+	guid : function() {
+		function s4() {
+			return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+		}
+		return 'WKGUID'+s4()+s4()+s4()+s4()+s4()+s4()+s4()+s4();
+	},
+	loader : function(path, callback) {
+		var successTF = false;
+		$.ajax({
+			type: "GET",
+			url: path,
+			dataType: "text",
+			cache: true
+		}).done(function(data) {
+			try {
+				eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
+				successTF = true;
+			} catch(e) {
+				system.error(e, 'system.loader '+path);
+			}
+		}).always(function() {
+			if(typeof callback !== 'undefined') {
+				callback.call(successTF);
+			}
+		});
+	}
 };
 $('#bootlog').append('<pre>SYSTEM CLASS...GOOD</pre>');
 $('#bootlog').append('<pre>Passing to WEBLDR.JS...<br>---------------------------</pre>');

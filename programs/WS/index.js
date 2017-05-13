@@ -7,5 +7,5 @@ File: programs/WS/index.js
 */
 new explorer.window()
 .callback(function() {
-    
+	
 });

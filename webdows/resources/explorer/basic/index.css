@@ -215,12 +215,12 @@ min-height:38px;
 min-width:117px;
 }
 @keyframes fadein {
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
+	from {
+		opacity:0;
+	}
+	to {
+		opacity:1;
+	}
 }
 .window.close {
 opacity:0;
