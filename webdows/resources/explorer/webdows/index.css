@@ -508,11 +508,16 @@ padding-left:5px;
 padding-right:5px;
 border:1px solid transparent;
 }
-.window.menuBar .menuBar span:hover {
+.window.menuBar .menuBar span:hover, .window.menuBar .menuBar span.clicked {
 border:1px solid rgba(0,0,0,.2);
 border-radius:3px;
 box-shadow:inset 1px 1px 0px rgba(255,255,255,.6), inset -1px -1px 0px rgba(255,255,255,.6);
 background:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.01) 50%, rgba(0,0,0,.12) 50%, transparent 100%);
+}
+.window.menuBar .menuBar span.clicked {
+border:1px solid rgba(0,0,0,.65);
+box-shadow:inset 0px 3px 5px rgba(0,0,0,.3);
+background-color:rgba(0,0,0,.05);
 }
 #startmenu {
 -webkit-backdrop-filter:blur(3px);

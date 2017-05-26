@@ -309,6 +309,7 @@ var explorer = {
 			this.jq.addClass('menuBar');
 			$('body').on('mousedown mouseup', function(e) {
 				if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
+					$(men).find('span').removeClass('clicked');
 					clicked = false;
 				}
 			});
@@ -318,16 +319,19 @@ var explorer = {
 				}
 				con = new explorer.context()
 				.append(content.context)
-				.location($(button).offset().left, $(button).offset().top + $(button).outerHeight());
+				.location($(button).offset().left, $(button).offset().top + 1 + $(button).outerHeight());
 			}
 			$.each(buttArr, function(k) {
 				var content = this;
 				$('<span>'+content.title+'</span>').appendTo(men).click(function(e) {
 					clicked = true;
+					$(this).addClass('clicked');
 					show(this, content);
 					e.stopImmediatePropagation();
 				}).mouseover(function() {
 					if(clicked) {
+						$(men).find('span').removeClass('clicked');
+						$(this).addClass('clicked');
 						show(this, content);
 					}
 				});
