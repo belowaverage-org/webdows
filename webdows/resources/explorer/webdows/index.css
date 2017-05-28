@@ -215,6 +215,9 @@ min-height:100px;
 min-width:150px;
 transition:opacity .2s linear, transform .2s linear;
 animation:open .2s linear;
+padding-left:6px;
+padding-right:6px;
+padding-bottom:6px;
 display:flex;
 flex-direction:column;
 }
@@ -361,11 +364,9 @@ left:0px !important;
 border:none !important;
 border-radius:0px;
 box-shadow:none !important;
+padding:0px;
 }
 .window.maximized .body {
-margin-left:0px;
-margin-right:0px;
-margin-bottom:0px;
 box-shadow:none !important;
 border:none !important;
 border-radius:0px;
@@ -406,9 +407,6 @@ display:inline-block;
 border:1px solid rgba(0,0,0,.7);
 border-radius:2px;
 box-shadow:0px 1px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4), 0px -1px 0px rgba(255,255,255,.4), -1px 0px 0px rgba(255,255,255,.4);
-margin-right:6px;
-margin-left:6px;
-margin-bottom:6px;
 background-color:#F0F0F0;
 color:black;
 overflow:auto;
@@ -485,8 +483,6 @@ box-shadow:0px 1px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4),  
 }
 .window .menuBar {
 background:linear-gradient(to bottom, #fdfeff 0%,#e5e9f5 33%,#e5e9f5 33%,#d5dbeb 34%,#e0e6f6 100%);
-margin-left:6px;
-margin-right:6px;
 padding-top:1px;
 border-top:1px solid rgba(0,0,0,.7);
 border-left:1px solid rgba(0,0,0,.7);
@@ -497,8 +493,6 @@ border-top-right-radius:2px;
 line-height:0px;
 }
 .window.maximized .menuBar {
-margin-left:0px;
-margin-right:0px;
 border-left:none;
 border-right:none;
 border-top-left-radius:0px;
