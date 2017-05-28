@@ -215,6 +215,8 @@ min-height:100px;
 min-width:150px;
 transition:opacity .2s linear, transform .2s linear;
 animation:open .2s linear;
+display:flex;
+flex-direction:column;
 }
 @keyframes open {
 	0% {
@@ -361,9 +363,9 @@ border-radius:0px;
 box-shadow:none !important;
 }
 .window.maximized .body {
-left:0px;
-right:0px;
-bottom:0px;
+margin-left:0px;
+margin-right:0px;
+margin-bottom:0px;
 box-shadow:none !important;
 border:none !important;
 border-radius:0px;
@@ -402,16 +404,16 @@ display:inline-block;
 }
 .window .body {
 border:1px solid rgba(0,0,0,.7);
-position:absolute;
-left:6px;
 border-radius:2px;
 box-shadow:0px 1px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4), 0px -1px 0px rgba(255,255,255,.4), -1px 0px 0px rgba(255,255,255,.4);
-right:6px;
-top:28px;
-bottom:6px;
+margin-right:6px;
+margin-left:6px;
+margin-bottom:6px;
 background-color:#F0F0F0;
 color:black;
 overflow:auto;
+position:relative;
+flex:1;
 }
 .window.active .body {
 border:1px solid rgba(0,0,0,.8);
@@ -476,19 +478,15 @@ left:0px;
 top:0px;
 }
 .window.menuBar .body {
-top:48px;
 border-top:none;
 border-top-left-radius:0px;
 border-top-right-radius:0px;
+box-shadow:0px 1px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4),  -1px 0px 0px rgba(255,255,255,.4);
 }
-.window.menuBar .menuBar {
-height:18px;
+.window .menuBar {
 background:linear-gradient(to bottom, #fdfeff 0%,#e5e9f5 33%,#e5e9f5 33%,#d5dbeb 34%,#e0e6f6 100%);
-position:absolute;
-top:28px;
-left:6px;
-right:6px;
-/*border-bottom:1px solid #b6bccc;*/
+margin-left:6px;
+margin-right:6px;
 padding-top:1px;
 border-top:1px solid rgba(0,0,0,.7);
 border-left:1px solid rgba(0,0,0,.7);
@@ -496,25 +494,33 @@ border-right:1px solid rgba(0,0,0,.7);
 box-shadow:-1px 0px 0px rgba(255,255,255,.4), 1px 0px 0px rgba(255,255,255,.4), 0px -1px 0px rgba(255,255,255,.4), inset 0px -1px 0px #b6bccc;
 border-top-left-radius:2px;
 border-top-right-radius:2px;
+line-height:0px;
 }
-.window.menuBar .menuBar span {
+.window.maximized .menuBar {
+margin-left:0px;
+margin-right:0px;
+border-left:none;
+border-right:none;
+border-top-left-radius:0px;
+border-top-right-radius:0px;
+}
+.window .menuBar span {
 vertical-align:top;
 font-size:12px;
 margin-left:1px;
 line-height:16px;
 display:inline-block;
-height:16px;
 padding-left:5px;
 padding-right:5px;
 border:1px solid transparent;
 }
-.window.menuBar .menuBar span:hover, .window.menuBar .menuBar span.clicked {
+.window .menuBar span:hover, .window .menuBar span.clicked {
 border:1px solid rgba(0,0,0,.2);
 border-radius:3px;
 box-shadow:inset 1px 1px 0px rgba(255,255,255,.6), inset -1px -1px 0px rgba(255,255,255,.6);
 background:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.01) 50%, rgba(0,0,0,.12) 50%, transparent 100%);
 }
-.window.menuBar .menuBar span.clicked {
+.window .menuBar span.clicked {
 border:1px solid rgba(0,0,0,.65);
 box-shadow:inset 0px 3px 5px rgba(0,0,0,.3);
 background-color:rgba(0,0,0,.05);

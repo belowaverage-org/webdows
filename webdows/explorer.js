@@ -305,7 +305,7 @@ var explorer = {
 		this.menuBar = function(buttArr) {
 			var con = null;
 			var clicked = false;
-			var men = $('<div class="menuBar"></div>').insertAfter(this.jq.find('.body'));
+			var men = $('<div class="menuBar"></div>').insertBefore(this.jq.find('.body'));
 			this.jq.addClass('menuBar');
 			$('body').on('mousedown mouseup', function(e) {
 				if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {

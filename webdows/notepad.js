@@ -11,7 +11,9 @@ new explorer.window()
 .resize(500, 300)
 .center()
 .callback(function() {
-	this.menuBar([
+	var bod = this.body;
+	var win = this;
+	var bar = [
 		{
 			title: 'File',
 			context: [
@@ -22,9 +24,16 @@ new explorer.window()
 				}, {
 					title: 'Save'
 				}, {}, {
-					title: 'Print...'
+					title: 'Print...',
+					callback: function() {
+						var text = bod.find('textarea').val();
+						var pre = $('<pre></pre>').html(text).attr('style', 'margin:0;display:block;background-color:white;position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:1010').appendTo('#desktop.explorer');
+						window.print();
+						pre.remove();
+					}
 				}, {}, {
-					title: 'Exit'
+					title: 'Exit',
+					callback: function() { win.close(); }
 				}
 			]
 		}, {
@@ -59,11 +68,13 @@ new explorer.window()
 			title: 'Help',
 			context: [
 				{
-					title: 'About Notepad'
+					title: 'About Notepad',
+					callback: function() { system.loader('webdows/webver.js'); }
 				}
 			]
 		}
-	]);
-	this.body.html('<textarea></textarea>');
-	this.body.find('textarea').attr('style', 'overflow:scroll;top:0px;left:0px;position:absolute;border:0;margin:0;width:100%;height:100%;margin:0;padding:0;resize:none;');
+	];
+	this.menuBar(bar);
+	bod.html('<textarea></textarea>');
+	bod.find('textarea').attr('style', 'overflow:scroll;top:0px;left:0px;position:absolute;border:0;margin:0;width:100%;height:100%;margin:0;padding:0;resize:none;');
 });
