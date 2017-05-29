@@ -8,7 +8,8 @@ File: webdows/resources/explorer/webdows/index.css
 font-family:NotoSans;
 }
 #desktop {
-background-size:100% 100%;
+background-size:100%;
+background-position:center;
 cursor: url('cur.png'), default;
 background-image:url('bg.png');
 }
