@@ -7,7 +7,7 @@
 		"startup": [
 			"webdows/config/explorer.startup.js",
 			"webdows/welcome.js",
-			"webdows/resources/explorer/animation.js."
+			"webdows/resources/explorer/animation.js"
 		]
     },
     "system": {
