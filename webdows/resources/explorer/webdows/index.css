@@ -8,10 +8,10 @@ File: webdows/resources/explorer/webdows/index.css
 font-family:NotoSans;
 }
 #desktop {
-background-size:100%;
+background-size:cover;
 background-position:center;
 cursor: url('cur.png'), default;
-background-image:url('bg.png');
+background-image:url('bg.jpg');
 }
 #taskbar {
 -webkit-backdrop-filter:blur(3px);

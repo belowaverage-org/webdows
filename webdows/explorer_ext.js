@@ -16,6 +16,11 @@ $.extend(explorer, {
 		.center()
 		.title('File Explorer')
 		.icon('webdows/resources/icons/fold.ico')
+		.menuBar([
+		{
+			title: 'asdf'
+		}
+		])
 		.callback(function() {
 			var win = this;
 			var body = this.body;
@@ -104,7 +109,7 @@ $.extend(explorer, {
 							icon = 'webdows/resources/icons/file.ico';
 							switch(file.split('.').pop()) {
 								case 'txt':   icon = 'webdows/resources/icons/note.ico'; break;
-								case 'js':	icon = 'webdows/resources/icons/exei.ico'; break;
+								case 'js' :	  icon = 'webdows/resources/icons/exei.ico'; break;
 								case 'png':   icon = 'webdows/resources/icons/pngi.ico'; break;
 								case 'gif':   icon = 'webdows/resources/icons/gifi.ico'; break;
 								case 'jpg':   icon = 'webdows/resources/icons/jpgi.ico'; break;
@@ -137,7 +142,7 @@ $.extend(explorer, {
 			});
 			explore(location);
 			ret = this;
-		}).body.css({'top':'62px','background-color':'white'}).parent().css('min-height','100px');
+		}).body.css({'background-color':'white'}).parent().css('min-height','100px');
 		return ret;
 	}
 });

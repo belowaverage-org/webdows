@@ -694,5 +694,7 @@ var explorer = {
 };
 explorer.initiate();
 system.loader('webdows/explorer_ext.js', function() {
-	system.loader('webdows/config/explorer.startup.js');
+	$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/startup'), function() {
+		system.loader(this);
+	});
 });

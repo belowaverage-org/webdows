@@ -3,9 +3,17 @@
         "theme": {
             "default": "webdows",
             "extraCSS": "/* HKEY_LOCAL_WEBDOWS/explorer/theme/extraCSS */"
-        }
+        },
+		"startup": [
+			"webdows/config/explorer.startup.js",
+			"webdows/welcome.js",
+			"webdows/resources/explorer/animation.js."
+		]
     },
     "system": {
+		"startup": [
+			"webdows/explorer.js"
+		],
         "files": {
             "ext": {
                 "txt": {

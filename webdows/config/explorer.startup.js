@@ -118,22 +118,3 @@ $('#desktop.explorer').on('contextmenu', function(e) {
 		]);
 	}
 });
-new explorer.window().resize(160, 100).title('Animation Button').controls([]).center('bottom left', 20, -50).callback(function() {
-	this.body.html('<button class="a" style="width:100px;height:calc(100% - 20px);margin:10px;">Play boot animation</button><button class="b" style="width:100px;height:calc(100% - 20px);margin:10px;">Test Elements</button><button class="c" style="width:100px;height:calc(100% - 20px);margin:10px;">Reload Theme</button>');
-	this.body.find('button.a').click(function() {
-		system.loader('webdows/resources/explorer/animation.js');
-	});
-	this.body.find('button.b').click(function() {
-		system.loader('test.js');
-	});
-	this.body.find('button.c').click(function() {
-		explorer.theme();
-	});
-	$('button.a').css('position', 'absolute');
-	explorer.drag('button.a');
-});
-//system.loader('webdows/welcome.js');
-system.loader('programs/ForkMe/index.js');
-//system.loader('webdows/run.js');
-//system.loader('webdows/resources/explorer/animation.js');
-//explorer.file_explorer();

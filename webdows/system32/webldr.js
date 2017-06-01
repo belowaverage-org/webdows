@@ -72,10 +72,12 @@ $.getJSON('webdows/config/wfs.json', function(files) {
 	var timer = setInterval(function() {
 		if(system.bootLoader.loaded) {
 			clearInterval(timer);
-			$.ajax({
-				url: 'webdows/explorer.js',
-				dataType: 'script',
-				async: true
+			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/system/startup'), function() {
+				$.ajax({
+					url: this,
+					dataType: 'script',
+					async: true
+				});
 			});
 			$('#bootlog').remove();
 		}
