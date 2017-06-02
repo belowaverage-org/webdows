@@ -307,7 +307,7 @@ var explorer = {
 			var clicked = false;
 			var men = $('<div class="menuBar"></div>').insertBefore(this.jq.find('.body'));
 			this.jq.addClass('menuBar');
-			$('body').on('mousedown mouseup', function(e) {
+			$('body').on('mousedown', function(e) {
 				if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
 					$(men).find('span').removeClass('clicked');
 					clicked = false;
@@ -319,17 +319,21 @@ var explorer = {
 				}
 				con = new explorer.context()
 				.append(content.context)
-				.location($(button).offset().left, $(button).offset().top + 1 + $(button).outerHeight());
+				.location($(button).offset().left, $(button).offset().top + $(button).outerHeight());
 			}
 			$.each(buttArr, function(k) {
 				var content = this;
-				$('<span>'+content.title+'</span>').appendTo(men).click(function(e) {
-					clicked = true;
-					$(this).addClass('clicked');
-					show(this, content);
-					e.stopImmediatePropagation();
+				$('<span>'+content.title+'</span>').appendTo(men).on('mousedown', function(e) {
+					var butt = this;
+					if(!$(butt).hasClass('clicked')) {
+						setTimeout(function() {
+							clicked = true;
+							$(butt).addClass('clicked');
+							show(butt, content);
+						});
+					}
 				}).mouseover(function() {
-					if(clicked) {
+					if(clicked && !$(this).hasClass('clicked')) {
 						$(men).find('span').removeClass('clicked');
 						$(this).addClass('clicked');
 						show(this, content);
@@ -542,7 +546,7 @@ var explorer = {
 			e.stopPropagation();
 			e.preventDefault();
 		});
-		$('#desktop').on('mousedown mouseup contextclose', {context: this}, function(e) {
+		$('#desktop').on('mousedown contextclose', {context: this}, function(e) {
 			if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
 				e.data.context.jq.remove();
 			}
