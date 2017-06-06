@@ -110,6 +110,11 @@ var explorer = {
 				});
 			});
 		});
+		system.loader('webdows/explorer_ext.js', function() {
+			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/startup'), function() {
+				system.loader(this);
+			});
+		});
 	},
 	start : {
 		toggle : function() {
@@ -546,7 +551,7 @@ var explorer = {
 			e.stopPropagation();
 			e.preventDefault();
 		});
-		$('#desktop').on('mousedown contextclose', {context: this}, function(e) {
+		$('#desktop').on('mousedown contextclose contextmenu', {context: this}, function(e) {
 			if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
 				e.data.context.jq.remove();
 			}
@@ -697,8 +702,3 @@ var explorer = {
 	}
 };
 explorer.initiate();
-system.loader('webdows/explorer_ext.js', function() {
-	$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/startup'), function() {
-		system.loader(this);
-	});
-});
