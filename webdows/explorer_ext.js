@@ -7,7 +7,7 @@ File: webdows/explorer_ext.js
 */
 
 /* 
-explorer.dir(selector) //Draws a directory in the selected JQ selector.
+explorer.file.draw(selector) //Draws a directory in the selected JQ selector.
 .path(path) //Moves to path.
 .forward() //Moves forward: Returns false if cant move any farther, True if more is avalible
 .back() //Moves backwords: Returns false if cant move any farther, True if more is avalible
@@ -16,11 +16,11 @@ explorer.dir(selector) //Draws a directory in the selected JQ selector.
 	//Called back after creation.
 });
 
-explorer.selectFile(path, function() { //Function that returns a callback of the path that is selected.
+explorer.file.select(path, function() { //Function that returns a callback of the path that is selected.
 	
 });
 
-explorer.explore(path); //Opens explorer window.
+explorer.file.explore(path); //Opens explorer window.
 
 */
 $.extend(explorer, {

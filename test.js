@@ -29,7 +29,6 @@ new explorer.window()
 	}
 ])
 .callback(function() {
-	
 })
 .body
 .html(`

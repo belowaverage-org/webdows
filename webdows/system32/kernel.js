@@ -154,8 +154,12 @@ var system = {
 		}
 		return 'WKGUID'+s4()+s4()+s4()+s4()+s4()+s4()+s4()+s4();
 	},
-	loader : function(path, callback) {
+	loader : function(path, args, callback) {
 		var successTF = false;
+		if(typeof args == 'function') {
+			callback = args;
+			args = {};
+		}
 		$.ajax({
 			type: "GET",
 			url: path,
@@ -163,7 +167,12 @@ var system = {
 			cache: true
 		}).done(function(data) {
 			try {
-				eval('(function() {var script = {}; script.path = \''+path+'\'; '+data+'})();');
+				(function() {
+					var loader = {};
+					loader.args = args;
+					loader.path = path;
+					eval(data);
+				})();
 				successTF = true;
 			} catch(e) {
 				system.error(e, 'system.loader '+path);

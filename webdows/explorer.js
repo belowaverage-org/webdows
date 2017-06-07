@@ -135,6 +135,9 @@ var explorer = {
 		},
 		initiate : function() {
 			$('#desktop').append('<div id="startmenu"><div class="lllist"></div><div class="apb"></div><div class="search"><input type="text"/></div><div class="rllist"></div><div class="icon"></div></div>');
+			$('#startmenu .rllist').on('mouseleave', function() {
+				$('#startmenu > .icon').css('background-image', '');
+			});
 			$('#startmenu .apb').click(function() {
 				explorer.start.allProgramsToggle(); 
 				if($('#startmenu .search input').val() !== '') {
@@ -182,8 +185,6 @@ var explorer = {
 				if(typeof icon !== 'undefined') {
 					$('#startmenu > .icon').css('background-image', 'url(\''+$(this).attr('icon')+'\')');
 				}
-			}, function() {
-				$('#startmenu > .icon').css('background-image', '');
 			});
 			if(typeof context !== 'undefined') {
 				$(jqid).contextmenu(function(e) {
