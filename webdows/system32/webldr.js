@@ -30,14 +30,25 @@ $.getJSON('webdows/config/wfs.json', function(files) {
 	system.loader('webdows/system32/loadscrn.js');
 	function list(obj, path) {
 		$.each(obj, function(k) {
-			if(typeof this.valueOf() == 'string') {
-				system.bootLoader.loadList[system.bootLoader.total++] = path+this;
-			} else if(typeof this.valueOf() == 'object') {
-				list(this.valueOf(), path+k+'/');
+			var obj = this;
+			var skip = false;
+			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/system/webldr/exclude'), function() {
+				if(this == path+obj || this == path) {
+					skip = true;
+					return true;
+				}
+			});
+			if(skip) {
+				return true;
+			}
+			if(typeof obj.valueOf() == 'string') {
+				system.bootLoader.loadList[system.bootLoader.total++] = path+obj;
+			} else if(typeof obj.valueOf() == 'object') {
+				list(obj.valueOf(), path+k+'/');
 			}
 		});
 	}
-	list(system.files.webdows, 'webdows/');
+	list(system.files, '');
 	function wfsLoad(list, i) {
 		if(typeof list[i] == 'string') {
 			$('#bootlog').append('<pre>'+list[i]+'...</pre> ');

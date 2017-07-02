@@ -11,6 +11,14 @@
 		]
     },
     "system": {
+		"webldr": {
+			"exclude": [
+				"index.html",
+				"Public/",
+				"programs/",
+				"webdows/resources/icons/"
+			]
+		},
 		"startup": [
 			"webdows/explorer.js"
 		],

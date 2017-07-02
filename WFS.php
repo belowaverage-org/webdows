@@ -8,7 +8,8 @@ function wfsBuild($dir) {
         if($node == 'Thumbs.db')  continue;
         if($node == 'CNAME')      continue;
         if($node == '.gitignore') continue;
-        if($node == 'README.md')  continue;
+        if($node == 'readme.md')  continue;
+		if($node == 'WFS.php')  continue;
         if (is_dir($dir.DIRECTORY_SEPARATOR.$node)) {
             $contents[$node] = wfsBuild($dir.DIRECTORY_SEPARATOR.$node);
         } else {
