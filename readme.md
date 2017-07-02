@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://belowaverage.org/webdows/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/dev.png"></a>
 <a href="https://github.com/belowaverage-org/webdows/wiki"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/docs.png"></a>
-<a href="http://webdows.belowaverage.org/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/demo.png"></a>
+<a href="http://belowaverage-org.github.io/webdows/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/demo.png"></a>
 <a href="https://belowaverage.org/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/website.png"></a>
 </p>
 <hr>
