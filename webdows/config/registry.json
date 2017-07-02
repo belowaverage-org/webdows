@@ -16,7 +16,9 @@
 				"index.html",
 				"Public/",
 				"programs/",
-				"webdows/resources/icons/"
+				"webdows/resources/icons/",
+				"webdows/config/",
+				"webdows/system32/"
 			]
 		},
 		"startup": [
