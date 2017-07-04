@@ -8,7 +8,7 @@ File: programs/Youtube Extractor/index.js
 new explorer.window()
 .title('Youtube Extractor')
 .controls(['min'])
-.resize(500, 410)
+.resize(500, 420)
 .icon('programs/Youtube Extractor/logo.png')
 .center()
 .callback(function() {
@@ -52,8 +52,9 @@ new explorer.window()
 	bod.find('div.wrapper').attr('style', 'position:relative;width:470px;margin-left:auto;margin-right:auto;');
 	bod.find('input.extract').attr('style', 'margin-left:auto;margin-right:auto;width:466px;text-align:center;margin-top:20px;display:block;');
 	bod.find('input.stat').attr('style', 'float:right;width:250px;');
+	bod.find('label').attr('style', 'font-size:14px;line-height: 25px;');
 	bod.find('img.logo').attr('style', 'margin-right:10px;float:left;width:100px;height:100px;display:inline-block;');
-	bod.find('div.results').attr('style', 'margin-top:10px;width:100%;height:205px;overflow:auto;')
+	bod.find('div.results').attr('style', 'margin-top:10px;width:100%;height:205px;overflow:auto;font-size:14px;');
 	bod.find('input.extract').on('input', function() {
 		if(bod.find('input.extract').val() !== '') {
 			bod.find('#title.stat').val('Checking URL...');
@@ -122,7 +123,7 @@ new explorer.window()
 									new explorer.window()
 									.title('Youtube Extractor - Converter')
 									.resize(500, 410)
-									.center()
+									.center('', 20, 20)
 									.front()
 									.controls([])
 									.callback(function() {
@@ -158,7 +159,7 @@ new explorer.window()
 							bod.find('div.results').append('<div'+style+' content="'+v.url+'" class="result"><span>'+v.ext+'</span><span class="mid">'+v.format+'</span><button>Download</button><button>Play</button></div>');
 							count = count + 1;
 						});
-						bod.find('div.results div.result span').attr('style', 'margin-right:5px;');
+						bod.find('div.results div.result span').attr('style', 'margin-right:5px;line-height:25px');
 						bod.find('div.results div.result span.mid').css('color', 'gray');
 						bod.find('div.results div.result button').css({'float':'right','margin-right':'3px'}).click(function() {
 							var vlink = $(this).parent().attr('content');
