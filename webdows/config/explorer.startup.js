@@ -9,9 +9,13 @@ explorer.start.append([
 		icon: 'webdows/resources/icons/pers.ico',
 		callback: function() { system.loader('webdows/personalize.js'); }
 	}, {
-		title: 'CMD',
+		title: 'cmd.js',
 		icon: 'webdows/resources/icons/scre.ico',
 		callback: function() { system.loader('webdows/cmd.js'); }
+	}, {
+		title: 'regedit.js',
+		icon: 'webdows/resources/icons/rege.ico',
+		callback: function() { system.loader('webdows/regedit.js'); }
 	}, {
 		title: 'Calculator',
 		icon: 'webdows/resources/icons/calc.ico',
