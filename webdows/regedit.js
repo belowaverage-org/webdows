@@ -14,7 +14,10 @@ new explorer.window()
 					if(path !== '') {
 						key = '/'+key;
 					}
-					$('<div path="'+path+key+'"><span>'+name+'</span></div>').appendTo(jq);
+					var reg = $('<div path="'+path+key+'"><span>'+name+'</span></div>').appendTo(jq);
+					if(!reg.parent().is(':last-child')) {
+						reg.addClass('border');
+					}
 				}
 			});
 		} else {
@@ -151,18 +154,21 @@ new explorer.window()
 		padding-top:5px;
 		position:absolute;
 		left:0px;
-		top:20px;
-		height:calc(100% - 25px);
+		top:21px;
+		height:calc(100% - 26px);
 		width:200px;
 		overflow:auto;
 		background-color:white;
 	}
 	.window[windowid=`+win.id+`] #RSideBar div {
 		padding-left:15px;
-		border-left:1px dotted gray;
+		border-left:1px solid transparent;
 		font-size:13px;
 		line-height:18px;
 		margin-left:-1px;
+	}
+	.window[windowid=`+win.id+`] #RSideBar div.border {
+		border-left:1px dotted gray;
 	}
 	.window[windowid=`+win.id+`] #LSide div.selected, .window[windowid=`+win.id+`] #RSideBar div.selected > span, .window[windowid=`+win.id+`] #RSideBar div.selected > span::before {
 		background-color:#cde8ff;
@@ -185,10 +191,10 @@ new explorer.window()
 	}
 	.window[windowid=`+win.id+`] #LSide {
 		position:absolute;
-		top:20px;
-		left:205px;
-		height:calc(100% - 30px);
-		width:calc(100% - 215px);
+		top:21px;
+		left:202px;
+		height:calc(100% - 31px);
+		width:calc(100% - 212px);
 		min-width:300px;
 		background-color:white;
 		overflow:auto;
@@ -218,7 +224,16 @@ new explorer.window()
 		top:0px;
 		left:0px;
 		font-size:12px;
-		line-height:16px
+		line-height:16px;
+		min-width:510px;
+	}
+	.window[windowid=`+win.id+`] #LSide b span:not(:first-child) {
+		border-left:1px solid lightgray;
+		padding-left:4px;
+		margin-left:-4px;
+	}
+	.window[windowid=`+win.id+`] #LSide b span:last-child {
+		width:calc(100% - 212px);
 	}
 	</style>
 	<input id="TSide" type="text">
