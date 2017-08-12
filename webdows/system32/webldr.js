@@ -87,10 +87,11 @@ $.getJSON('webdows/config/wfs.json', function(files) {
 				$.ajax({
 					url: this,
 					dataType: 'script',
-					async: true
+					async: true,
+					cache: true
 				});
 			});
-			$('#bootlog').remove();
+			$('body').html('');
 		}
 	}, 100);
 });
