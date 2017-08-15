@@ -81,4 +81,4 @@ var timer = setInterval(function() {
 		clearInterval(timer);
 		cleanup();
 	}
-}, 10);
+}, 100);

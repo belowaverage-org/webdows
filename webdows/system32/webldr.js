@@ -82,6 +82,7 @@ $.getJSON('webdows/config/wfs.json', function(files) {
 	wfsLoad(system.bootLoader.loadList, 0);
 	var timer = setInterval(function() {
 		if(system.bootLoader.loaded) {
+			$('body').html('');
 			clearInterval(timer);
 			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/system/startup'), function() {
 				$.ajax({
@@ -91,7 +92,6 @@ $.getJSON('webdows/config/wfs.json', function(files) {
 					cache: true
 				});
 			});
-			$('body').html('');
 		}
 	}, 100);
 });
