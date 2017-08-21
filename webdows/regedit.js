@@ -6,6 +6,10 @@ new explorer.window()
 .callback(function() {
 	var win = this;
 	function drawReg(path, jq) {
+		if(jq[0] == win.body.find('#RSideBar')[0]) {
+			jq.html('');
+			jq.removeClass('open');
+		}
 		if(!jq.hasClass('open')) {
 			jq.addClass('open');
 			$.each(system.registry.get(path), function(key) {
@@ -102,14 +106,25 @@ new explorer.window()
 			title: 'File',
 			context: [
 				{
-					title: 'Import...',
+					title: 'Import/Export...',
 					callback: function() {
-						//Do print
-					}
-				}, {
-					title: 'Export...',
-					callback: function() {
-						//Do print
+						new explorer.window()
+						.title('Import/Export...')
+						.icon('webdows/resources/icons/rege.ico')
+						.resize(300, 190)
+						.closeWith(win)
+						.controls([])
+						.callback(function() {
+							var imp = this;
+							imp.body.html('<textarea style="resize:none;padding:0px;border:none;width:100%;height:120px"></textarea><br><button style="float:right;margin-right:10px;">Save Changes</button>');
+							imp.body.find('textarea').text(JSON.stringify(system.registry.get()));
+							imp.body.find('button').click(function() {
+								system.registry.set('', JSON.parse(imp.body.find('textarea').val()));
+								drawReg('', win.body.find('#RSideBar'));
+								drawReg('', win.body.find('#RSideBar'));
+								imp.close();
+							});
+						});
 					}
 				}, {}, {
 					title: 'Print...',
@@ -129,6 +144,8 @@ new explorer.window()
 					callback: function() {
 						editKey(win.body.find('#TSide').val(), true);
 					}
+				}, {
+					title: 'Edit'
 				}, {}, {
 					title: 'Delete',
 					callback: function() {
@@ -170,13 +187,17 @@ new explorer.window()
 	.window[windowid=`+win.id+`] #RSideBar div.border {
 		border-left:1px dotted gray;
 	}
-	.window[windowid=`+win.id+`] #LSide div.selected, .window[windowid=`+win.id+`] #RSideBar div.selected > span, .window[windowid=`+win.id+`] #RSideBar div.selected > span::before {
-		background-color:#cde8ff;
+	.window[windowid=`+win.id+`] #LSide div.selected, .window[windowid=`+win.id+`] #RSideBar div.selected > span{
+		border: 1px solid #7da2ce;
+		border-radius: 3px;
+		box-shadow: inset 1px 0px 0px rgba(255,255,255,.3), inset 0px -1px 0px rgba(255,255,255,.3), inset -1px 0px 0px rgba(255,255,255,.3), inset 0px 1px 0px rgba(255,255,255,.3);
+		background: linear-gradient(to bottom, rgba(221,236,253,1) 0%,rgba(194,220,253,1) 100%);
 	}
 	.window[windowid=`+win.id+`] #RSideBar span {
 		position:relative;
 		padding-left:12px;
 		padding-right:3px;
+		border: 1px solid transparent;
 	}
 	.window[windowid=`+win.id+`] #RSideBar span::before {
 		content:'';
@@ -203,6 +224,7 @@ new explorer.window()
 	.window[windowid=`+win.id+`] #LSide div {
 		width:100%;
 		font-size:12px;
+		border: 1px solid transparent;
 	}
 	.window[windowid=`+win.id+`] #LSide span {
 		width:50px;
@@ -242,13 +264,23 @@ new explorer.window()
 		<div><b><span>Name</span><span>Type</span><span>Data</span></b></div>
 	</div>
 	`);
+	win.body.on('contextmenu', function(e) {
+		new explorer.context()
+		.append(bar[1].context)
+		.location(e.pageX, e.pageY);
+		e.stopImmediatePropagation();
+		e.preventDefault();
+	});
+	win.body.find('#LSide').on('click dblclick', 'div:first-child', function(e) {
+		e.stopImmediatePropagation();
+	});
 	win.body.find('input').on('keyup', function (e) {
 		if(e.keyCode == 13) {
 			drawVal($(this).val());
 		}
 	});
 	win.body.find('#LSide').on('dblclick', 'div', function() {
-		editKey($(this).attr('path'), false);
+		bar[1].context[1].callback();
 	});
 	win.body.find('#LSide, #RSideBar').on('click', 'div', function() {
 		win.body.find('#LSide div, #RSideBar div').removeClass('selected');
@@ -258,8 +290,14 @@ new explorer.window()
 		win.body.find('input').val($(this).attr('path'));
 		drawReg($(this).attr('path'), $(this));
 		drawVal($(this).attr('path'));
+		bar[1].context[1].callback = undefined;
 		e.stopPropagation();
 	});
+	win.body.find('#LSide').on('click', 'div', function() {
+		bar[1].context[1].callback = function() {
+			editKey(win.body.find('#LSide .selected').attr('path'), false);
+		};
+	});
 	drawReg('', win.body.find('#RSideBar'));
-	win.body.find('#RSideBar div').click();
+	win.body.find('#RSideBar div').trigger('click');
 });

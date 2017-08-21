@@ -309,6 +309,7 @@ var explorer = {
 			return this;
 		};
 		this.menuBar = function(buttArr) {
+			this.jq.children('.menuBar').remove();
 			var con = null;
 			var clicked = false;
 			var men = $('<div class="menuBar"></div>').insertBefore(this.jq.find('.body'));
