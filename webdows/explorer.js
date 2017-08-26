@@ -255,6 +255,10 @@ var explorer = {
 	window : function(winObj) {
 		/** init **/
 		this.id = system.guid();
+		this.is = {
+			closed: false,
+			minimized: false
+		};
 		if(typeof winObj == 'undefined') {
 			$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
 			$('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
@@ -365,6 +369,7 @@ var explorer = {
 			setTimeout(function() { //Wait for CSS animation.
 				jq.remove();
 			}, 1000);
+			this.is.closed = true;
 			return this;
 		};
 		this.controlsArr = [];
@@ -406,8 +411,10 @@ var explorer = {
 			if(this.jq.hasClass('active') || this.jq.hasClass('minimized')) {
 				if(this.jq.hasClass('minimized')) {
 					this.jq.removeClass('minimized');
+					this.is.minimized = false;
 				} else {
 					this.jq.addClass('minimized');
+					this.is.minimized = true;
 				}
 			}
 			this.front();

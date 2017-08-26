@@ -155,6 +155,16 @@ new explorer.window()
 				}
 			]
 		}, {
+			title: 'View',
+			context: [
+				{
+					title: 'Refresh',
+					callback: function() {
+						
+					}
+				}
+			]
+		}, {
 			title: 'Help',
 			context: [
 				{
