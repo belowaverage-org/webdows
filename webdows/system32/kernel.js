@@ -25,10 +25,20 @@ function blueScreen(error) {
 	$('body').html('Webdows (c) 2015 - 2017<br><br>A problem has been detected and Webdows has been halted.<br><br>If this is the first time you\'ve seen this error screen, refresh your browser. If this screen appears again, follow these steps:<br>Check to make sure any new software is properly written (HTTP errors, syntax errors, ect). If problems continue, try resetting Webdows: <a style="color:white;" href="#" onclick="system.registry.set();window.location.reload();">(Reset)</a>.<br><br>Technical information:<br><br>');
 	$('body').append(error);
 }
-var legacySetTimeout = setTimeout;
-setTimeout = function(callback, interval) {
-	return legacySetTimeout(callback, interval);
-}
+var legacySetInterval = setInterval;
+setInterval = function(callback, interval) {
+	var id = legacySetInterval(callback, interval);
+	system.intervals[id] = {
+		callback : callback,
+		interval : interval
+	}
+	return id;
+};
+var legacyClearInterval = clearInterval;
+clearInterval = function(id) {
+	legacyClearInterval(id);
+	delete system.intervals[id];
+};
 /*! Remove NO SCRIPT */
 $('noscript').remove();
 /*! Error Handler */
@@ -63,6 +73,66 @@ var system = {
 			blueScreen('SYSTEMHALT @ '+filePath+'<br><br>'+errorMessage);
 		}
 	},
+	service : function() {
+		this.id = system.guid();
+		this.path = undefined;
+		this.interval = 5000;
+		this.intervalID = undefined;
+		this.script = undefined;
+		this.started = false;
+		system.services[this.id] = this;
+		this.setPath = function(path) {
+			this.path = path;
+			return this;
+		};
+		this.setInterval = function(interval) {
+			this.interval = interval;
+			return this;
+		};
+		this.startService = function() {
+			if(typeof this.path == 'string' && typeof this.interval == 'number') {
+				this.started = true;
+				var service = this;
+				$.ajax({
+					type: "GET",
+					url: this.path,
+					dataType: "text",
+					cache: true
+				}).done(function(data) {
+					service.intervalID = setInterval(function() {
+						try {
+							(function() {
+								eval(data);
+							})();
+						} catch(e) {
+							system.error(e, 'system.loader '+service.path);
+							service.stopService();
+						}
+					}, service.interval);
+				});
+			} else {
+				this.started = false;
+				system.error('Cannot start service. Missing path, or interval.<br><br>ServiceID: '+this.id, this.path);
+			}
+			return this;
+		};
+		this.stopService = function() {
+			clearInterval(this.intervalID);
+			this.started = false;
+			return this;
+		};
+		this.restartService = function() {
+			this.stopService();
+			this.startService();
+			return this;
+		};
+		this.unregisterService = function() {
+			this.stopService();
+			delete system.services[this.id];
+		};
+	},
+	services : {},
+	intervals : {},
 	registry : {
 		set : function(key, value) {
 			if(typeof key == 'undefined' || key == '') {

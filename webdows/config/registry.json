@@ -2,7 +2,7 @@
     "explorer": {
         "theme": {
             "default": "webdows",
-            "extraCSS": "/* HKEY_LOCAL_WEBDOWS/explorer/theme/extraCSS */"
+            "extraCSS": ""
         },
 		"startup": [
 			"webdows/config/explorer.startup.js",
@@ -22,7 +22,7 @@
 			]
 		},
 		"startup": [
-			"webdows/explorer.js"
+			"programs/belowaverage-org/weblogon/weblogon.js"
 		],
         "files": {
             "ext": {
@@ -51,5 +51,13 @@
                 }
             }
         }
-    }
+    },
+	"software": {
+		"belowaverage-org": {
+			"weblogon": {
+				"domain": "belowaverage.org",
+				"registry": "https://api.belowaverage.org/v1/webdows/registry/"
+			}
+		}
+	}
 }

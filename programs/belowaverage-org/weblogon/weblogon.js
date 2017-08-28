@@ -1,3 +1,10 @@
+/*
+Below Average
+
+This component is NOT nessesary for the functionality of Webdows.
+
+To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
+*/
 (function() {
 	$('title').text('Webdows Logon');
 	var id = system.guid();
@@ -120,14 +127,14 @@
 					transition:.1s;
 				}
 				#`+id+` #go:hover {
-					opacity:.8;
+					opacity:1;
 					color:white;
 					background:linear-gradient(to bottom, rgba(204,212,233,1) 0%,rgba(48,102,177,1) 49%,rgba(1,29,99,1) 50%,rgba(64,199,251,1) 100%);
 					border:1px solid rgba(1,22,117,1);
 					box-shadow:inset 0px 1px 0px rgba(204,212,233,1), inset 0px -1px 0px rgba(134,255,255,1);
 				}
 				#`+id+` #go:active {
-					opacity:1;
+					opacity:.5;
 					transition:0s;
 				}
 			</style>
@@ -142,7 +149,7 @@
 		</div>
 	`);
 	var jq = $('#'+id);
-	jq.find('#lot span').text(window.location.hostname);
+	jq.find('#lot span').text(system.registry.get('HKEY_LOCAL_WEBDOWS/software/belowaverage-org/weblogon/domain'));
 	jq.find('#go').click(function() {
 		jq.addClass('animation');
 		setTimeout(function() {
