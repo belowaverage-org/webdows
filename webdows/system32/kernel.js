@@ -75,23 +75,44 @@ var system = {
 	},
 	service : function() {
 		this.id = system.guid();
-		this.path = undefined;
+		this.path = '';
 		this.interval = 5000;
 		this.intervalID = undefined;
 		this.script = undefined;
 		this.started = false;
-		system.services[this.id] = this;
+		this.autoStart = false;
+		this.updateRegistry = function() {
+			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+this.id, {'path': this.path, 'interval': this.interval, 'autoStart': this.autoStart});
+		};
+		this.registerService = function() {
+			system.services[this.id] = this;
+			this.updateRegistry();
+			return this;
+		};
+		this.unregisterService = function() {
+			this.stopService();
+			delete system.services[this.id];
+			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+this.id);
+		};
 		this.setPath = function(path) {
 			this.path = path;
+			this.updateRegistry();
+			return this;
+		};
+		this.setAutoStart = function(bool) {
+			this.autoStart = bool;
+			this.updateRegistry();
 			return this;
 		};
 		this.setInterval = function(interval) {
 			this.interval = interval;
+			this.updateRegistry();
 			return this;
 		};
 		this.startService = function() {
 			if(typeof this.path == 'string' && typeof this.interval == 'number') {
 				this.started = true;
+				this.updateRegistry();
 				var service = this;
 				$.ajax({
 					type: "GET",
@@ -119,6 +140,7 @@ var system = {
 		this.stopService = function() {
 			clearInterval(this.intervalID);
 			this.started = false;
+			this.updateRegistry();
 			return this;
 		};
 		this.restartService = function() {
@@ -126,10 +148,13 @@ var system = {
 			this.startService();
 			return this;
 		};
-		this.unregisterService = function() {
-			this.stopService();
-			delete system.services[this.id];
+		this.setID = function(id) {
+			this.unregisterService();
+			this.id = id;
+			this.registerService();
+			return this;
 		};
+		this.registerService();
 	},
 	services : {},
 	intervals : {},

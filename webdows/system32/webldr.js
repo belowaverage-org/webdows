@@ -65,6 +65,19 @@ File: webdows/system32/webldr.js
 						}
 					});
 				} else {
+					$('#bootlog').append('<pre>Loading finished... Registering services...</pre>');
+					$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/system/services'), function(k) {
+						var service = new system.service()
+						.setPath(this.path)
+						.setInterval(parseInt(this.interval))
+						.setAutoStart(this.autoStart)
+						.setID(k);
+						$('#bootlog').append('<pre>'+k+': Service registered...</pre>');
+						if(this.autoStart == 'true') {
+							service.startService();
+							$('#bootlog').append('<pre>'+k+': Service started...</pre>');
+						}
+					});
 					system.bootLoader.loaded = true;
 					return;
 				}
