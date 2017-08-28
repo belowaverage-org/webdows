@@ -78,7 +78,6 @@ var system = {
 		this.path = '';
 		this.interval = 5000;
 		this.intervalID = undefined;
-		this.script = undefined;
 		this.started = false;
 		this.autoStart = false;
 		this.updateRegistry = function() {
