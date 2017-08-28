@@ -35,7 +35,7 @@ new explorer.window()
 		}
 		if(event.which == 13) {
 			event.preventDefault();
-			var command = dis.val();
+			var command = $('<span>').html(dis.val()).text();
 			history.push(command);
 			push('<div>$>'+command+'</div>');
 			if(command == 'cls') {
