@@ -16,7 +16,7 @@
 
 * Well documented (Comming soon)
 
-* Supported by Chrome, Safari, Firefox, Edge, and IE 10+
+* Supported by Chrome, Safari, Firefox, and Opera.
 
 * Utilizes jQuery
 
