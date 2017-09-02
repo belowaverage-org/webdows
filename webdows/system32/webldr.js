@@ -68,13 +68,13 @@ File: webdows/system32/webldr.js
 					$('#bootlog').append('<pre>Loading finished... Registering services...</pre>');
 					$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/system/services'), function(k) {
 						var service = new system.service()
-						.setPath(this.path)
-						.setInterval(parseInt(this.interval))
-						.setAutoStart(this.autoStart)
-						.setID(k);
+						.path(this.path)
+						.interval(parseInt(this.interval))
+						.autoStart((this.autoStart == 'true'))
+						.id(k);
 						$('#bootlog').append('<pre>'+k+': Service registered...</pre>');
 						if(this.autoStart == 'true') {
-							service.startService();
+							service.run(true);
 							$('#bootlog').append('<pre>'+k+': Service started...</pre>');
 						}
 					});

@@ -74,84 +74,102 @@ var system = {
 		}
 	},
 	service : function() {
-		this.id = system.guid();
-		this.path = '';
-		this.interval = 5000;
-		this.intervalID = undefined;
-		this.started = false;
-		this.autoStart = false;
+		path = '';
+		id = system.guid();
+		interval = 5000;
+		intervalID = undefined;
+		autoStart = false;
+		run = false;
 		this.updateRegistry = function() {
-			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+this.id, {'path': this.path, 'interval': this.interval, 'autoStart': this.autoStart});
+			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+id, {'path': path, 'interval': interval, 'autoStart': autoStart});
+			return this;
 		};
 		this.registerService = function() {
-			system.services[this.id] = this;
+			system.services[id] = this;
 			this.updateRegistry();
 			return this;
 		};
 		this.unregisterService = function() {
-			this.stopService();
-			delete system.services[this.id];
-			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+this.id);
+			this.run(false);
+			delete system.services[id];
+			system.registry.set('HKEY_LOCAL_WEBDOWS/system/services/'+id);
 		};
-		this.setPath = function(path) {
-			this.path = path;
-			this.updateRegistry();
-			return this;
-		};
-		this.setAutoStart = function(bool) {
-			this.autoStart = bool;
-			this.updateRegistry();
-			return this;
-		};
-		this.setInterval = function(interval) {
-			this.interval = interval;
-			this.updateRegistry();
-			return this;
-		};
-		this.startService = function() {
-			if(typeof this.path == 'string' && typeof this.interval == 'number') {
-				this.started = true;
-				this.updateRegistry();
-				var service = this;
-				$.ajax({
-					type: "GET",
-					url: this.path,
-					dataType: "text",
-					cache: true
-				}).done(function(data) {
-					service.intervalID = setInterval(function() {
-						try {
-							(function() {
-								eval(data);
-							})();
-						} catch(e) {
-							system.error(e, 'system.loader '+service.path);
-							service.stopService();
-						}
-					}, service.interval);
-				});
+		this.path = function(setPath) {
+			if(typeof setPath == 'string') {
+				path = setPath;
+				if(this.run()) {
+					this.run(false).run(true);
+				}
+				return this.updateRegistry();
 			} else {
-				this.started = false;
-				system.error('Cannot start service. Missing path, or interval.<br><br>ServiceID: '+this.id, this.path);
+				return path;
 			}
-			return this;
 		};
-		this.stopService = function() {
-			clearInterval(this.intervalID);
-			this.started = false;
-			this.updateRegistry();
-			return this;
+		this.autoStart = function(bool) {
+			if(typeof bool == 'boolean') {
+				autoStart = bool;
+				return this.updateRegistry();
+			} else {
+				return autoStart;
+			}
 		};
-		this.restartService = function() {
-			this.stopService();
-			this.startService();
-			return this;
+		this.interval = function(setInterval) {
+			if(typeof setInterval == 'number') {
+				interval = setInterval;
+				if(this.run()) {
+					this.run(false).run(true);
+				}
+				return this.updateRegistry();
+			} else {
+				return interval;
+			}
 		};
-		this.setID = function(id) {
-			this.unregisterService();
-			this.id = id;
-			this.registerService();
-			return this;
+		this.run = function(bool) {
+			if(typeof bool == 'boolean') {
+				if(bool && !this.run()) {
+					if(typeof path == 'string' && typeof interval == 'number') {
+						run = true;
+						this.updateRegistry();
+						var service = this;
+						$.ajax({
+							type: "GET",
+							url: path,
+							dataType: "text",
+							cache: true
+						}).done(function(data) {
+							intervalID = setInterval(function() {
+								try {
+									(function() {
+										eval(data);
+									})();
+								} catch(e) {
+									service.run(false);
+									system.error(e, 'system.service: '+service.id());
+								}
+							}, interval);
+						});
+					} else {
+						run = false;
+						system.error('Cannot start service. Missing path, or interval.<br><br>ServiceID: '+id, path);
+					}
+				} else if(this.run()) {
+					clearInterval(intervalID);
+					run = false;
+					this.updateRegistry();
+				}
+				return this;
+			} else {
+				return run;
+			}
+		};
+		this.id = function(setID) {
+			if(typeof setID == 'string') {
+				this.unregisterService();
+				id = setID;
+				return this.registerService();
+			} else {
+				return id;
+			}
 		};
 		this.registerService();
 	},
