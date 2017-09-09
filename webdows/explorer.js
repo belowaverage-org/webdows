@@ -533,6 +533,8 @@ var explorer = {
 				e.data.window.close();
 			});
 			$('#taskbar #middleframe .button[windowID='+this.id+']').contextmenu({window: this}, function(e) {
+				e.stopPropagation();
+				e.preventDefault();
 				new explorer.context()
 				.location(e.pageX, e.pageY)
 				.append(menu());
