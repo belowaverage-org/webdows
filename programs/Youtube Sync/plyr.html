@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+		body {
+			margin:0px;
+		}
+		div.plyr.plyr--video {
+			width:100%;
+			height:100%;
+			position:fixed;
+			top:0px;
+			left:0px;
+		}
+		div.plyr__video-wrapper {
+			padding-bottom:0px;
+			height:100%;
+		}
+		input[type=range]:active::-webkit-slider-thumb{ 
+			background:#e83326 !important;
+		}
+		.plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {
+			background:#e83326 !important;
+		}
+		.plyr__progress--played, .plyr__volume--display {
+			color:#e83326 !important;
+		}
+		</style>
+		<link rel="stylesheet" href="plyr.css">
+	</head>
+	<body>
+		<div data-type="youtube" data-video-id=""></div>
+		<script src="plyr.js"></script>
+		<script>
+			var player = plyr.setup({
+				clickToPlay: false
+			})[0];
+		</script>
+	</body>
+</html>
