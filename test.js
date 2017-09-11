@@ -1,3 +1,4 @@
+//test
 if(typeof service.count !== 'number') {
 	service.count = 0;
 }
