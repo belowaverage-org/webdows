@@ -614,46 +614,49 @@ var explorer = {
 					var button = jq.find('.button[callbackID='+callid+']');
 					if(typeof v.context !== 'undefined') {
 						var sub = null;
+						button.on('mouseup', function() {
+							sub = new explorer.context().append(v.context); 
+							var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jq.outerWidth(); var sh = sub.jq.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
+							x = bx + bw;
+							y = by;
+							if(xlim < bx + bw + sw) {
+								x = x - bw - sw;
+								y = y;
+							}
+							if(ylim < by + bh + sh) {
+								x = x;
+								y = y + bh - sh;
+							}
+							sub.location(x, y);
+							button.on('unhover', function() {
+								setTimeout(function() {
+									if(!button.hasClass('hovered') && sub !== null) {
+										sub.jq.remove();
+										sub = null;
+										button.unbind('unhover');
+									}
+								}, 400);
+							});
+							button.parent().on('remove', function() {
+								sub.jq.remove();
+								sub = null;
+							});
+							sub.jq.hover(function() {
+								button.trigger('mouseover');
+							});
+						});
 						var timer = null;
 						button.hover(function() {
 							if(sub == null) {
 								timer = setTimeout(function() {
-									sub = new explorer.context().append(v.context); 
-									var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jq.outerWidth(); var sh = sub.jq.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
-									x = bx + bw;
-									y = by;
-									if(xlim < bx + bw + sw) {
-										x = x - bw - sw;
-										y = y;
-									}
-									if(ylim < by + bh + sh) {
-										x = x;
-										y = y + bh - sh;
-									}
-									sub.location(x, y);
-									button.on('unhover', function() {
-										setTimeout(function() {
-											if(!button.hasClass('hovered') && sub !== null) {
-												sub.jq.remove();
-												sub = null;
-												button.unbind('unhover');
-											}
-										}, 400);
-									});
-									button.parent().on('remove', function() {
-										sub.jq.remove();
-										sub = null;
-									});
-									sub.jq.hover(function() {
-										button.trigger('mouseover');
-									});
+									button.trigger('mouseup');
 								}, 400);
 							}
 						}, function() {
 							clearTimeout(timer);
 						});
 					} else {
-						button.click(v.callback).click(function() { $('#desktop').trigger('contextclose'); });
+						button.on('mouseup', v.callback).on('mouseup', function() { $('#desktop').trigger('contextclose'); });
 					}
 					button.on('mouseover', function() {
 						var button = $(this);

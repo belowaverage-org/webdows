@@ -4,6 +4,7 @@
 		<style>
 		body {
 			margin:0px;
+			backgrond-color:transparent;
 		}
 		div.plyr.plyr--video {
 			width:100%;
@@ -31,7 +32,18 @@
 			background-size:100% 100% !important;
 			border:0px !important;
 			box-shadow:none !important;
-			
+			border-radius:0px !important;
+			background-color:transparent !important;
+			width:100px !important;
+			height:100px !important;
+			background-position:50% 50%;
+		}
+		.plyr__play-large svg {
+			display:none !important;
+		}
+		.plyr--video .plyr__controls {
+			background:linear-gradient(to bottom, #191919 0%,#000000 100%) !important;
+			padding:5px !important;
 		}
 		</style>
 		<link rel="stylesheet" href="plyr.css">
