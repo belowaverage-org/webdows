@@ -318,7 +318,7 @@ var explorer = {
 			var clicked = false;
 			var men = $('<div class="menuBar"></div>').insertBefore(this.jq.find('.body'));
 			this.jq.addClass('menuBar');
-			$('body').on('mousedown', function(e) {
+			$('body').on('mousedown contextclose', function(e) {
 				if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
 					$(men).find('span').removeClass('clicked');
 					clicked = false;
@@ -554,7 +554,7 @@ var explorer = {
 	},
 	context: function() {
 		/** INIT **/
-		var dis = this;
+		var con = this;
 		this.id = system.guid();
 		$('#desktop').append('<div contextID="'+this.id+'" class="context"></div>');
 		this.jq = $('#desktop div.context[contextID='+this.id+']');
@@ -564,14 +564,14 @@ var explorer = {
 		});
 		$('#desktop').on('mousedown contextclose contextmenu', {context: this}, function(e) {
 			if(!$(e.target).parents('#desktop .context').length && !$(e.target).is('#desktop .context')) {
-				e.data.context.jq.remove();
+				con.close();
 			}
 		});
 		this.hover = false;
 		this.jq.hover(function() {
-			dis.hover = true;
+			con.hover = true;
 		}, function() {
-			dis.hover = false;
+			con.hover = false;
 		});
 		/** EndINIT **/
 		/** Functions **/
@@ -615,43 +615,43 @@ var explorer = {
 					if(typeof v.context !== 'undefined') {
 						var sub = null;
 						button.on('mouseup', function() {
-							sub = new explorer.context().append(v.context); 
-							var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jq.outerWidth(); var sh = sub.jq.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
-							x = bx + bw;
-							y = by;
-							if(xlim < bx + bw + sw) {
-								x = x - bw - sw;
-								y = y;
+							if(sub == null) {
+								sub = new explorer.context().append(v.context); 
+								var pos = button.offset(); var bx = pos.left; var by = pos.top; var bw = button.outerWidth(); var bh = button.outerHeight(); var sw = sub.jq.outerWidth(); var sh = sub.jq.outerHeight(); var xlim = $('#desktop.explorer').width(); var ylim = $('#desktop.explorer').height();
+								x = bx + bw;
+								y = by;
+								if(xlim < bx + bw + sw) {
+									x = x - bw - sw;
+									y = y;
+								}
+								if(ylim < by + bh + sh) {
+									x = x;
+									y = y + bh - sh;
+								}
+								sub.location(x, y);
+								button.on('unhover', function() {
+									setTimeout(function() {
+										if(!button.hasClass('hovered') && sub !== null) {
+											sub.jq.remove();
+											sub = null;
+											button.unbind('unhover');
+										}
+									}, 400);
+								});
+								button.parent().on('remove', function() {
+									sub.jq.remove();
+									sub = null;
+								});
+								sub.jq.hover(function() {
+									button.trigger('mouseover');
+								});
 							}
-							if(ylim < by + bh + sh) {
-								x = x;
-								y = y + bh - sh;
-							}
-							sub.location(x, y);
-							button.on('unhover', function() {
-								setTimeout(function() {
-									if(!button.hasClass('hovered') && sub !== null) {
-										sub.jq.remove();
-										sub = null;
-										button.unbind('unhover');
-									}
-								}, 400);
-							});
-							button.parent().on('remove', function() {
-								sub.jq.remove();
-								sub = null;
-							});
-							sub.jq.hover(function() {
-								button.trigger('mouseover');
-							});
 						});
 						var timer = null;
 						button.hover(function() {
-							if(sub == null) {
-								timer = setTimeout(function() {
-									button.trigger('mouseup');
-								}, 400);
-							}
+							timer = setTimeout(function() {
+								button.trigger('mouseup');
+							}, 400);
 						}, function() {
 							clearTimeout(timer);
 						});
