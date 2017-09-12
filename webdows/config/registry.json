@@ -24,6 +24,13 @@
 		"startup": [
 			"programs/belowaverage-org/weblogon/weblogon.js"
 		],
+		"services": {
+			"explorer_time": {
+				"autoStart": "true",
+				"interval": "1000",
+				"path": "webdows/services/explorer/time.js"
+			}
+		},
         "files": {
             "ext": {
                 "txt": {

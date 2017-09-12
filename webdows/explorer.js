@@ -78,10 +78,6 @@ var explorer = {
 			distance: 5,
 			helper : 'clone'
 		});
-		var timeService = setInterval(function() {
-			var date = new Date();
-			$('#taskbar #time').html(system.formatAMPM(date));
-		}, 1000);
 		setTimeout(function() {
 			var theme = explorer.theme();
 		}, 100);
