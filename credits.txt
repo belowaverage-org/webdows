@@ -1,0 +1,13 @@
+<pre>
+   jQuery v3.1.1
+
+   jQuery UI v1.11.4
+
+   jQuery UI Touch Punch 0.2.3
+
+   Platform.js v1.3.1
+
+   Windows 9 icons by dtafalonso.
+
+   Google APIs
+</pre>
