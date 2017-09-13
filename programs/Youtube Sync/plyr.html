@@ -13,9 +13,10 @@
 			top:0px;
 			left:0px;
 		}
-		div.plyr__video-wrapper {
-			padding-bottom:0px;
-			height:100%;
+		.plyr__video-wrapper {
+			padding-bottom:0px !important;
+			height:100% !important;
+			background:transparent !important;
 		}
 		input[type=range]:active::-webkit-slider-thumb{ 
 			background:#e83326 !important;
@@ -28,6 +29,7 @@
 		}
 		.plyr__play-large {
 			pointer-events:none;
+			display:none !important;
 			background-image:url('icon.png') !important;
 			background-size:100% 100% !important;
 			border:0px !important;
@@ -37,6 +39,9 @@
 			width:100px !important;
 			height:100px !important;
 			background-position:50% 50%;
+		}
+		.plyr--fullscreen-enabled .plyr__play-large {
+			display:block !important;
 		}
 		.plyr__play-large svg {
 			display:none !important;
@@ -49,7 +54,7 @@
 		<link rel="stylesheet" href="plyr.css">
 	</head>
 	<body>
-		<div data-type="youtube" data-video-id=""></div>
+		<div data-type="youtube" data-video-id></div>
 		<script src="plyr.js"></script>
 		<script>
 			var player = plyr.setup({

@@ -37,7 +37,6 @@ main.mBar = [
 					});
 					player.on('ready', function() {
 						player.play();
-						console.log('asdf');
 					});
 				}
 			}
@@ -168,19 +167,43 @@ main.body.html(`
 			border:0px;
 		}
 		.window[windowid=`+main.id+`] .body {
-			background-image:url('programs/Youtube Sync/icon.png');
-			background-position:calc(50% + 5px) 50%;
+			background-image:url('programs/Youtube Sync/loa1.png');
+			background-position:50% 50%;
 			background-repeat:no-repeat;
 			background-size:100px;
 			background-color:black;
 		}
+		.window[windowid=`+main.id+`] .body::before {
+			content:'';
+			display:block;
+			position:absolute;
+			width:100px;
+			background-image:url('programs/Youtube Sync/loa2.png');
+			background-size:100% 100%;
+			height:100px;
+			top:calc(50% - 50px);
+			left:calc(50% - 50px);
+			animation:spin 1s infinite linear;
+		}
+		@keyframes spin {
+			from {
+				transform:rotate(0deg);
+			} to {
+				transform:rotate(360deg);
+			}
+		}
 	</style>
 `);
 main.body.find('*:not(style)').remove();
-var video = $('<iframe src="programs/Youtube Sync/plyr.html"></iframe>').appendTo(main.body);
-video[0].allowFullscreen = true;
-video[0].contentWindow.onload = function() {
-	player = video[0].contentWindow.player;
-	window.player = video[0].contentWindow.player;
-	callback.call();
+var iframe = $('<iframe src="programs/Youtube Sync/plyr.html"></iframe>').appendTo(main.body);
+iframe[0].allowFullscreen = true;
+/*
+iframe[0].contentWindow.onload = function() {
+	player = iframe[0].contentWindow.player;
+	window.player = iframe[0].contentWindow.player;
 };
+*/
+iframe.on('load', function() {
+	player = iframe[0].contentWindow.player;
+	window.player = iframe[0].contentWindow.player;
+});
