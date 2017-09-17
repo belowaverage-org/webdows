@@ -18,6 +18,37 @@ var explorer = {
 		$('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
 		return themeName;
 	},
+	is : {
+		fullScreen: false
+	},
+	toggleFullScreen : function(bool) {
+		if(typeof bool == 'boolean') {
+			this.is.fullScreen = !bool;
+		}
+		var dsktp = $('#desktop.explorer')[0];
+		if(this.is.fullScreen) {
+			if(document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if(document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if(document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			}
+			this.is.fullScreen = false;
+		} else {
+			if(dsktp.requestFullscreen) {
+				dsktp.requestFullscreen();
+			} else if(dsktp.mozRequestFullScreen) {
+				dsktp.mozRequestFullScreen();
+			} else if(dsktp.webkitRequestFullscreen) {
+				dsktp.webkitRequestFullscreen();
+			} else if(dsktp.msRequestFullscreen) {
+				dsktp.msRequestFullscreen();
+			}
+			this.is.fullScreen = true;
+		}
+		return this.is.fullScreen;
+	},
 	drag : function(target, handle, callback) {
 		var mouseDown = false;
 		var offsetX = 0;
@@ -253,7 +284,13 @@ var explorer = {
 		this.id = system.guid();
 		this.is = {
 			closed: false,
-			minimized: false
+			minimized: false,
+			maximized: false
+		};
+		this.on = {
+			close : function() {},
+			toggleMin : function() {},
+			toggleMax : function() {},
 		};
 		if(typeof winObj == 'undefined') {
 			$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
@@ -366,6 +403,7 @@ var explorer = {
 				jq.remove();
 			}, 1000);
 			this.is.closed = true;
+			this.on.close.call(this);
 			return this;
 		};
 		this.controlsArr = [];
@@ -422,17 +460,21 @@ var explorer = {
 					topID = this;
 				}
 			});
-			this.front();
+			this.on.toggleMin.call(this);
 			return this;
 		};
-		this.toggleMax = function() {
-			if(this.jq.hasClass('active') || this.jq.hasClass('maximized')) {
-				if(this.jq.hasClass('maximized')) {
-					this.jq.removeClass('maximized');
-				} else {
-					this.jq.addClass('maximized');
-				}
+		this.toggleMax = function(bool) {
+			if(typeof bool == 'boolean') {
+				this.is.maximized = !bool;
 			}
+			if(this.is.maximized) {
+				this.jq.removeClass('maximized');
+				this.is.maximized = false;
+			} else {
+				this.jq.addClass('maximized');
+				this.is.maximized = true;
+			}
+			this.on.toggleMax.call(this);
 			return this;
 		};
 		this.resize = function(width, height) {

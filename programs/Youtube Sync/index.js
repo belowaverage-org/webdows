@@ -5,6 +5,7 @@ var main = new explorer.window()
 .center('', -100, -100);
 var sat = {};
 var player = {};
+var isFullScreen = false;
 function openSat() {
 	sat = new explorer.window()
 	.title('YouTube Sync - Queue')
@@ -13,6 +14,13 @@ function openSat() {
 	.center('', 264, -100)
 	.closeWith(main)
 	.controls([]);
+}
+function toggleFullScreen() {
+	main.toggleMax();
+	explorer.toggleFullScreen();
+}
+main.on.toggleMin = function() {
+	console.log(this);
 }
 openSat();
 main.front();
@@ -90,7 +98,7 @@ main.mBar = [
 				title: 'Fullscreen...',
 				icon: 'programs/Youtube Sync/full.png',
 				callback: function() {
-					player.toggleFullscreen();
+					toggleFullScreen();
 				}
 			}, {}, {
 				title: 'Play/Pause',
