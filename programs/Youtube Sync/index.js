@@ -1,51 +1,75 @@
-var main = new explorer.window()
+var win = new explorer.window()
 .title('YouTube Sync - Playback')
-.icon('programs/Youtube Sync/icon.png')
+.icon(loader.folder+'icon.png')
 .resize(500, 360)
 .center('', -100, -100);
-var sat = {};
+var queue = {};
 var player = {};
+var jqFrame = {};
+var youtube = {};
 var isFullScreen = false;
-function openSat() {
-	sat = new explorer.window()
-	.title('YouTube Sync - Queue')
-	.icon('programs/Youtube Sync/icon.png')
-	.resize(200, 360)
-	.center('', 264, -100)
-	.closeWith(main)
-	.controls([]);
-}
+system.loader(loader.folder+'queue.js', {queue: queue, win: win}, function() {
+	queue.open();
+});
 function toggleFullScreen() {
-	main.toggleMax();
-	explorer.toggleFullScreen();
+	win.toggleMax();
+	if(win.is.maximized) {
+		explorer.toggleFullScreen(true);
+	} else {
+		explorer.toggleFullScreen(false);
+	}
 }
-main.on.toggleMin = function() {
+function changeVideo(id) {
+	player.source({
+		type: 'video',
+		sources: [{
+			src: id,
+			type: 'youtube'
+		}]
+	});
+}
+function updateQuality() {
+	win.mBar[2].context[0].context = [];
+	$.each(youtube.getAvailableQualityLevels(), function() {
+		var quality = this;
+		var icon = icon = '';
+		if(youtube.getPlaybackQuality() == quality) {
+			icon = loader.folder+'bull.png';
+		}
+		win.mBar[2].context[0].context.push({
+			title: quality,
+			icon: icon,
+			callback: function() {
+				youtube.setPlaybackQuality(quality);
+				$.each(win.mBar[2].context[0].context, function() {
+					if(this.title == quality) {
+						this.icon = loader.folder+'bull.png';
+					} else {
+						this.icon = '';
+					}
+				});
+			}
+		});
+		
+	});
+}
+win.on.toggleMin = function() {
 	console.log(this);
 }
-openSat();
-main.front();
-main.mBar = [
+win.front();
+win.mBar = [
 	{
 		title: 'File',
 		context: [
 			{
 				title: 'Exit',
 				callback: function() {
-					main.close();
+					win.close();
 				}
 			}, {
 				title: 'Test',
 				callback: function() {
-					player.source({
-						type: 'video',
-						sources: [{
-							src: 'E1iwrfgNOUU',
-							type: 'youtube'
-						}]
-					});
-					player.on('ready', function() {
-						player.play();
-					});
+					changeVideo('IBfQXYe0-Lc');
 				}
 			}
 		]
@@ -54,17 +78,17 @@ main.mBar = [
 		context: [
 			{
 				title: 'Show queue...',
-				icon: 'programs/Youtube Sync/que.png',
+				icon: loader.folder+'que.png',
 				callback: function() {
-					if(sat.is.closed) {
-						openSat();
+					if(queue.window.is.closed) {
+						queue.open();
 					} else {
-						sat.toggleMin();
+						queue.window.toggleMin();
 					}
 				}
 			}, {
 				title: 'Show logs...',
-				icon: 'programs/Youtube Sync/logs.png',
+				icon: loader.folder+'logs.png',
 				callback: function() {
 					if(sat.is.closed) {
 						openSat();
@@ -81,28 +105,18 @@ main.mBar = [
 				title: 'Quality',
 				context: [
 					{
-						title: 'Auto',
-						callback: function() {}
-					}, {}, {
-						title: 'High',
-						callback: function() {}
-					}, {
-						title: 'Medium',
-						callback: function() {}
-					}, {
-						title: 'Low',
-						callback: function() {}
-					}
+						title: 'Video must be playing first...'
+					}	
 				]
 			}, {}, {
 				title: 'Fullscreen...',
-				icon: 'programs/Youtube Sync/full.png',
+				icon: loader.folder+'full.png',
 				callback: function() {
 					toggleFullScreen();
 				}
 			}, {}, {
 				title: 'Play/Pause',
-				icon: 'programs/Youtube Sync/plpa.png',
+				icon: loader.folder+'plpa.png',
 				callback: function() {
 					if(player.isPaused()) {
 						player.play();
@@ -112,25 +126,25 @@ main.mBar = [
 				}
 			}, {
 				title: 'Next',
-				icon: 'programs/Youtube Sync/next.png',
+				icon: loader.folder+'next.png',
 				callback: function() {}
 			}, {
 				title: 'Previous',
-				icon: 'programs/Youtube Sync/prev.png',
+				icon: loader.folder+'prev.png',
 				callback: function() {}
 			}, {
 				title: 'Stop',
-				icon: 'programs/Youtube Sync/stop.png',
+				icon: loader.folder+'stop.png',
 				callback: function() {}
 			}, {}, {
 				title: 'Mute/Unmute',
-				icon: 'programs/Youtube Sync/umut.png',
+				icon: loader.folder+'umut.png',
 				callback: function() {
 					player.toggleMute();
 					if(player.isMuted()) {
-						main.mBar[2].context[9].icon = 'programs/Youtube Sync/mute.png';
+						win.mBar[2].context[9].icon = loader.folder+'mute.png';
 					} else {
-						main.mBar[2].context[9].icon = 'programs/Youtube Sync/umut.png';
+						win.mBar[2].context[9].icon = loader.folder+'umut.png';
 					}
 				}
 			}
@@ -140,11 +154,11 @@ main.mBar = [
 		context: [
 			{
 				title: 'Change channel...',
-				icon: 'programs/Youtube Sync/chan.png',
+				icon: loader.folder+'chan.png',
 				callback: function() {}
 			}, {
 				title: 'Hide channel',
-				icon: 'programs/Youtube Sync/hide.png',
+				icon: loader.folder+'hide.png',
 				callback: function() {}
 			}
 		]
@@ -153,7 +167,7 @@ main.mBar = [
 		context: [
 			{
 				title: 'About YouTube Sync...',
-				icon: 'programs/Youtube Sync/icon.png',
+				icon: loader.folder+'icon.png',
 				callback: function() {}
 			}, {}, {
 				title: 'About Webdows...',
@@ -165,28 +179,28 @@ main.mBar = [
 		]
 	}
 ]
-main.menuBar(main.mBar);
-main.body.html(`
+win.menuBar(win.mBar);
+win.body.html(`
 	<style>
-		.window[windowid=`+main.id+`] iframe {
+		.window[windowid=`+win.id+`] iframe {
 			width:100%;
 			height:100%;
 			position:absolute;
 			border:0px;
 		}
-		.window[windowid=`+main.id+`] .body {
-			background-image:url('programs/Youtube Sync/loa1.png');
+		.window[windowid=`+win.id+`] .body {
+			background-image:url('`+loader.folder+`loa1.png');
 			background-position:50% 50%;
 			background-repeat:no-repeat;
 			background-size:100px;
 			background-color:black;
 		}
-		.window[windowid=`+main.id+`] .body::before {
+		.window[windowid=`+win.id+`] .body::before {
 			content:'';
 			display:block;
 			position:absolute;
 			width:100px;
-			background-image:url('programs/Youtube Sync/loa2.png');
+			background-image:url('`+loader.folder+`loa2.png');
 			background-size:100% 100%;
 			height:100px;
 			top:calc(50% - 50px);
@@ -202,16 +216,26 @@ main.body.html(`
 		}
 	</style>
 `);
-main.body.find('*:not(style)').remove();
-var iframe = $('<iframe src="programs/Youtube Sync/plyr.html"></iframe>').appendTo(main.body);
-iframe[0].allowFullscreen = true;
-/*
-iframe[0].contentWindow.onload = function() {
+win.body.find('*:not(style)').remove();
+var iframe = $('<iframe src="'+loader.folder+'plyr.html"></iframe>').appendTo(win.body);
+iframe.on('load', function() { //Player Setup
+	jqFrame = iframe.contents();
 	player = iframe[0].contentWindow.player;
+	youtube = player.getEmbed();
 	window.player = iframe[0].contentWindow.player;
-};
-*/
-iframe.on('load', function() {
-	player = iframe[0].contentWindow.player;
-	window.player = iframe[0].contentWindow.player;
+	jqFrame.find('button[data-plyr=fullscreen]').click(function(e) {
+		toggleFullScreen();
+	});
+	player.on('ready', function() {
+		var firstFire = true;
+		youtube = player.getEmbed();
+		player.play();
+		player.on('playing', function(e) {
+			if(firstFire) {
+				player.stop();
+				updateQuality();
+				firstFire = false;
+			}
+		});
+	});
 });

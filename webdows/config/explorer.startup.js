@@ -43,6 +43,10 @@ explorer.start.append([
 	}, {
 		title: 'Task Manager',
 		callback: function() { system.loader('webdows/taskmgr.js'); }
+	}, {
+		title: 'YouTube Sync',
+		callback: function() { system.loader('programs/youtube sync/index.js'); },
+		icon: 'programs/youtube sync/icon.png'
 	}
 ], [
 	{
