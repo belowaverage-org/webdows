@@ -1,0 +1,3 @@
+[submodule "programs/youtube-sync"]
+	path = programs/youtube-sync
+	url = https://github.com/belowaverage-org/youtube-sync.git
