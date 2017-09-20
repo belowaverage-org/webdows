@@ -45,7 +45,7 @@ explorer.start.append([
 		callback: function() { system.loader('webdows/taskmgr.js'); }
 	}, {
 		title: 'YouTube Sync',
-		callback: function() { system.loader('programs/youtube sync/index.js'); },
+		callback: function() { system.loader('programs/youtube-sync/index.js'); },
 		icon: 'programs/youtube sync/icon.png'
 	}
 ], [
