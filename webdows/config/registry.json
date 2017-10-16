@@ -22,7 +22,7 @@
 			]
 		},
 		"startup": [
-			"programs/belowaverage-org/weblogon/weblogon.js"
+			"webdows/explorer.js"
 		],
 		"services": {
 			"explorer_time": {
