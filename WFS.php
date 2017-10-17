@@ -9,6 +9,7 @@ function wfsBuild($dir) {
         if($node == 'CNAME')      continue;
         if($node == '.gitignore') continue;
         if($node == 'readme.md')  continue;
+		if($node == '.gitmodules')  continue;
 		if($node == 'WFS.php')  continue;
         if (is_dir($dir.DIRECTORY_SEPARATOR.$node)) {
             $contents[$node] = wfsBuild($dir.DIRECTORY_SEPARATOR.$node);
