@@ -5,6 +5,7 @@ Author: krisdb2009
 File: webdows/explorer.js
 */
 var explorer = {
+	windows : {},
 	theme : function(themeName, extraCSS) {
 		if(typeof themeName == 'undefined') {
 			var themeName = system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/theme/default');
@@ -282,6 +283,7 @@ var explorer = {
 	window : function(winObj) {
 		/** init **/
 		this.id = system.guid();
+		explorer.windows[this.id] = this;
 		this.is = {
 			closed: false,
 			minimized: false,
@@ -292,13 +294,9 @@ var explorer = {
 			toggleMin : function() {},
 			toggleMax : function() {},
 		};
-		if(typeof winObj == 'undefined') {
-			$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
-			$('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
-			this.jq = $('.window[windowID='+this.id+']');
-		} else {
-			this.jq = $(winObj);
-		}
+		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
+		$('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
+		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
 		/** endINIT **/
 		this.body = this.jq.find('.body');
@@ -394,13 +392,16 @@ var explorer = {
 			$('.window:not(.close)').each(function() {
 				if($(this).css('z-index') > topZ && !$(this).hasClass('minimized')) {
 					topZ = $(this).css('z-index');
-					topID = this;
+					topID = $(this).attr('windowID');
 				}
 			});
-			explorer.window(topID).front();
-			var jq = this.jq;
-			setTimeout(function() { //Wait for CSS animation.
-				jq.remove();
+			if(typeof explorer.windows[topID] == 'object') {
+				explorer.windows[topID].front();
+			}
+			var win = this;
+			setTimeout(function() {
+				win.jq.remove();
+				delete explorer.windows[win.id];
 			}, 1000);
 			this.is.closed = true;
 			this.on.close.call(this);
@@ -515,79 +516,77 @@ var explorer = {
 			}
 			return this;
 		};
-		if(typeof winObj == 'undefined') {
-			$('#taskbar #middleframe').sortable("refresh");
-			$(this.jq).mousedown({window: this}, function(e) {
-				e.data.window.front();
-			});
-			$('#desktop').on('mousedown', {id: this.id}, function(e) {
-				var id = e.data.id;
-				if(!$(e.target).parents('.window[windowID='+id+']').length && !$(e.target).is('.window[windowID='+id+']') && !$(e.target).is('#taskbar #middleframe .button[windowID='+id+']') && !$(e.target).parents('#taskbar #middleframe .button[windowID='+id+']').length) {
-					var elm = $('.window[windowID='+id+'], #taskbar #middleframe .button[windowID='+id+']');
-					if(elm.hasClass('active')) {
-						elm.removeClass('active');
-					}
+		$('#taskbar #middleframe').sortable("refresh");
+		$(this.jq).mousedown({window: this}, function(e) {
+			e.data.window.front();
+		});
+		$('#desktop').on('mousedown', {id: this.id}, function(e) {
+			var id = e.data.id;
+			if(!$(e.target).parents('.window[windowID='+id+']').length && !$(e.target).is('.window[windowID='+id+']') && !$(e.target).is('#taskbar #middleframe .button[windowID='+id+']') && !$(e.target).parents('#taskbar #middleframe .button[windowID='+id+']').length) {
+				var elm = $('.window[windowID='+id+'], #taskbar #middleframe .button[windowID='+id+']');
+				if(elm.hasClass('active')) {
+					elm.removeClass('active');
 				}
-			});
-			function menu() {
-			   var menu = [
-					{
-						title: 'Restore',
-						icon: 'webdows/resources/icons/rest.png'
-					}, {
-						title: 'Minimize',
-						icon: 'webdows/resources/icons/mini.png'
-					}, {
-						title: 'Maximize',
-						icon: 'webdows/resources/icons/maxi.png'
-					}, {}, {
-						title: 'Close',
-						icon: 'webdows/resources/icons/clos.png',
-						callback: function() { win.close(); }
-					}
-				];
-				if($.inArray('max', win.controlsArr) !== -1) {
-					if(win.jq.hasClass('maximized')) {
-						menu[0].callback = function() { win.front().toggleMax(); };
-					} else {
-						menu[2].callback = function() { win.front().toggleMax(); };
-					}
-				}
-				if($.inArray('min', win.controlsArr) !== -1) {
-					if(win.jq.hasClass('minimized')) {
-						menu[0].callback = function() { win.front().toggleMin(); };
-						menu[2].callback = undefined;
-					} else {
-						menu[1].callback = function() { win.front().toggleMin(); };
-					}
-				}
-				return menu;				
 			}
-			$('.window[windowID='+this.id+'] .ttl .icon').click({window: this}, function(e) {
-				var men = new explorer.context().append(menu());
-				men.location($(this).offset().left, $(this).offset().top + $(this).height());
-			}).dblclick({window: this}, function(e) {
-				e.data.window.jq.trigger('contextclose');
-				e.data.window.close();
-			});
-			$('#taskbar #middleframe .button[windowID='+this.id+']').contextmenu({window: this}, function(e) {
-				e.stopPropagation();
-				e.preventDefault();
-				new explorer.context()
-				.location(e.pageX, e.pageY)
-				.append(menu());
-			});
-			$('#taskbar #middleframe .button[windowID='+this.id+']').click({window: this}, function(e) {
-				e.data.window.toggleMin();
-			});
-			$('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
-				e.data.window.close();
-			});
-			explorer.drag(this.jq, '.ttl');
-			this.controls(['min','max']);
-			this.resize(300, 200);
-			this.front();
+		});
+		function menu() {
+		   var menu = [
+				{
+					title: 'Restore',
+					icon: 'webdows/resources/icons/rest.png'
+				}, {
+					title: 'Minimize',
+					icon: 'webdows/resources/icons/mini.png'
+				}, {
+					title: 'Maximize',
+					icon: 'webdows/resources/icons/maxi.png'
+				}, {}, {
+					title: 'Close',
+					icon: 'webdows/resources/icons/clos.png',
+					callback: function() { win.close(); }
+				}
+			];
+			if($.inArray('max', win.controlsArr) !== -1) {
+				if(win.jq.hasClass('maximized')) {
+					menu[0].callback = function() { win.front().toggleMax(); };
+				} else {
+					menu[2].callback = function() { win.front().toggleMax(); };
+				}
+			}
+			if($.inArray('min', win.controlsArr) !== -1) {
+				if(win.jq.hasClass('minimized')) {
+					menu[0].callback = function() { win.front().toggleMin(); };
+					menu[2].callback = undefined;
+				} else {
+					menu[1].callback = function() { win.front().toggleMin(); };
+				}
+			}
+			return menu;				
 		}
+		$('.window[windowID='+this.id+'] .ttl .icon').click({window: this}, function(e) {
+			var men = new explorer.context().append(menu());
+			men.location($(this).offset().left, $(this).offset().top + $(this).height());
+		}).dblclick({window: this}, function(e) {
+			e.data.window.jq.trigger('contextclose');
+			e.data.window.close();
+		});
+		$('#taskbar #middleframe .button[windowID='+this.id+']').contextmenu({window: this}, function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			new explorer.context()
+			.location(e.pageX, e.pageY)
+			.append(menu());
+		});
+		$('#taskbar #middleframe .button[windowID='+this.id+']').click({window: this}, function(e) {
+			e.data.window.toggleMin();
+		});
+		$('.window[windowID='+this.id+'] .minmaxclose .close').click({window: this}, function(e) {
+			e.data.window.close();
+		});
+		explorer.drag(this.jq, '.ttl');
+		this.controls(['min','max']);
+		this.resize(300, 200);
+		this.front();
 		return this;
 	},
 	context: function() {
