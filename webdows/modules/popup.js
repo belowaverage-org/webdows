@@ -1,16 +1,20 @@
 window.explorer.replacedWindow = window.explorer.window;
 window.explorer.window = function() {
-	var extwin = window.open(document.URL+'blank.html', '_blank', 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
+	var extwin = window.open(document.URL+'popup.html', '_blank', 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
 	var expwin = new window.explorer.replacedWindow();
 	expwin.jq.hide();
-	
 	extwin.onload = function() {
 		expwin.jq.show();
 		var initWidth = expwin.jq.width();
 		var initHeight = expwin.jq.height();
 		expwin.center('top left');
+		expwin.toggleMax();
 		extwin.onunload = function() {
 			expwin.close();
+		};
+		expwin.replacedToggleMin = expwin.toggleMin;
+		expwin.toggleMin = function() {
+			expwin.front();
 		};
 		expwin.replacedClose = expwin.close;
 		expwin.close = function() {
@@ -33,9 +37,8 @@ window.explorer.window = function() {
 			extwin.focus();
 			return this;
 		};
-		expwin.resize(initWidth + 10, initHeight + 35);
+		expwin.resize(initWidth, initHeight);
 		expwin.jq.appendTo(extwin.document.body);
 	};
-	
 	return expwin;
 };

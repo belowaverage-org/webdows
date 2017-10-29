@@ -753,3 +753,8 @@ var explorer = {
 	}
 };
 explorer.initiate();
+window.onunload = function() {
+	$.each(explorer.windows, function() {
+		this.close();
+	});
+};
