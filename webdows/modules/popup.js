@@ -3,7 +3,7 @@ window.explorer.window = function() {
 	var extwin = window.open(document.URL+'popup.html', '_blank', 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
 	var expwin = new window.explorer.replacedWindow();
 	expwin.jq.hide();
-	extwin.onload = function() {
+	function replace() {
 		expwin.jq.show();
 		var initWidth = expwin.jq.width();
 		var initHeight = expwin.jq.height();
@@ -40,5 +40,11 @@ window.explorer.window = function() {
 		expwin.resize(initWidth, initHeight);
 		expwin.jq.appendTo(extwin.document.body);
 	};
+	var interval = setInterval(function() {
+		if($(extwin.document.head).find('title').text() == 'Webdows') {
+			clearInterval(interval);
+			replace();
+		}
+	}, 5);
 	return expwin;
 };
