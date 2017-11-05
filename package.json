@@ -1,0 +1,30 @@
+{
+	"name": "webdows",
+	"version": "6.0.0001",
+	"description": "A dynamic "Webulation" of Microsoft Windows.",
+	"main": "webdows/system32/kernel.js",
+	"dependencies": {
+		"jquery": "3.2.1"
+	},
+	"engines": {
+		"node": "4.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/belowaverage-org/webdows"
+	},
+	"keywords": [
+		"webdows",
+		"below",
+		"average",
+		"jquery",
+		"api",
+		"windows",
+		"javascript"
+	],
+	"author": "krisdb2009",
+	"contributors": [
+		"Dylan Bickerstaff <dylan@belowaverage.org> (https://belowaverage.org/)"
+	],
+	"license": "MIT"
+}

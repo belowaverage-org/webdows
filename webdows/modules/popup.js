@@ -1,7 +1,7 @@
 window.explorer.replacedWindow = window.explorer.window;
 window.explorer.window = function() {
-	var extwin = window.open(document.URL+'popup.html', '_blank', 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
 	var expwin = new window.explorer.replacedWindow();
+	var extwin = window.open(document.URL+'popup.html', expwin.id, 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
 	expwin.jq.hide();
 	function replace() {
 		expwin.jq.show();
@@ -38,11 +38,12 @@ window.explorer.window = function() {
 			return this;
 		};
 		expwin.resize(initWidth, initHeight);
-		expwin.jq.appendTo(extwin.document.body);
+		$(extwin.document.body).append(expwin.jq);
 	};
 	var interval = setInterval(function() {
 		if($(extwin.document.head).find('title').text() == 'Webdows') {
 			clearInterval(interval);
+			delete interval;
 			replace();
 		}
 	}, 5);
