@@ -1,7 +1,7 @@
 {
 	"name": "webdows",
 	"version": "6.0.0001",
-	"description": "A dynamic "Webulation" of Microsoft Windows.",
+	"description": "A dynamic \"Webulation\" of Microsoft Windows.",
 	"main": "webdows/system32/kernel.js",
 	"dependencies": {
 		"jquery": "3.2.1"
