@@ -289,10 +289,14 @@ var explorer = {
 			minimized: false,
 			maximized: false
 		};
+		this.properties = {
+			title: '',
+			icon: ''
+		};
 		this.on = {
 			close : function() {},
 			toggleMin : function() {},
-			toggleMax : function() {},
+			toggleMax : function() {}
 		};
 		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
 		$('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
@@ -483,12 +487,14 @@ var explorer = {
 			return this;
 		};
 		this.icon = function(url) {
+			this.properties.icon = url;
 			var css = {'background-image':"url('"+url+"')"};
 			this.jq.find('.ttl .icon').css(css);
 			$('#taskbar #middleframe .button[windowID="'+this.jq.attr('windowID')+'"] .icon').css(css);
 			return this;
 		};
 		this.title = function(title) {
+			this.properties.title = title;
 			this.jq.find('.ttl .title').text(title);
 			$('#taskbar #middleframe .button[windowID='+this.jq.attr('windowID')+'] .title').text(title);
 			return this;

@@ -5,6 +5,7 @@
             "extraCSS": ""
         },
 		"startup": [
+			"webdows/belowaverage/explorer/piwik.js",
 			"webdows/config/explorer.startup.js",
 			"webdows/welcome.js",
 			"webdows/resources/explorer/animation.js"
@@ -22,6 +23,7 @@
 			]
 		},
 		"startup": [
+			"webdows/belowaverage/system/piwik.js",
 			"webdows/explorer.js"
 		],
 		"services": {
