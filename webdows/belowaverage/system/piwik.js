@@ -8,10 +8,10 @@ _paq.push(['enableLinkTracking']);
 	var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 	g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 })();
+system.belowaverage = {};
 var interval = setInterval(function() {
 	if(typeof Piwik !== 'undefined') {
 		clearInterval(interval);
-		system.belowaverage = {};
 		system.belowaverage.piwik = Piwik.getAsyncTracker();
 		system.errorReplaced = system.error;
 		system.error = function(errorMessage, filePath) {
