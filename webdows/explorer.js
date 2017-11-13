@@ -5,8 +5,7 @@ Author: krisdb2009
 File: webdows/explorer.js
 */
 var explorer = {
-	windows : {},
-	theme : function(themeName, extraCSS) {
+	windows : {}, theme : function(themeName, extraCSS) {
 		if(typeof themeName == 'undefined') {
 			var themeName = system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/theme/default');
 		}
@@ -18,11 +17,9 @@ var explorer = {
 		$('head style').html(extraCSS);
 		$('#theme').attr('href','webdows/resources/explorer/'+themeName+'/index.css');
 		return themeName;
-	},
-	is : {
+	}, is : {
 		fullScreen: false
-	},
-	toggleFullScreen : function(bool) {
+	}, toggleFullScreen : function(bool) {
 		if(typeof bool == 'boolean') {
 			this.is.fullScreen = !bool;
 		}
@@ -49,8 +46,7 @@ var explorer = {
 			this.is.fullScreen = true;
 		}
 		return this.is.fullScreen;
-	},
-	drag : function(target, handle, callback) {
+	}, drag : function(target, handle, callback) {
 		var mouseDown = false;
 		var offsetX = 0;
 		var offsetY = 0;
@@ -96,8 +92,7 @@ var explorer = {
 				}
 			}
 		});
-	},
-	initiate : function() {
+	}, initiate : function() {
 		$('#desktop.explorer').remove();
 		$('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css"><link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
 		$('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
@@ -143,8 +138,7 @@ var explorer = {
 				system.loader(this);
 			});
 		});
-	},
-	start : {
+	}, start : {
 		toggle : function() {
 			var start = $('#desktop #startmenu');
 			if(start.hasClass('minimized')) {
@@ -279,8 +273,7 @@ var explorer = {
 				}
 			}
 		}
-	},
-	window : function(winObj) {
+	}, window : function(winObj) {
 		/** init **/
 		this.id = system.guid();
 		explorer.windows[this.id] = this;
@@ -594,8 +587,7 @@ var explorer = {
 		this.resize(300, 200);
 		this.front();
 		return this;
-	},
-	context: function() {
+	}, context: function() {
 		/** INIT **/
 		var con = this;
 		this.id = system.guid();
@@ -755,6 +747,86 @@ var explorer = {
 			return this;
 		};
 		/** EndChainFunctions **/
+		return this;
+	}, tabset: function(appendTo) {
+		var ts = this;
+		this.tabs = {};
+		this.jq = $(`
+			<div class="tabset">
+				<div class="tabs"></div>
+			</div>
+		`);
+		if(typeof appendTo !== 'undefined') {
+			this.jq.appendTo(appendTo);
+		}
+		this.addTab = function(title) {
+			var tabID = system.guid();
+			var tabBody = $('<div tabID="'+tabID+'" class="tab"></div>')
+			.appendTo(this.jq);
+			var tab = $('<span tabID="'+tabID+'" class="tab"></span>')
+			.appendTo(this.jq.find('.tabs'))
+			.on('mousedown', function() {
+				ts.tabs[tabID].open();
+			});
+			this.tabs[tabID] = {
+				is: {
+					open: false,
+					enabled: true
+				}, properties: {
+					title: undefined,
+					icon: undefined
+				},
+				body: tabBody,
+				remove: function() {
+					tab.remove();
+					tabBody.remove();
+					delete ts.tabs[tabID];
+					$.each(ts.tabs, function() {
+						this.open();
+						return false;
+					});
+				}, disable: function() {
+					//Todo
+					return this;
+				}, enable: function() {
+					//Todo
+					return this;
+				}, open: function() {
+					if(typeof ts.tabs[tabID] !== 'undefined') {
+						ts.jq.find('.tab').removeClass('open');
+						tab.addClass('open');
+						tabBody.addClass('open');
+						$.each(ts.tabs, function() {
+							this.is.open = false;
+						});
+						this.is.open = true;
+						return this;
+					}
+				}, moveLeft: function() {
+					//Todo
+					return this;
+				}, moveRight: function() {
+					//Todo
+					return this;
+				}, title: function(title) {
+					if(typeof title == 'string' && title !== '') {
+						tab.text(title);
+						this.is.titled = title;
+						return this;
+					} else {
+						throw 'explorer.tabset(): tab.title(): Please specify a title';
+					}
+				}, icon: function(title) {
+					//Todo
+					return this;
+				}
+			};
+			this.tabs[tabID].title(title);
+			if(this.jq.find('.tabs .tab').length == 1) {
+				this.jq.find('.tabs .tab').trigger('mousedown');
+			}			
+			return this.tabs[tabID];
+		};
 		return this;
 	}
 };

@@ -766,40 +766,91 @@ border-radius:3px;
 box-shadow:inset -1px 0px 0px #979797, inset 1px 0px 0px #979797, inset 0px -1px 0px #979797, inset 0px 1px 0px #979797, inset -2px -2px 0px rgba(255,255,255,.3), inset 0px 2px 0px rgba(255,255,255,.3);
 }
 ::-webkit-scrollbar-thumb:horizontal {
-height:15px;
-border-top:1px solid #f6f6f6;
-border-bottom:1px solid #e8e8e8;
-background:url('sb2.png'), linear-gradient(to bottom, #f3f3f3 0%,#e7e7e9 50%,#d7d8da 51%,#bfbfc2 100%);
-background-repeat:no-repeat;
-background-position:50% 50%;
+	height:15px;
+	border-top:1px solid #f6f6f6;
+	border-bottom:1px solid #e8e8e8;
+	background:url('sb2.png'), linear-gradient(to bottom, #f3f3f3 0%,#e7e7e9 50%,#d7d8da 51%,#bfbfc2 100%);
+	background-repeat:no-repeat;
+	background-position:50% 50%;
 }
 ::-webkit-scrollbar-button {
-width:15px;
-height:15px;
-background-color:transparent;
-background-image:url('sba1.png');
-background-repeat:no-repeat;
-background-position:50% 50%;
-image-rendering:pixelated;
+	width:15px;
+	height:15px;
+	background-color:transparent;
+	background-image:url('sba1.png');
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+	image-rendering:pixelated;
 }
 ::-webkit-scrollbar-button:vertical:end {
-background-image:url('sba3.png');
+	background-image:url('sba3.png');
 }
 ::-webkit-scrollbar-button:horizontal:end {
-background-image:url('sba2.png');
+	background-image:url('sba2.png');
 }
 ::-webkit-scrollbar-button:horizontal:start {
-background-image:url('sba4.png');
+	background-image:url('sba4.png');
 }
 input[type=radio] {
-display:none;
+	display:none;
 }
 .input.radio {
-width:10px;
-height:10px;
-display:inline-block;
-background-color:white;
+	width:10px;
+	height:10px;
+	display:inline-block;
+	background-color:white;
 }
 .input.radio.checked {
-background-color:red;
+	background-color:red;
+}
+.tabset {
+	min-width:100px;
+	min-height:100px;
+	flex-direction:column;
+	display:flex;
+}
+.tabset .tabs {
+	flex:none;
+	border-bottom:1px solid #898c95;
+	padding-left:2px;
+	padding-right:2px;
+}
+.tabset .tabs .tab {
+	display:inline-block;
+	height:19px;
+	line-height:19px;
+	font-size:12px;
+	border-style:solid;
+    border-width:1px 1px 0px 1px;
+	border-color:#898c95;
+	box-shadow:inset 1px 0px 0px rgba(255,255,255,.9), inset -1px 0px 0px rgba(255,255,255,.9), inset 0px 1px 0px rgba(255,255,255,.9);
+	padding-left:5px;
+	padding-right:5px;
+	background:linear-gradient(to bottom, #f2f2f2 0%,#ebebeb 50%,#dddddd 51%,#cfcfcf 100%);
+}
+.tabset .tabs .tab:not(.open):hover {
+	border-color:#3c7fb1;
+	background:linear-gradient(to bottom, #eaf6fd 0%,#d9f0fc 50%,#bee6fd 51%,#a7d9f5 100%);
+}
+.tabset .tabs .tab.open {
+	background:white;
+	height:22px;
+	margin-bottom:-1px;
+	margin-top:-2px;
+	margin-left:-2px;
+	margin-right:-1px;
+	vertical-align:bottom;
+	padding-left:7px;
+	padding-right:7px;
+}
+.tabset > .tab {
+	display:none;
+	background-color:white;
+	border:1px solid #898c95;
+	border-top:0px;
+	height:100%;
+}
+.tabset > .tab.open {
+	display:block;
+	flex:1;
 }
