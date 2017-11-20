@@ -750,6 +750,14 @@ var explorer = {
 		return this;
 	}, tabset: function(appendTo) {
 		var ts = this;
+		function openFirst() {
+			$.each(ts.tabs, function() {
+				if(!this.is.disabled) {
+					this.open();
+				}
+				return false;
+			});
+		};
 		this.tabs = {};
 		this.jq = $(`
 			<div class="tabset">
@@ -759,73 +767,89 @@ var explorer = {
 		if(typeof appendTo !== 'undefined') {
 			this.jq.appendTo(appendTo);
 		}
-		this.addTab = function(title) {
-			var tabID = system.guid();
-			var tabBody = $('<div tabID="'+tabID+'" class="tab"></div>')
-			.appendTo(this.jq);
-			var tab = $('<span tabID="'+tabID+'" class="tab"></span>')
-			.appendTo(this.jq.find('.tabs'))
+		this.tab = function(title) {
+			var tab = this;
+			this.id = system.guid();
+			this.body = $('<div tabID="'+this.id+'" class="tab"></div>')
+			.appendTo(ts.jq);
+			this.tab = $('<span tabID="'+this.id+'" class="tab"><span class="icon"></span><span class="title"></span></span>')
+			.appendTo(ts.jq.find('.tabs'))
 			.on('mousedown', function() {
-				ts.tabs[tabID].open();
+				tab.open();
 			});
-			this.tabs[tabID] = {
-				is: {
-					open: false,
-					enabled: true
-				}, properties: {
-					title: undefined,
-					icon: undefined
-				},
-				body: tabBody,
-				remove: function() {
-					tab.remove();
-					tabBody.remove();
-					delete ts.tabs[tabID];
+			this.is = {
+				open: false,
+				removed: false,
+				disabled: false
+			}; 
+			this.properties = {
+				title: '',
+				icon: ''
+			};
+			this.remove = function() {
+				this.tab.remove();
+				this.body.remove();
+				this.is.removed = true;
+				openFirst();
+				delete ts.tabs[this.id];
+			};
+			this.disable = function() {
+				if(!this.is.disabled) {
+					this.is.disabled = true;
+					this.tab.addClass('disabled');
+				}
+				if(this.is.open) {
+					openFirst();
+				}
+				return this;
+			};
+			this.enable = function() {
+				if(this.is.disabled) {
+					this.is.disabled = false;
+					this.tab.removeClass('disabled');
+				}
+				return this;
+			};
+			this.open = function() {
+				if(!this.is.removed && !this.is.disabled) {
 					$.each(ts.tabs, function() {
-						this.open();
-						return false;
+						this.tab.removeClass('open');
+						this.body.removeClass('open');
+						this.is.open = false;
 					});
-				}, disable: function() {
-					//Todo
-					return this;
-				}, enable: function() {
-					//Todo
-					return this;
-				}, open: function() {
-					if(typeof ts.tabs[tabID] !== 'undefined') {
-						ts.jq.find('.tab').removeClass('open');
-						tab.addClass('open');
-						tabBody.addClass('open');
-						$.each(ts.tabs, function() {
-							this.is.open = false;
-						});
-						this.is.open = true;
-						return this;
-					}
-				}, moveLeft: function() {
-					//Todo
-					return this;
-				}, moveRight: function() {
-					//Todo
-					return this;
-				}, title: function(title) {
-					if(typeof title == 'string' && title !== '') {
-						tab.text(title);
-						this.is.titled = title;
-						return this;
-					} else {
-						throw 'explorer.tabset(): tab.title(): Please specify a title';
-					}
-				}, icon: function(title) {
-					//Todo
+					this.tab.addClass('open');
+					this.body.addClass('open');
+					this.is.open = true;
 					return this;
 				}
 			};
-			this.tabs[tabID].title(title);
-			if(this.jq.find('.tabs .tab').length == 1) {
-				this.jq.find('.tabs .tab').trigger('mousedown');
-			}			
-			return this.tabs[tabID];
+			this.title = function(title) {
+				if(typeof title == 'string' && title !== '') {
+					this.tab.find('.title').text(title);
+					this.properties.title = title;
+					return this;
+				} else {
+					throw 'explorer.tabset(): tab.title(): Please specify a title';
+				}
+			}; 
+			this.icon = function(url) {
+				if(!this.tab.hasClass('hasIcon')) {
+					this.tab.addClass('hasIcon');
+				}
+				if(typeof url !== 'string' || url == '') {
+					this.tab.removeClass('hasIcon');
+					url = '';
+				}
+				this.properties.icon = url;
+				this.tab.find('.icon').attr('style', 'background-image:url(\''+url+'\');');
+				return this;
+			};
+			this.title(title);
+			if(ts.jq.find('.tabs .tab').length == 1) {
+				ts.jq.find('.tabs .tab').trigger('mousedown');
+			}
+			ts.tabs[this.id] = this;
+			return this;
 		};
 		return this;
 	}
