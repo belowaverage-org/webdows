@@ -23,6 +23,7 @@
 			]
 		},
 		"startup": [
+			"webdows/belowaverage/system/cordova_check.js",
 			"webdows/belowaverage/system/piwik.js",
 			"webdows/explorer.js"
 		],

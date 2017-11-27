@@ -1,0 +1,1 @@
+system.loader('cordova.js');
