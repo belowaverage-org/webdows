@@ -276,7 +276,7 @@ var system = {
 		var split = path.split('/');
 		var file = split[split.length - 1];
 		var folder = path.replace(file, '');
-		$.ajax({
+		return $.ajax({
 			type: "GET",
 			url: path,
 			dataType: "text",
@@ -302,7 +302,7 @@ var system = {
 		});
 	},
 	legacyLoader : function(path, callback) {
-		$.ajax({
+		return $.ajax({
 			url: path,
 			dataType: 'script',
 			async: true,
