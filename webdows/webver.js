@@ -52,6 +52,7 @@ new explorer.window()
 		e.data.win.close();
 	});
 	var index = 0;
+	var xhr = null;
 	this.body.find('button.credits')
 	.css({'padding-left':'10px','padding-right':'10px','width':'auto','height':'20px','position':'absolute','bottom':'10px','left':'10px'})
 	.click({win: this}, function(e) {
@@ -71,16 +72,23 @@ new explorer.window()
 				location: './otherlicenses.txt'
 			}
 		];
+		if(xhr !== null) {
+			xhr.abort();
+		}
+		if(index == list.length - 1) {
+			index = 0;
+		} else {
+			index++;
+		}
 		win.body.find('#showing, pre, button.credits').text('...');
-		$.get(list[index].location, function(version) {
-			win.body.find('#showing').text(list[index].title);
-			win.body.find('pre').text(version);
-			if(index == list.length - 1) {
-				index = 0;
-			} else {
-				index++;
+		xhr = $.ajax({
+			url: list[index].location,
+			global: false,
+			success: function(version) {
+				win.body.find('#showing').text(list[index].title);
+				win.body.find('pre').text(version);
+				button.text(list[index].title);
 			}
-			button.text(list[index].title);
 		});
 	});
 	win.body.find('button.credits').click();
