@@ -9,6 +9,53 @@
 			"webdows/config/explorer.startup.js",
 			"webdows/welcome.js",
 			"webdows/resources/explorer/animation.js"
+		],
+		"startmenu": [
+			{
+				"title": "About Webdows",
+				"icon": "webdows/resources/icons/info.ico",
+				"file": "webdows/webver.js"
+			}, {
+				"title": "Personalize",
+				"icon": "webdows/resources/icons/pers.ico",
+				"file": "webdows/personalize.js"
+			}, {
+				"title": "Command Prompt",
+				"icon": "webdows/resources/icons/scre.ico",
+				"file": "webdows/cmd.js"
+			}, {
+				"title": "Registry Editor",
+				"icon": "webdows/resources/icons/rege.ico",
+				"file": "webdows/regedit.js"
+			}, {
+				"title": "Calculator",
+				"icon": "webdows/resources/icons/calc.ico",
+				"file": "webdows/calc.js"
+			}, {
+				"title": "Notepad",
+				"icon": "webdows/resources/icons/note.ico",
+				"file": "webdows/notepad.js"
+			}, {
+				"title": "Run",
+				"icon": "webdows/resources/icons/runi.ico",
+				"file": "webdows/run.js"
+			}, {
+				"title": "Task Manager",
+				"icon": "webdows/resources/icons/task.ico",
+				"file": "webdows/taskmgr.js"
+			}, {
+				"title": "Youtube Extractor",
+				"icon": "programs/Youtube Extractor/logo.png",
+				"file": "programs/Youtube Extractor/index.js"
+			}, {
+				"title": "Web Explorer",
+				"icon": "programs/Web Explorer/1.png",
+				"file": "programs/Web Explorer/we.js"
+			}, {
+				"title": "YouTube Sync",
+				"icon": "programs/youtube-sync/img/icon.png",
+				"file": "programs/youtube-sync/index.js"
+			}
 		]
     },
     "system": {

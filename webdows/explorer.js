@@ -185,6 +185,12 @@ var explorer = {
 			$('#taskbar #start').click(function() {
 				explorer.start.toggle();
 			});
+			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/startmenu'), function() {
+				var data = this;
+				explorer.start.addLButton(data.title, data.icon, function() {
+					system.loader(data.file);
+				});
+			});
 			explorer.start.toggle();
 		},
 		append : function(left, right) {
