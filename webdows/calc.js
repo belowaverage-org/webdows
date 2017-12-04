@@ -64,6 +64,9 @@ new explorer.window()
 					.html(e);
 				}
 				peek.text(ans);
+				if(ans == 'Infinity') {
+					peek.html('<span style="display:inline-block;font-size:12px;margin-right:5px;margin-top:12px;">Cannot divide by zero</span>');
+				}
 				break;
 			case 'c':
 				peek.text('0');
