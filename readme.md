@@ -45,8 +45,7 @@ new explorer.context()
 .append([
     {
        title: 'Hello'
-    }, {}, 
-    {
+    }, {}, {
        title: 'World',
        callback: function() { console.log('World Clicked'); }
     }
