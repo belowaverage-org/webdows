@@ -1,13 +1,24 @@
 new explorer.window()
 .title('System Configuration')
-.resize(560, 300)
+.resize(580, 320)
 .icon('webdows/resources/icons/msconfig.png')
+.controls(['min'])
 .callback(function() {
 	var body = this.body;
 	var win = this;
-	
+	var tabset = new explorer.tabset(body);
+	var tabGeneral = new tabset.tab('General');
+	var tabServices = new tabset.tab('Services');
+	var tabStartup = new tabset.tab('Startup');
+	var tabTools = new tabset.tab('Tools');
+	tabset.jq.css({"height":"250px","margin":"5px"});
 	this.center()
-	body.html(`
+
+win.body.append(`
+		<div style="float:right; margin-right:5px;"><button id="Ok">OK</button> <button id="Cancel">Cancel</button> <button id="Apply">Apply</button> <button id="Help">Help</button></div>
+	`);
+	
+tabGeneral.body.html(`
 		<fieldset><legend>Startup Selection</legend>
 			<form>
 				<input name="startupType" id="normalStart "style="float:left;" type="radio" value="Normal Startup"> Normal Startup
@@ -19,11 +30,20 @@ new explorer.window()
 				<input type="checkbox" style="margin: 0;margin-left:4%;">Load startup items</br>
 				<input type="checkbox" style="margin: 0;margin-left:4%;" disabled>Use original boot configuration
 			</form>
-			<div style="margin-top:32px; margin-left:350px; position: absolute;float:right;"><button id="Ok">OK</button> <button id="Cancel">Cancel</button> <button id="Apply">Apply</button> <button id="Help">Help</button></div>
+			
 		
 		</fieldset>
 	`);
 	
+tabServices.body.html(`
+		<div style="">
+			
+		</div>
+		<div style="margin-top:32px; margin-left:350px; position: absolute;float:right;">
+			<button id="enable">Enable all</button><button id="disable">Disable All</button>
+		</div>
+	`);
+
 	body.find('#Cancel').click(function () {
 		win.close(); 
 	});
