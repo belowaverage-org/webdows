@@ -799,9 +799,28 @@ input[type=radio] {
 	height:10px;
 	display:inline-block;
 	background-color:white;
+	border-radius:6px;
+	border:1px solid #919292;
+	box-shadow:inset 1px 1px 0px #f3f3f3, inset -1px -1px 0px #f3f3f3, inset -1px 1px 0px #f3f3f3, inset 1px -1px 0px #f3f3f3, inset 1px 0px 0px #f3f3f3, inset 0px 1px 0px #f3f3f3, inset -1px 0px 0px #f3f3f3, inset 0px -1px 0px #f3f3f3, inset 2px 3px 6px rgba(0,0,0,.3);
+	transition:.3s;
+	position:relative;
 }
-.input.radio.checked {
-	background-color:red;
+.input.radio:hover {
+	border:1px solid #5989a5;
+	box-shadow:inset 1px 1px 0px #def9fa, inset -1px -1px 0px #def9fa, inset -1px 1px 0px #def9fa, inset 1px -1px 0px #def9fa, inset 1px 0px 0px #def9fa, inset 0px 1px 0px #def9fa, inset -1px 0px 0px #def9fa, inset 0px -1px 0px #def9fa, inset 2px 3px 6px rgba(97,190,249,.95);
+}
+.input.radio.checked::before {
+	content:'';
+	display:inline-block;
+	width:4px;
+	height:4px;
+	border:1px solid #183348;
+	background-color:#dbf2fd;
+	box-shadow:inset -1px -1px 1px #006caa;
+	position:absolute;
+	top:2px;
+	left:2px;
+	border-radius:3px;
 }
 .tabset {
 	min-width:100px;
