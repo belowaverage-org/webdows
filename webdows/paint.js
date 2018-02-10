@@ -30,7 +30,9 @@ resizeInterval = setInterval(function() {
 		lastHeight = height;
 		canvas.height = height;
 	}
-	
+	if(height !== lastHeight || width !== lastWidth) {
+		ctx.restore();
+	}	
 }, 60);
 
 var ctx = canvas.getContext('2d');
@@ -39,3 +41,4 @@ ctx.beginPath();
 ctx.lineTo(100, 100);
 ctx.lineTo(200, 200);
 ctx.stroke();
+ctx.save();
