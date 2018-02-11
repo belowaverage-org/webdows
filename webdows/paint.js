@@ -59,15 +59,15 @@ mainInterval = setInterval(function() {
 }, 16.666);
 function mouseUp(e) {
 	mouseDown = false;
-	$('#desktop').off('mouseup', mouseUp);
+	$('#desktop').off('mouseup touchend', mouseUp);
 };
-$(canvas).on('mousedown', function(e) {
-	$('#desktop').on('mouseup', mouseUp);
+$(canvas).on('mousedown touchstart', function(e) {
+	$('#desktop').on('mouseup touchend', mouseUp);
 	lastTracePointX = e.pageX - $(e.target).offset().left;
 	lastTracePointY = e.pageY - $(e.target).offset().top;
 	mouseDown = true;
 });
-$(canvas).on('mousemove', function(e) {
+$(canvas).on('mousemove touchmove', function(e) {
 	currentTracePointX = e.pageX - $(e.target).offset().left;
 	currentTracePointY = e.pageY - $(e.target).offset().top;
 });
