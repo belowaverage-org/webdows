@@ -1,8 +1,3 @@
-var newImage = new Image();
-var oldImage = newImage;
-$(newImage).ready(function() {
-	
-});
 var win = new explorer.window()
 .title('Paint')
 .resize(800, 500)
@@ -22,14 +17,15 @@ var lastTracePointX = 0;
 var lastTracePointY = 0;
 var currentTracePointX = 0;
 var currentTracePointY = 0;
+var imageData = null;
 window.canvas = canvas;
 window.ctx = ctx;
 window.bod = bod;
 function save() {
-	newImage.src = canvas.toDataURL("image/png");
+	imageData = ctx.getImageData(0, 0, lastWidth, lastHeight);
 };
 function restore() {
-	ctx.drawImage(newImage, 0, 0);
+	ctx.putImageData(imageData, 0, 0);
 };
 bod[0].onresize = function() {
 	canvas.width = bod.width();
@@ -50,7 +46,7 @@ mainInterval = setInterval(function() {
 	}
 	if(mouseDown) {
 		ctx.beginPath();
-		ctx.lineTo(lastTracePointX, lastTracePointY);
+		ctx.moveTo(lastTracePointX, lastTracePointY);
 		ctx.lineTo(currentTracePointX, currentTracePointY);
 		ctx.stroke();
 		lastTracePointX = currentTracePointX;
@@ -63,11 +59,11 @@ function mouseUp(e) {
 };
 $(canvas).on('mousedown touchstart', function(e) {
 	$('#desktop').on('mouseup touchend', mouseUp);
-	lastTracePointX = e.pageX - $(e.target).offset().left;
-	lastTracePointY = e.pageY - $(e.target).offset().top;
+	lastTracePointX = Math.round(e.pageX - $(e.target).offset().left);
+	lastTracePointY = Math.round(e.pageY - $(e.target).offset().top);
 	mouseDown = true;
 });
 $(canvas).on('mousemove touchmove', function(e) {
-	currentTracePointX = e.pageX - $(e.target).offset().left;
-	currentTracePointY = e.pageY - $(e.target).offset().top;
+	currentTracePointX = Math.round(e.pageX - $(e.target).offset().left);
+	currentTracePointY = Math.round(e.pageY - $(e.target).offset().top);
 });
