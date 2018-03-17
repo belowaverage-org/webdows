@@ -9,7 +9,7 @@ new explorer.window()
 .title('Youtube Extractor')
 .controls(['min'])
 .resize(500, 420)
-.icon('programs/Youtube Extractor/logo.png')
+.icon(loader.folder+'logo.png')
 .center()
 .callback(function() {
 	var bod = this.body;
@@ -74,7 +74,7 @@ new explorer.window()
 					bod.find('#title.stat').val('Loading info...');
 					bod.find('input.extract').attr('disabled', true);
 					$.getJSON('https://api.belowaverage.org/v1/youtube-dl/?json='+token, function(data) {
-						dis.icon('programs/Youtube Extractor/logo.png');
+						dis.icon(loader.folder+'logo.png');
 						bod.find('img.logo').attr('src', data.thumbnail);
 						bod.find('#title.stat').val(data.title);
 						bod.find('#upl.stat').val(data.uploader);
@@ -92,7 +92,7 @@ new explorer.window()
 							.center()
 							.controls([])
 							.front()
-							.icon('programs/Youtube Extractor/logo.png')
+							.icon(loader.folder+'logo.png')
 							.callback(function() {
 								var body = this.body;
 								var win = this;
@@ -122,13 +122,30 @@ new explorer.window()
 									}
 									new explorer.window()
 									.title('Youtube Extractor - Converter')
-									.resize(500, 410)
-									.center('', 20, 20)
+									.resize(500, 80)
+									.center()
 									.front()
 									.controls([])
+									.icon(loader.folder+'hourglass.gif')
 									.callback(function() {
 										var win = this;
-										var log = this.body;
+										var body = this.body;
+										body.html(`
+										<progress style="
+											height:30px;
+											width:calc(100% - 20px);
+											position:absolute;
+											top:10px;
+											left:10px;
+										"></progress>
+										<pre style="
+											position:absolute;
+											top:45px;
+											left:10px;
+											font-size:14px;
+											margin:0px;
+										">Sending request to server...</pre>
+										`);
 										$.get('https://api.belowaverage.org/v1/youtube-dl/?token='+url, function(token) {
 											download('https://api.belowaverage.org/v1/youtube-dl/?mp3='+token+'&'+additions);
 											var interval = setInterval(function() {
@@ -137,10 +154,29 @@ new explorer.window()
 														clearInterval(interval);
 														win.close();
 													}
-													log.html('<pre style="white-space:pre-wrap;font-size:10px;">'+resp+'</pre>');
-													log.scrollTop(log[0].scrollHeight);
+													var respArr = resp.split('\n');
+													var lastMsg = respArr[respArr.length - 2];
+													if(typeof lastMsg == 'string') {
+														if(!lastMsg.includes('[download]')) {
+															body.find('progress').removeAttr('value');
+															if(lastMsg.includes('[ffmpeg]')) {
+																body.find('pre').text('Converting to MP3...');
+															} else {
+																body.find('pre').text(lastMsg);
+															}
+														} else {
+															if(!lastMsg.includes('Destination:')) {
+																var percent = parseInt(lastMsg.slice(11, 16));
+																body.find('pre').text(lastMsg);
+																body.find('progress').attr('max', 100).attr('value', percent);
+															}
+														}
+													}
 												});
 											}, 500);
+											win.on.close = function() {
+												clearInterval(interval);
+											};
 										});
 									});
 								});
@@ -173,7 +209,7 @@ new explorer.window()
 							}
 						});
 					}).fail(function() {
-						dis.icon('programs/Youtube Extractor/logo.png');
+						dis.icon(loader.folder+'logo.png');
 						bod.find('img.logo').attr('src', 'programs/Youtube Extractor/logo.png');
 						bod.find('#title.stat').val('Video does not exist!');
 						bod.find('#upl.stat').val('');
