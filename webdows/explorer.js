@@ -131,6 +131,31 @@ var explorer = {
 						}).after(rep);
 					}
 				});
+				$.each(bod.find('progress'), function() {
+					if(!$(this).hasClass('progress')) {
+						oprog = $(this);
+						nprog = $('<div class="progress"><div></div></div>');
+						oprog.after(nprog).addClass('progress');
+						function mutated() {
+							nprog.attr('style', oprog.attr('style'));
+							if(oprog.is('[value]')) {
+								if(oprog.is('[max]')) {
+									var max = parseFloat(oprog.attr('max'));
+								} else {
+									var max = 1;
+								}
+								nprog.find('div').attr('style', 'width:'+((parseFloat(oprog.attr('value')) / max) * 100)+'%;');
+							} else {
+								//Do animation...
+							}
+						}
+						var obsv = new MutationObserver(mutated);
+						obsv.observe(oprog[0], {
+							attributes: true
+						});
+						mutated();
+					}
+				});
 			});
 		});
 		system.loader('webdows/explorer_ext.js', function() {

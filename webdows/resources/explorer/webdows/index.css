@@ -791,7 +791,7 @@ vertical-align: -3px;
 ::-webkit-scrollbar-button:horizontal:start {
 	background-image:url('sba4.png');
 }
-input[type=radio] {
+input[type=radio].replaced {
 	display:none;
 }
 .input.radio {
@@ -821,6 +821,23 @@ input[type=radio] {
 	top:2px;
 	left:2px;
 	border-radius:3px;
+}
+progress.progress {
+	display:none;
+}
+.progress {
+	height:20px;
+	width:150px;
+	border:1px solid black;
+	position:relative;
+	appearance:none;
+}
+.progress > div {
+	height:100%;
+	position:absolute;
+	left:0px;
+	top:0px;
+	background-color:red;
 }
 .tabset {
 	min-width:100px;
