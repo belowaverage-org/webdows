@@ -139,6 +139,7 @@ var explorer = {
 						function mutated() {
 							nprog.attr('style', oprog.attr('style'));
 							if(oprog.is('[value]')) {
+								nprog.addClass('value');
 								if(oprog.is('[max]')) {
 									var max = parseFloat(oprog.attr('max'));
 								} else {
@@ -146,7 +147,7 @@ var explorer = {
 								}
 								nprog.find('div').attr('style', 'width:'+((parseFloat(oprog.attr('value')) / max) * 100)+'%;');
 							} else {
-								//Do animation...
+								nprog.removeClass('value').find('div').removeAttr('style');
 							}
 						}
 						var obsv = new MutationObserver(mutated);

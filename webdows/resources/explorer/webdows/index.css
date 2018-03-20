@@ -828,16 +828,50 @@ progress.progress {
 .progress {
 	height:20px;
 	width:150px;
-	border:1px solid black;
+	border:1px solid #8c8c8c;
+	border-top:1px solid #b2b2b2;
+	border-radius:3px;
 	position:relative;
-	appearance:none;
+	box-shadow:inset 0px 0px 7px rgba(255,255,255,.86);
+	overflow:hidden;
+	background-color:#c9c9c9;
+}
+.progress::after {
+	content:"";
+	top:0px;
+	left:0px;
+	position:absolute;
+	width:100%;
+	height:100%;
+	background:linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.7) 40%,rgba(255,255,255,0) 41%,rgba(255,255,255,0) 100%);
+	box-shadow:inset 1px 1px 0px rgba(255,255,255,.1), inset -1px -1px 0px rgba(255,255,255,.1);
 }
 .progress > div {
-	height:100%;
 	position:absolute;
+	background:linear-gradient(to left, rgba(0,211,40,0) 0%,rgba(0,211,40,1) 50%,rgba(0,211,40,0) 100%);
+	height:100%;
+	width:150px;
 	left:0px;
 	top:0px;
-	background-color:red;
+	animation-name:progressAni;
+    animation-duration:6s;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+.progress.value > div {
+	animation:none;
+	background-color:#00d328;
+	box-shadow:inset 0px 0px 6px rgba(255,255,255,.6);
+	border-radius:1px;
+}
+@keyframes progressAni {
+	0% {
+		left:calc(0% - 150px);
+	} 90% {
+		left:calc(100% + 150px);
+	} 100% {
+		left:calc(100% + 150px);
+	}
 }
 .tabset {
 	min-width:100px;
