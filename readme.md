@@ -2,7 +2,7 @@
 <hr>
 <p align="center">
 <a href="https://github.com/belowaverage-org/webdows/wiki"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/docs.png"></a>
-<a href="http://belowaverage.org/webdows/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/demo.png"></a>
+<a href="http://webdows.belowaverage.org/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/demo.png"></a>
 <a href="https://belowaverage.org/"><img src="https://raw.githubusercontent.com/krisdb2009/webdows-docs/master/images/website.png"></a>
 </p>
 <hr>
@@ -10,13 +10,11 @@
 <hr>
 <h1>Features</h1>
 
-* Simple API
+* Very Simple API
 
 * Well documented (Before first release)
 
 * Supported by Edge, Chrome, Safari, Firefox, and Opera.
-
-* Utilizes jQuery
 
 * 99% CSS vector design. *Bitmaps rarely used for styling*
 
