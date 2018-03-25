@@ -12,17 +12,17 @@
 
 * Simple API
 
-* Built in preloader
+* Well documented (Before first release)
 
-* Well documented (Comming soon)
-
-* Supported by Chrome, Safari, Firefox, and Opera.
+* Supported by Edge, Chrome, Safari, Firefox, and Opera.
 
 * Utilizes jQuery
 
 * 99% CSS vector design. *Bitmaps rarely used for styling*
 
 * Customizable themes
+
+* Accurate Microsoft Windows like behavior.
 
 <h1>Simple API</h1>
 <h3>Making a window</h3>
