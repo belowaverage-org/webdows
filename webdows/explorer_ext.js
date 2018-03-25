@@ -1,11 +1,3 @@
-/*!
-Project: Webdows
-Liscense: MIT
-Author: krisdb2009
-Date: 05/02/16
-File: webdows/explorer_ext.js
-*/
-
 /* 
 explorer.file.draw(selector) //Draws a directory in the selected JQ selector.
 .path(path) //Moves to path.
