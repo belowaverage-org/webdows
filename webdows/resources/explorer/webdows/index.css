@@ -846,7 +846,8 @@ progress.progress {
 	background:linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.7) 40%,rgba(255,255,255,0) 41%,rgba(255,255,255,0) 100%);
 	box-shadow:inset 1px 1px 0px rgba(255,255,255,.1), inset -1px -1px 0px rgba(255,255,255,.1);
 }
-.progress > div {
+.progress:not(.value)::before {
+	content:"";
 	position:absolute;
 	background:linear-gradient(to left, rgba(0,211,40,0) 0%,rgba(0,211,40,1) 50%,rgba(0,211,40,0) 100%);
 	height:100%;
@@ -854,23 +855,61 @@ progress.progress {
 	left:0px;
 	top:0px;
 	animation-name:progressAni;
-    animation-duration:6s;
+    animation-duration:5s;
     animation-timing-function:linear;
     animation-iteration-count:infinite;
 }
-.progress.value > div {
-	animation:none;
-	background-color:#00d328;
+.progress > div {
+	position:absolute;
+	height:100%;
+	width:0px;
+	left:0px;
+	top:0px;
+	background:linear-gradient(to right, rgba(5,177,36,1) 0%,rgba(0,211,40,1) 10%,rgba(0,211,40,1) 90%,rgba(5,177,36,1) 100%);
 	box-shadow:inset 0px 0px 6px rgba(255,255,255,.6);
 	border-radius:1px;
+	overflow:hidden;
+}
+.progress.value > div {
+	transition:.5s linear;
+	animation-name:progressAni2;
+    animation-duration:4s;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+.progress.value > div::after {
+	content:"";
+	position:absolute;
+	background:linear-gradient(to left, rgba(255,255,255,0) 0%,rgba(255,255,255,.4) 50%,rgba(0,211,40,0) 100%);
+	top:0px;
+	left:0px;
+	width:100px;
+	height:100%;
+	animation-name:progressAni;
+    animation-duration:4s;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
 }
 @keyframes progressAni {
 	0% {
 		left:calc(0% - 150px);
-	} 90% {
-		left:calc(100% + 150px);
+	} 70% {
+		left:100%;
 	} 100% {
-		left:calc(100% + 150px);
+		left:100%;
+	}
+}
+@keyframes progressAni2 {
+	0% {
+		box-shadow:inset 0px 0px 6px rgba(255,255,255,.6);
+	} 20% {
+		box-shadow:inset 0px 0px 6px rgba(255,255,255,.6), inset 0px -4px 2px rgba(255,255,255,.3);
+	} 55% {
+		box-shadow:inset 0px 0px 6px rgba(255,255,255,.6), inset 0px -4px 2px rgba(255,255,255,.3);
+	} 70% {
+		box-shadow:inset 0px 0px 6px rgba(255,255,255,.6);
+	} 100% {
+		box-shadow:inset 0px 0px 6px rgba(255,255,255,.6);
 	}
 }
 .tabset {
