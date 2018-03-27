@@ -70,12 +70,8 @@ var explorer = {
 					offsetY = e.touches[0].clientY - targPos.top;
 				}
 			}
-		}).on('mouseup touchend', function(e) {
-			if(e.which == 0 || e.which == 1) {
-				mouseDown = false;
-			}
 		});
-		$(target).parent().on('mousemove touchmove', function(e) {
+		$('#desktop.explorer').on('mousemove touchmove', function(e) {
 			if(mouseDown) {
 				e.preventDefault();
 				if(typeof e.touches == 'undefined') {
@@ -91,6 +87,10 @@ var explorer = {
 					callback.call({'x':x,'y':y});
 				}
 			}
+		}).on('mouseup touchend', function(e) {
+			if(e.which == 0 || e.which == 1) {
+				mouseDown = false;
+			}
 		});
 	}, initiate : function() {
 		$('#desktop.explorer').remove();
@@ -98,13 +98,13 @@ var explorer = {
 		$('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
 		$('#desktop.explorer').attr('style', 'visibility:hidden;');
 		explorer.start.initiate();
-		$("#taskbar #middleframe").sortable({
+		/*$("#taskbar #middleframe").sortable({
 			revert: true,
 			axis: "x",
 			items: ".button",
 			distance: 5,
 			helper : 'clone'
-		});
+		});*/
 		setTimeout(function() {
 			var theme = explorer.theme();
 		}, 100);
@@ -324,7 +324,12 @@ var explorer = {
 			toggleMax : function() {}
 		};
 		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
-		$('#taskbar #middleframe').append('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>');
+		var tbButton = $('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>').appendTo('#taskbar #middleframe');
+		var tbButtonX = 0;
+		explorer.drag(tbButton, function() {
+			tbButtonX = (this.x - tbButton[0].offsetLeft) + tbButtonX;
+			tbButton.css({left: tbButtonX});
+		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
 		/** endINIT **/
@@ -547,7 +552,7 @@ var explorer = {
 			}
 			return this;
 		};
-		$('#taskbar #middleframe').sortable("refresh");
+		//$('#taskbar #middleframe').sortable("refresh");
 		$(this.jq).mousedown({window: this}, function(e) {
 			e.data.window.front();
 		});
