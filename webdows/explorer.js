@@ -48,8 +48,7 @@ var explorer = {
 		return this.is.fullScreen;
 	}, drag : function(target, handle, callback) {
 		var mouseDown = false;
-		var offsetX = 0;
-		var offsetY = 0;
+		var offsetX, offsetY, lastX, lastY, touchKey, touchStartE;
 		if(typeof handle == 'undefined') {
 			handl = null;
 		} else if(typeof handle == 'function') {
@@ -58,36 +57,72 @@ var explorer = {
 		} else {
 			handl = handle;
 		}
+		function registerCurrentTouch(e) {
+			$.each(e.touches, function(k) {
+				if(touchStartE.originalEvent.target == this.target) {
+					touchKey = k;
+					return false;
+				}
+			});
+		}
 		$(target).on('mousedown touchstart', handl, function(e) {
 			if((e.which == 0 || e.which == 1)) {
 				mouseDown = true;
 				var targPos = $(target).position();
+				var clientX, clientY;
 				if(typeof e.touches == 'undefined') {
-					offsetX = e.clientX - targPos.left;
-					offsetY = e.clientY - targPos.top;
+					clientX = e.clientX;
+					clientY = e.clientY;
 				} else {
-					offsetX = e.touches[0].clientX - targPos.left;
-					offsetY = e.touches[0].clientY - targPos.top;
+					touchStartE = e;
+					registerCurrentTouch(touchStartE);
+					clientX = e.touches[touchKey].clientX;
+					clientY = e.touches[touchKey].clientY;
 				}
+				offsetX = clientX - targPos.left;
+				offsetY = clientY - targPos.top;
+				lastX = clientX;
+				lastY = clientY;
 			}
+		}).on('touchend', function(e) {
+			mouseDown = false;
 		});
 		$('#desktop.explorer').on('mousemove touchmove', function(e) {
 			if(mouseDown) {
 				e.preventDefault();
+				var parentOffsetX, parentOffsetY, movementX, movementY, clientX, clientY;
 				if(typeof e.touches == 'undefined') {
-					var x = e.clientX - offsetX;
-					var y = e.clientY - offsetY;
+					clientX = e.clientX;
+					clientY = e.clientY;
 				} else {
-					var x = e.touches[0].clientX - offsetX;
-					var y = e.touches[0].clientY - offsetY;
+					registerCurrentTouch(e);
+					clientX = e.touches[touchKey].clientX;
+					clientY = e.touches[touchKey].clientY;
 				}
+				parentOffsetX = clientX - offsetX;
+				parentOffsetY = clientY - offsetY;
+				movementX = clientX - lastX;
+				movementY = clientY - lastY;
+				lastX = clientX;
+				lastY = clientY;
 				if(typeof callback == 'undefined') {
-					$(target).css({'left':x,'top':y});
+					$(target).css({'left': parentOffsetX, 'top': parentOffsetY});
 				} else {
-					callback.call({'x':x,'y':y});
+					callback.call({
+						target: target,
+						handle: handle,
+						x: {
+							parentOffset: parentOffsetX,
+							movement: movementX
+						},
+						y: {
+							parentOffset: parentOffsetY,
+							movement: movementY
+						}
+					});
 				}
 			}
-		}).on('mouseup touchend', function(e) {
+		}).on('mouseup', function(e) {
 			if(e.which == 0 || e.which == 1) {
 				mouseDown = false;
 			}
@@ -324,11 +359,18 @@ var explorer = {
 			toggleMax : function() {}
 		};
 		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
-		var tbButton = $('<span class="button" windowID="'+this.id+'"><span class="icon"></span><span class="title"><span></span></span>').appendTo('#taskbar #middleframe');
-		var tbButtonX = 0;
+		var tbButton = $(`
+			<span class="button" windowID="`+this.id+`">
+			<span class="icon"></span>
+			<span class="title">
+				<span></span>
+			</span>
+		`)
+		.appendTo('#taskbar #middleframe');
+		var tbOffset = 0;
 		explorer.drag(tbButton, function() {
-			tbButtonX = (this.x - tbButton[0].offsetLeft) + tbButtonX;
-			tbButton.css({left: tbButtonX});
+			tbOffset = this.x.movement + tbOffset;
+			this.target.css({left: tbOffset - this.target[0].clientLeft});
 		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
@@ -553,7 +595,7 @@ var explorer = {
 			return this;
 		};
 		//$('#taskbar #middleframe').sortable("refresh");
-		$(this.jq).mousedown({window: this}, function(e) {
+		$(this.jq).on('mousedown touchstart', {window: this}, function(e) {
 			e.data.window.front();
 		});
 		$('#desktop').on('mousedown', {id: this.id}, function(e) {
