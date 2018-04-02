@@ -133,13 +133,6 @@ var explorer = {
 		$('body').append('<div class="explorer" id="desktop"><div id="taskbar"><span id="leftframe"><div id="start"></div></span><span id="middleframe"></span><span id="rightframe"><span id="time"></span></span></div></div>');
 		$('#desktop.explorer').attr('style', 'visibility:hidden;');
 		explorer.start.initiate();
-		/*$("#taskbar #middleframe").sortable({
-			revert: true,
-			axis: "x",
-			items: ".button",
-			distance: 5,
-			helper : 'clone'
-		});*/
 		setTimeout(function() {
 			var theme = explorer.theme();
 		}, 100);
@@ -192,6 +185,10 @@ var explorer = {
 						mutated();
 					}
 				});
+			});
+		}).on('mouseup', function() {
+			$.each($('#desktop #taskbar #middleframe .button'), function() {
+				$(this).css({left: 0});
 			});
 		});
 		system.loader('webdows/explorer_ext.js', function() {
@@ -367,10 +364,14 @@ var explorer = {
 			</span>
 		`)
 		.appendTo('#taskbar #middleframe');
-		var tbOffset = 0;
 		explorer.drag(tbButton, function() {
-			tbOffset = this.x.movement + tbOffset;
-			this.target.css({left: tbOffset - this.target[0].clientLeft});
+			var left = parseInt($(this.target).css('left'));
+			this.target.css({left: this.x.movement + left});
+			if(left >= 100) {
+				$(this.target).next().detach().insertBefore(this.target);
+				this.target.css({left: -this.target[0].offsetWidth + left + this.x.movement - this.target[0].clientLeft});
+				//Unfinished (We might not do this system) (Will probbably re-order 
+			}
 		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
@@ -594,7 +595,6 @@ var explorer = {
 			}
 			return this;
 		};
-		//$('#taskbar #middleframe').sortable("refresh");
 		$(this.jq).on('mousedown touchstart', {window: this}, function(e) {
 			e.data.window.front();
 		});
