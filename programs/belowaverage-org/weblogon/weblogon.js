@@ -37,10 +37,9 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					left:0px;
 					width:100%;
 					height:100%;
-					background-image:url('webdows/resources/explorer/webdows/bg.jpg');
+					background:linear-gradient(135deg, rgba(0,183,234,1) 0%,rgba(0,34,51,1) 100%);
 					background-size:cover;
 					background-position:center;
-					filter:blur(10px);
 					opacity:.5;
 					z-index:-1;
 					z-index:-1;
@@ -107,9 +106,8 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					margin-top:7px;
 					font-size:14px;
 				}
-				#`+id+` #go {
+				#`+id+` .go {
 					background:linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.2) 49%,rgba(156,176,190,.1) 50%,rgba(255,255,255,0) 100%);
-					width:25px;
 					height:25px;
 					color:rgba(255,255,255,.7);
 					border:1px solid rgba(20,25,43,.65);
@@ -117,33 +115,32 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					border-radius:13px;
 					background-repeat:no-repeat;
 					background-clip:padding-box;
-					font-weight:bolder;
 					text-align:center;
-					position:absolute;
 					top:213px;
 					left:234px;
 					cursor:pointer;
 					line-height:25px;
 					transition:.1s;
+					margin-bottom:10px;
 				}
-				#`+id+` #go:hover {
+				#`+id+` .go:hover {
 					opacity:1;
 					color:white;
 					background:linear-gradient(to bottom, rgba(204,212,233,1) 0%,rgba(48,102,177,1) 49%,rgba(1,29,99,1) 50%,rgba(64,199,251,1) 100%);
 					border:1px solid rgba(1,22,117,1);
 					box-shadow:inset 0px 1px 0px rgba(204,212,233,1), inset 0px -1px 0px rgba(134,255,255,1);
 				}
-				#`+id+` #go:active {
+				#`+id+` .go:active {
 					opacity:.5;
 					transition:0s;
 				}
 			</style>
 			<div id="backImage"></div>
 			<div id="logonCont">
-				<div id="logonImage"></div>
-				<input type="text" placeholder="Username">
-				<input type="password" placeholder="Password">
-				<div id="go">></div>
+				<div id="logonImage">
+					<iframe src="https://login.belowaverage.org/"></iframe>
+				</div>
+				<div class="go">Continue as guest...</div>
 				<div id="lot">Log on to: <span></span></div>
 			</div>
 		</div>
@@ -157,4 +154,5 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 			system.legacyLoader('webdows/explorer.js');
 		}, 500);
 	});
+	
 })();
