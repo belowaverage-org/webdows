@@ -277,9 +277,9 @@ var system = {
 		var file = split[split.length - 1];
 		var folder = path.replace(file, '');
 		return $.ajax({
-			type: "GET",
+			type: 'GET',
 			url: path,
-			dataType: "text",
+			dataType: 'text',
 			cache: true
 		}).done(function(data) {
 			var loader = {};
@@ -298,6 +298,24 @@ var system = {
 		}).always(function() {
 			if(typeof callback !== 'undefined') {
 				callback.call(successTF);
+			}
+		});
+	},
+	include : function(path, callback) {
+		$.ajax({
+			type: 'GET',
+			url: path,
+			dataType: 'text',
+			cache: true
+		}).done(function(data) {
+			try {
+				eval(data);
+			} catch(e) {
+				system.error(e, 'system.include '+path);
+			}
+		}).always(function() {
+			if(typeof callback !== 'undefined') {
+				callback.call();
 			}
 		});
 	},
