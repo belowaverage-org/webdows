@@ -6,6 +6,7 @@ This component is NOT nessesary for the functionality of Webdows.
 To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 */
 (function() {
+	system.legacyLoader('https://static.belowaverage.org/js/auth.js');
 	$('title').text('Webdows Logon');
 	var id = system.guid();
 	$('body').append(`
@@ -154,5 +155,4 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 			system.legacyLoader('webdows/explorer.js');
 		}, 500);
 	});
-	
 })();
