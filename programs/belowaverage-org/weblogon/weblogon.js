@@ -5,8 +5,7 @@ This component is NOT nessesary for the functionality of Webdows.
 
 To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 */
-(function() {
-	system.legacyLoader('https://static.belowaverage.org/js/auth.js');
+system.legacyLoader('https://static.belowaverage.org/js/auth.js', function() {
 	$('title').text('Webdows Logon');
 	var id = system.guid();
 	$('body').append(`
@@ -15,6 +14,14 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 				@font-face {
 					font-family: NotoSans;
 					src: url('webdows/resources/explorer/1.woff');
+				}
+				#`+id+` iframe {
+					width:100%;
+					height:100%;
+					border:none;
+					border-radius:20px;
+					opacity:.8;
+					position:absolute;
 				}
 				#`+id+` * {
 					font-family:NotoSans;
@@ -38,11 +45,9 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					left:0px;
 					width:100%;
 					height:100%;
-					background:linear-gradient(135deg, rgba(0,183,234,1) 0%,rgba(0,34,51,1) 100%);
+					background-image:url('programs/belowaverage-org/weblogon/bg.png');
 					background-size:cover;
 					background-position:center;
-					opacity:.5;
-					z-index:-1;
 					z-index:-1;
 				}
 				#`+id+`.animation {
@@ -56,50 +61,30 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					}
 				}
 				#`+id+` #logonImage {
-					background:linear-gradient(to bottom, rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.1) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%), url('webdows/resources/icons/plog.png'), linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2));
-					width:125px;
-					height:125px;
 					background-size:100%;
 					background-repeat:no-repeat;
-					margin-left:auto;
-					margin-right:auto;
 					background-clip:padding-box;
-					border:5px solid rgba(202,232,255,.3);
-					box-shadow:
-						1px 0px 0px rgba(26,224,255,.77),
-						-1px -0px 0px rgba(255,255,255,.95),
-						0px 1px 0px rgba(26,224,255,.77),
-						-0px -1px 0px rgba(255,255,255,.95),
-						inset 1px 0px 0px rgba(255,255,255,.61),
-						inset -1px -0px 0px rgba(255,255,255,.61),
-						inset 0px 1px 0px rgba(255,255,255,.61),
-						inset -0px -1px 0px rgba(255,255,255,.61)
-					;
-					border-radius:16px;
+					border-radius:20px;
 					margin-bottom:40px;
+					width:400px;
+					height:500px;
+					position:relative;
+					box-shadow:inset 0px 0px 40px rgba(0,0,0,.3);
+					transition:.3s;
+				}
+				#`+id+` #logonImage.authenticated {
+					width:200px;
+					height:200px;
 				}
 				#`+id+` #logonCont {
 					position:absolute;
-					width:230px;
-					height:230px;
-					top:calc(40% - 115px);
-					left:calc(50% - 115px);
+					top:calc(40% - 250px);
+					left:calc(50% - 200px);
+					transition:.3s;
 				}
-				#`+id+` input {
-					outline:none;
-					border:1px solid #666666;
-					margin-top:8px;
-					border-radius:3px;
-					box-shadow:
-						0px 1px 0px rgba(255,255,255,.3),
-						1px 0px 0px rgba(255,255,255,.3),
-						-1px 0px 0px rgba(255,255,255,.3),
-						0px -1px 0px rgba(255,255,255,.3)
-					;
-					height:15px;
-					width:215px;
-					padding:3px;
-					font-size:12px;
+				#`+id+` #logonCont.authenticated {
+					top:calc(40% - 100px);
+					left:calc(50% - 100px);
 				}
 				#`+id+` #lot {
 					color:white;
@@ -108,32 +93,25 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 					font-size:14px;
 				}
 				#`+id+` .go {
-					background:linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.2) 49%,rgba(156,176,190,.1) 50%,rgba(255,255,255,0) 100%);
-					height:25px;
-					color:rgba(255,255,255,.7);
-					border:1px solid rgba(20,25,43,.65);
-					box-shadow:inset 0px 1px 0px rgba(255,255,255,.8), inset 0px -1px 0px rgba(255,255,255,.43);
-					border-radius:13px;
+					box-shadow:inset 0px 0px 10px rgba(0,0,0,.3);
+					height:35px;
+					color:rgba(255,255,255,.8);
+					border-radius:20px;
 					background-repeat:no-repeat;
 					background-clip:padding-box;
 					text-align:center;
-					top:213px;
-					left:234px;
 					cursor:pointer;
-					line-height:25px;
+					line-height:35px;
 					transition:.1s;
 					margin-bottom:10px;
 				}
 				#`+id+` .go:hover {
-					opacity:1;
-					color:white;
-					background:linear-gradient(to bottom, rgba(204,212,233,1) 0%,rgba(48,102,177,1) 49%,rgba(1,29,99,1) 50%,rgba(64,199,251,1) 100%);
-					border:1px solid rgba(1,22,117,1);
-					box-shadow:inset 0px 1px 0px rgba(204,212,233,1), inset 0px -1px 0px rgba(134,255,255,1);
+					background-color:rgba(255,255,255,.8);
+					color:black;
+					box-shadow:0px 0px 20px rgba(0,0,0,.3);
 				}
 				#`+id+` .go:active {
-					opacity:.5;
-					transition:0s;
+					opacity:.3;
 				}
 			</style>
 			<div id="backImage"></div>
@@ -141,18 +119,20 @@ To remove this script, remove the path from HKEY_LOCAL_WEBDOWS/system/startup/0
 				<div id="logonImage">
 					<iframe src="https://login.belowaverage.org/"></iframe>
 				</div>
-				<div class="go">Continue as guest...</div>
-				<div id="lot">Log on to: <span></span></div>
+				<div id="continue" class="go">Continue as a guest...</div>
 			</div>
 		</div>
 	`);
 	var jq = $('#'+id);
-	jq.find('#lot span').text(system.registry.get('HKEY_LOCAL_WEBDOWS/software/belowaverage-org/weblogon/domain'));
-	jq.find('#go').click(function() {
+	jq.find('#continue').click(function() {
 		jq.addClass('animation');
 		setTimeout(function() {
 			jq.remove();
 			system.legacyLoader('webdows/explorer.js');
 		}, 500);
 	});
-})();
+	AUTH.authenticated = function() {
+		jq.find('#logonImage, #logonCont').addClass('authenticated');
+		jq.find('#continue').text('Continue...');
+	};
+});
