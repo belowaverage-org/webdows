@@ -69,8 +69,28 @@ system.legacyLoader('https://static.belowaverage.org/js/auth.js', function() {
 					width:400px;
 					height:500px;
 					position:relative;
-					box-shadow:inset 0px 0px 40px rgba(0,0,0,.3);
+					box-shadow:inset 0px 0px 10px rgba(0,0,0,.8);
 					transition:.3s;
+				}
+				#`+id+` #logonImage img {
+					opacity:0;
+					z-index:-1;
+					position:absolute;
+					width:100%;
+					height:100%;
+					border-radius:20px;
+				}
+				#`+id+` #logonImage.authenticated img {
+					animation:.3s waitFade;
+					animation-delay:.3s;
+					animation-fill-mode:forwards;
+				}
+				@keyframes waitFade {
+					from {
+						opacity:0;
+					} to {
+						opacity:1;
+					}
 				}
 				#`+id+` #logonImage.authenticated {
 					width:200px;
@@ -118,6 +138,7 @@ system.legacyLoader('https://static.belowaverage.org/js/auth.js', function() {
 			<div id="logonCont">
 				<div id="logonImage">
 					<iframe src="https://login.belowaverage.org/"></iframe>
+					<img>
 				</div>
 				<div id="continue" class="go">Continue as a guest...</div>
 			</div>
@@ -128,11 +149,28 @@ system.legacyLoader('https://static.belowaverage.org/js/auth.js', function() {
 		jq.addClass('animation');
 		setTimeout(function() {
 			jq.remove();
-			system.legacyLoader('webdows/explorer.js');
+			system.legacyLoader('webdows/explorer.js', function() {
+				$('#startmenu > .icon').attr('style', 'background-image:url(\''+AUTH.adphoto+'\');');
+				explorer.start.addRButton('Sign out');
+			});
 		}, 500);
 	});
 	AUTH.authenticated = function() {
+		$.ajax({
+			url: 'https://api.belowaverage.org/v1/adphoto/',
+			method: 'post',
+			xhrFields: {
+				responseType: 'blob',
+			},
+			data: {
+				'AUTH': AUTH.token
+			},
+			success: function(data) {
+				AUTH.adphoto = URL.createObjectURL(data);
+				$('#logonImage img').attr('src', AUTH.adphoto);
+			}
+		});
 		jq.find('#logonImage, #logonCont').addClass('authenticated');
-		jq.find('#continue').text('Continue...');
+		jq.find('#continue').text('Continue...').click();
 	};
 });
