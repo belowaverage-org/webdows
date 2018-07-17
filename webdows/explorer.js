@@ -369,12 +369,12 @@ var explorer = {
 			dragClone = $(this)
 			.addClass('drag')
 			.clone()
-			.appendTo($(this).parent())
 			.addClass('clone')
 			.css({
 				left: $(this)[0].offsetLeft,
 				width: $(this).width()
-			});
+			})
+			.appendTo($(this).parent());
 		});
 		explorer.drag(tbButton, function() {
 			dragClone.css('left', this.x.parentOffset);
