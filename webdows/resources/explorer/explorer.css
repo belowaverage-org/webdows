@@ -32,6 +32,14 @@ input[type=text] {
 	font-family: NotoSans;
 	src: url('1.woff');
 }
+#taskbar #middleframe .button.drag:not(.clone) {
+	opacity:0;
+}
+#taskbar #middleframe .button.clone {
+	position:absolute;
+	margin:0px;
+	pointer-events:none;
+}
 .icon {
 	background-image:url('../icons/exei.ico');
 	background-size:100% 100%;
