@@ -187,7 +187,7 @@ var explorer = {
 					}
 				});
 			});
-		}).on('mouseup', function() {
+		}).on('mouseup touchend', function() {
 			$('#desktop #taskbar #middleframe .button.clone').remove();
 			$('#desktop #taskbar #middleframe .button.drag').removeClass('drag');
 		});
@@ -365,7 +365,7 @@ var explorer = {
 			</span>
 		`)
 		.appendTo('#taskbar #middleframe')
-		.on('mousedown', function(e) {
+		.on('mousedown touchstart', function(e) {
 			dragClone = $(this)
 			.addClass('drag')
 			.clone()
