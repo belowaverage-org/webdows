@@ -378,7 +378,7 @@ var explorer = {
 		});
 		explorer.drag(tbButton, function() {
 			dragClone.css('left', this.x.parentOffset);
-			//if(this.x.movement)
+			//Logic goes here to move around the drag class.
 		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
