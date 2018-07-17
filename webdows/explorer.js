@@ -111,6 +111,7 @@ var explorer = {
 					callback.call({
 						target: target,
 						handle: handle,
+						event: e,
 						x: {
 							parentOffset: parentOffsetX,
 							movement: movementX
@@ -187,9 +188,8 @@ var explorer = {
 				});
 			});
 		}).on('mouseup', function() {
-			$.each($('#desktop #taskbar #middleframe .button'), function() {
-				$(this).css({left: 0});
-			});
+			$('#desktop #taskbar #middleframe .button.clone').remove();
+			$('#desktop #taskbar #middleframe .button.drag').removeClass('drag');
 		});
 		system.loader('webdows/explorer_ext.js', function() {
 			$.each(system.registry.get('HKEY_LOCAL_WEBDOWS/explorer/startup'), function() {
@@ -356,6 +356,7 @@ var explorer = {
 			toggleMax : function() {}
 		};
 		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
+		var dragClone = null;
 		var tbButton = $(`
 			<span class="button" windowID="`+this.id+`">
 			<span class="icon"></span>
@@ -363,15 +364,21 @@ var explorer = {
 				<span></span>
 			</span>
 		`)
-		.appendTo('#taskbar #middleframe');
+		.appendTo('#taskbar #middleframe')
+		.on('mousedown', function(e) {
+			dragClone = $(this)
+			.addClass('drag')
+			.clone()
+			.appendTo($(this).parent())
+			.addClass('clone')
+			.css({
+				left: $(this)[0].offsetLeft,
+				width: $(this).width()
+			});
+		});
 		explorer.drag(tbButton, function() {
-			var left = parseInt($(this.target).css('left'));
-			this.target.css({left: this.x.movement + left});
-			if(left >= 100) {
-				$(this.target).next().detach().insertBefore(this.target);
-				this.target.css({left: -this.target[0].offsetWidth + left + this.x.movement - this.target[0].clientLeft});
-				//Unfinished (We might not do this system) (Will probbably re-order 
-			}
+			dragClone.css('left', this.x.parentOffset);
+			//if(this.x.movement)
 		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
