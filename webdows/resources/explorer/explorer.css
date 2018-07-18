@@ -37,7 +37,7 @@ input[type=text] {
 }
 #taskbar #middleframe .button.clone {
 	position:absolute;
-	margin:0px;
+	margin-left:0px;
 	pointer-events:none;
 }
 .icon {
