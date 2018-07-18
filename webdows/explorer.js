@@ -357,6 +357,7 @@ var explorer = {
 		};
 		$('#desktop').append('<div class="window" windowID="'+this.id+'"><span class="ttl"><span class="icon"></span><span class="title"></span></span><span class="minmaxclose"><span class="close"></span></span><div class="body"></div></div>');
 		var dragClone = null;
+		var initStep = null;
 		var tbButton = $(`
 			<span class="button" windowID="`+this.id+`">
 			<span class="icon"></span>
@@ -366,6 +367,7 @@ var explorer = {
 		`)
 		.appendTo('#taskbar #middleframe')
 		.on('mousedown touchstart', function(e) {
+			initStep = null;
 			dragClone = $(this)
 			.addClass('drag')
 			.clone()
@@ -378,7 +380,27 @@ var explorer = {
 		});
 		explorer.drag(tbButton, function() {
 			dragClone.css('left', this.x.parentOffset);
-			//Logic goes here to move around the drag class.
+			var step = Math.round(this.x.parentOffset / tbButton.outerWidth(true));
+			if(initStep == null) {
+				initStep = step;
+			}
+			if(initStep !== step && (step >= 0 && step <= tbButton.parent().find('.button').not('.clone, .drag').length)) {
+				while(initStep !== step) {
+					if(initStep < step) {
+						var sib = tbButton.next('.button').not('.clone, .drag');
+						if(sib.length !== 0) {
+							sib.after(tbButton.detach());
+						}
+						initStep += 1;
+					} else {
+						var sib = tbButton.prev('.button').not('.clone, .drag');
+						if(sib.length !== 0) {
+							sib.before(tbButton.detach());
+						}
+						initStep -= 1;
+					}
+				}
+			}
 		});
 		this.jq = $('.window[windowID='+this.id+']');
 		var win = this;
