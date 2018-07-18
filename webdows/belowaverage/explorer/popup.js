@@ -1,20 +1,34 @@
 window.explorer.replacedWindow = window.explorer.window;
 window.explorer.window = function() {
 	var expwin = new window.explorer.replacedWindow();
-	var extwin = window.open(document.URL+'popup.html', expwin.id, 'resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, width=1, height=1, top=100, left=100');
+	var extwin = window.open(document.URL+'popup.html', expwin.id, 'width=200, height=200, resizable=yes, status=no, scrollbars=yes, menubar=no, titlebar=no, top=100, left=100');
 	expwin.jq.hide();
 	function replace() {
 		expwin.jq.show();
 		var initWidth = expwin.jq.width();
 		var initHeight = expwin.jq.height();
 		expwin.center('top left');
-		expwin.toggleMax();
+		if(!expwin.is.maximized) {
+			expwin.toggleMax();
+		}
 		extwin.onunload = function() {
 			expwin.close();
 		};
 		expwin.replacedToggleMin = expwin.toggleMin;
 		expwin.toggleMin = function() {
 			expwin.front();
+		};
+		expwin.replacedTitle = expwin.title;
+		expwin.title = function(title) {
+			expwin.replacedTitle(title);
+			$(extwin.document).find('title').text(title);
+			return this;
+		};
+		expwin.replacedIcon = expwin.icon;
+		expwin.icon = function(icon) {
+			expwin.replacedIcon(icon);
+			$(extwin.document).find('link[rel=icon]').attr('href', icon);
+			return this;
 		};
 		expwin.replacedClose = expwin.close;
 		expwin.close = function() {
@@ -38,6 +52,8 @@ window.explorer.window = function() {
 			return this;
 		};
 		expwin.resize(initWidth, initHeight);
+		expwin.title(expwin.properties.title);
+		expwin.icon(expwin.properties.icon);
 		$(extwin.document.body).append(expwin.jq);
 	};
 	var interval = setInterval(function() {

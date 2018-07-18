@@ -3,6 +3,7 @@
 	<head>
 		<title>Webdows</title>
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
+		<link rel="icon" sizes="500x500" href="webdows/resources/icons/logo.png">
 		<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css">
 		<link class="explorer" id="theme" href="webdows/resources/explorer/webdows/index.css" rel="stylesheet" type="text/css">
 		<style>
@@ -15,6 +16,18 @@
 				-ms-user-select:none;
 				user-select:none;
 				cursor:default;
+				background-color:black;
+			}
+			#logo {
+				position:absolute;
+				top:calc(50% - 80px);
+				left:calc(50% - 80px);
+				width:160px;
+				height:160px;
+				background-image:url('webdows/resources/icons/bvlg.svg');
+				background-size:100% 100%;
+				background-color:white;
+				border-radius:80px;
 			}
 			.window {
 				animation:none !important;
@@ -28,5 +41,7 @@
 			}
 		</style>
 	</head>
-	<body></body>
+	<body>
+		<div id="logo"></div>
+	</body>
 </html>
