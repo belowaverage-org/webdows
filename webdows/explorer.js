@@ -50,12 +50,10 @@ var explorer = {
 		var mouseDown = false;
 		var offsetX, offsetY, lastX, lastY, touchKey, touchStartE;
 		if(typeof handle == 'undefined') {
-			handl = null;
+			handle = null;
 		} else if(typeof handle == 'function') {
 			callback = handle;
-			handl = null;
-		} else {
-			handl = handle;
+			handle = null;
 		}
 		function registerCurrentTouch(e) {
 			$.each(e.touches, function(k) {
@@ -65,7 +63,7 @@ var explorer = {
 				}
 			});
 		}
-		$(target).on('mousedown touchstart', handl, function(e) {
+		function mouseDownAction(e) {
 			if((e.which == 0 || e.which == 1)) {
 				mouseDown = true;
 				var targPos = $(target).position();
@@ -84,7 +82,13 @@ var explorer = {
 				lastX = clientX;
 				lastY = clientY;
 			}
-		}).on('touchend', function(e) {
+		}
+		if(handle == null) {
+			var mouseDownEvent = $(target).on('mousedown touchstart', mouseDownAction);
+		} else {
+			var mouseDownEvent = $(target).find(handle).on('mousedown touchstart', mouseDownAction);
+		}
+		mouseDownEvent.on('touchend', function(e) {
 			mouseDown = false;
 		});
 		$('#desktop.explorer').on('mousemove touchmove', function(e) {
@@ -128,6 +132,48 @@ var explorer = {
 				mouseDown = false;
 			}
 		});
+	}, resize : function(target, handles = ['n','e','s','w','ne','se','sw','nw']) {
+		$.each(handles, function() {
+			var handle = $('<div class="resize '+this+'"></div>');
+			var callback = function() {};
+			if(this == 'n') {
+				callback = function() {
+					
+				};
+			} else if(this == 'e') {
+				callback = function() {
+					console.log(this);
+				};
+			} else if(this == 's') {
+				callback = function() {
+					
+				};
+			} else if(this == 'w') {
+				callback = function() {
+					
+				};
+			} else if(this == 'ne') {
+				callback = function() {
+					
+				};
+			} else if(this == 'se') {
+				callback = function() {
+					
+				};
+			} else if(this == 'sw') {
+				callback = function() {
+					
+				};
+			} else if(this == 'nw') {
+				callback = function() {
+					
+				};
+			} else {
+				return true;
+			}
+			handle.appendTo($(target));
+			explorer.drag(target, handle, callback);
+		})
 	}, initiate : function() {
 		$('#desktop.explorer').remove();
 		$('head').append('<link class="explorer" href="webdows/resources/explorer/explorer.css" rel="stylesheet" type="text/css"><link class="explorer" id="theme" href="" rel="stylesheet" type="text/css"><style></style>');
@@ -521,12 +567,18 @@ var explorer = {
 					$(this).remove();
 				}
 			});
+			
+			
+			new explorer.resize(this.jq);
+			
+			
+			
 			if($.inArray('max', array) !== -1) {
 				this.jq.find('.minmaxclose').prepend('<span class="max"></span>');
-				this.jq.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
-				this.jq.resizable('enable');
-				this.jq.find('.ui-resizable-handle').show();
-				this.jq.find('.ttl, .minmaxclose .max').off();
+				//this.jq.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
+				//this.jq.resizable('enable');
+				//this.jq.find('.ui-resizable-handle').show();
+				//this.jq.find('.ttl, .minmaxclose .max').off();
 				$('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
 					e.data.window.toggleMax();
 				});
@@ -535,11 +587,11 @@ var explorer = {
 						e.data.window.toggleMax();
 					}
 				});
-			} else if(typeof this.jq.resizable('instance') !== 'undefined') {
+			} /* else if(typeof this.jq.resizable('instance') !== 'undefined') {
 				this.jq.resizable('disable');
 				this.jq.find('.ui-resizable-handle').hide();
 				this.jq.find('.ttl').off();
-			}
+			} */
 			if($.inArray('min', array) !== -1) {
 				this.jq.find('.minmaxclose').prepend('<span class="min"></span>');
 				$('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .min').click({window: this}, function(e) {

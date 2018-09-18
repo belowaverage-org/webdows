@@ -409,59 +409,59 @@ flex:1;
 .window.active .body {
 border:1px solid rgba(0,0,0,.8);
 }
-.window .ui-resizable-handle {
+.resize {
 position:absolute;
 }
-.window .ui-resizable-n {
+.resize.n {
 top:0px;
 width:100%;
 height:3px;
 left:0px;
 cursor:ns-resize;
 }
-.window .ui-resizable-e {
+.resize.e {
 height:100%;
 width:5px;
 right:0px;
 top:0px;
 cursor:ew-resize;
 }
-.window .ui-resizable-s {
+.resize.s {
 width:100%;
 height:5px;
 left:0px;
 bottom:0px;
 cursor:ns-resize;
 }
-.window .ui-resizable-w {
+.resize.w {
 height:100%;
 width:5px;
 left:0px;
 top:0px;
 cursor:ew-resize;
 }
-.window .ui-resizable-ne {
+.resize.ne {
 width:5px;
 height:5px;
 cursor:ne-resize;
 right:0px;
 top:0px;
 }
-.window .ui-resizable-se {
+.resize.se {
 width:5px;
 height:5px;
 cursor:se-resize;
 right:0px;
 bottom:0px;
 }
-.window .ui-resizable-sw {
+.resize.sw {
 width:5px;
 height:5px;
 cursor:sw-resize;
 left:0px;
 bottom:0px;
 }
-.window .ui-resizable-nw {
+.resize.nw {
 width:5px;
 height:5px;
 cursor:nw-resize;
