@@ -48,6 +48,7 @@ var explorer = {
 		return this.is.fullScreen;
 	}, drag : function(target, handle, callback) {
 		var mouseDown = false;
+		var first = true;
 		var offsetX, offsetY, lastX, lastY, touchKey, touchStartE;
 		if(typeof handle == 'undefined') {
 			handle = null;
@@ -90,6 +91,7 @@ var explorer = {
 		}
 		mouseDownEvent.on('touchend', function(e) {
 			mouseDown = false;
+			first = true;
 		});
 		$('#desktop.explorer').on('mousemove touchmove', function(e) {
 			if(mouseDown) {
@@ -115,6 +117,7 @@ var explorer = {
 					callback.call({
 						target: target,
 						handle: handle,
+						first: first,
 						event: e,
 						x: {
 							parentOffset: parentOffsetX,
@@ -125,14 +128,17 @@ var explorer = {
 							movement: movementY
 						}
 					});
+					first = false;
 				}
 			}
 		}).on('mouseup', function(e) {
 			if(e.which == 0 || e.which == 1) {
 				mouseDown = false;
+				first = true;
 			}
 		});
 	}, resize : function(target, handles = ['n','e','s','w','ne','se','sw','nw']) {
+		target = $(target);
 		$.each(handles, function() {
 			var handle = $('<div class="resize '+this+'"></div>');
 			var callback = function() {};
@@ -141,7 +147,14 @@ var explorer = {
 					
 				};
 			} else if(this == 'e') {
+				var initialWidth = 0;
 				callback = function() {
+					if(this.first) {
+						initialWidth = Number.parseInt(target.css('width'));
+					}
+					initialWidth += this.x.movement;
+					target.css('width', initialWidth);
+
 					console.log(this);
 				};
 			} else if(this == 's') {
@@ -171,7 +184,7 @@ var explorer = {
 			} else {
 				return true;
 			}
-			handle.appendTo($(target));
+			handle.appendTo(target);
 			explorer.drag(target, handle, callback);
 		})
 	}, initiate : function() {
