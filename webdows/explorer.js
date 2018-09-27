@@ -142,44 +142,85 @@ var explorer = {
 		$.each(handles, function() {
 			var handle = $('<div class="resize '+this+'"></div>');
 			var callback = function() {};
+			var width = 0;
+			var left = 0;
+			var top = 0;
+			var height = 0;
+			var minWidth = 0;
+			var minHeight = 0;
+			function east() {
+				if(this.first) {
+					width = Number.parseInt(target.css('width'));
+				}
+				width += this.x.movement;
+				target.css('width', width);
+			};
+			function south() {
+				if(this.first) {
+					height = Number.parseInt(target.css('height'));
+				}
+				height += this.y.movement;
+				target.css('height', height);
+			};
+			function west() {
+				if(this.first) {
+					left = Number.parseInt(target.css('left'));
+					width = Number.parseInt(target.css('width'));
+					minWidth = Number.parseInt(target.css('min-width'));
+				}
+				width -= this.x.movement;
+				left += this.x.movement;
+				if(width > minWidth) {
+					target.css('width', width);
+					target.css('left', left);
+				} else {
+					target.css('width', minWidth);
+					target.css('left', left + width - minWidth);
+				}
+			}
+			function north() {
+				if(this.first) {
+					top = Number.parseInt(target.css('top'));
+					height = Number.parseInt(target.css('height'));
+					minHeight = Number.parseInt(target.css('min-height'));
+				}
+				height -= this.y.movement;
+				top += this.y.movement;
+				if(height > minHeight) {
+					target.css('height', height);
+					target.css('top', top);
+				} else {
+					target.css('height', minHeight);
+					target.css('top', top + height - minHeight);
+				}
+			}
 			if(this == 'n') {
-				callback = function() {
-					
-				};
+				callback = north;
 			} else if(this == 'e') {
-				var initialWidth = 0;
-				callback = function() {
-					if(this.first) {
-						initialWidth = Number.parseInt(target.css('width'));
-					}
-					initialWidth += this.x.movement;
-					target.css('width', initialWidth);
-
-					console.log(this);
-				};
+				callback = east;
 			} else if(this == 's') {
-				callback = function() {
-					
-				};
+				callback = south;
 			} else if(this == 'w') {
-				callback = function() {
-					
-				};
+				callback = west;
 			} else if(this == 'ne') {
 				callback = function() {
-					
+					north.call(this);
+					east.call(this);	
 				};
 			} else if(this == 'se') {
 				callback = function() {
-					
+					east.call(this);
+					south.call(this);	
 				};
 			} else if(this == 'sw') {
 				callback = function() {
-					
+					south.call(this);
+					west.call(this);	
 				};
 			} else if(this == 'nw') {
 				callback = function() {
-					
+					north.call(this);
+					west.call(this);	
 				};
 			} else {
 				return true;
