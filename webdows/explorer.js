@@ -621,18 +621,9 @@ var explorer = {
 					$(this).remove();
 				}
 			});
-			
-			
-			new explorer.resize(this.jq);
-			
-			
-			
 			if($.inArray('max', array) !== -1) {
 				this.jq.find('.minmaxclose').prepend('<span class="max"></span>');
-				//this.jq.resizable({handles: "n, e, s, w, ne, se, sw, nw"});
-				//this.jq.resizable('enable');
-				//this.jq.find('.ui-resizable-handle').show();
-				//this.jq.find('.ttl, .minmaxclose .max').off();
+				this.jq.children('div.resize').show();
 				$('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
 					e.data.window.toggleMax();
 				});
@@ -641,11 +632,9 @@ var explorer = {
 						e.data.window.toggleMax();
 					}
 				});
-			} /* else if(typeof this.jq.resizable('instance') !== 'undefined') {
-				this.jq.resizable('disable');
-				this.jq.find('.ui-resizable-handle').hide();
-				this.jq.find('.ttl').off();
-			} */
+			} else {
+				this.jq.children('div.resize').hide();
+			}
 			if($.inArray('min', array) !== -1) {
 				this.jq.find('.minmaxclose').prepend('<span class="min"></span>');
 				$('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .min').click({window: this}, function(e) {
@@ -797,6 +786,7 @@ var explorer = {
 			e.data.window.close();
 		});
 		explorer.drag(this.jq, '.ttl');
+		explorer.resize(this.jq);
 		this.controls(['min','max']);
 		this.resize(300, 200);
 		this.front();

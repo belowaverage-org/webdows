@@ -412,6 +412,9 @@ border:1px solid rgba(0,0,0,.8);
 .resize {
 position:absolute;
 }
+.window.maximized .resize {
+display:none;
+}
 .resize.n {
 top:0px;
 width:100%;
