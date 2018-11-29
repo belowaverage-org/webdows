@@ -624,6 +624,9 @@ var explorer = {
 			if($.inArray('max', array) !== -1) {
 				this.jq.find('.minmaxclose').prepend('<span class="max"></span>');
 				this.jq.children('div.resize').show();
+
+				this.jq.find('.ttl, .minmaxclose .max').off('dblclick');
+
 				$('.window[windowID='+this.jq.attr('windowID')+'] .minmaxclose .max').click({window: this}, function(e) {
 					e.data.window.toggleMax();
 				});
@@ -633,6 +636,9 @@ var explorer = {
 					}
 				});
 			} else {
+
+				this.jq.find('.ttl').off('dblclick');
+				
 				this.jq.children('div.resize').hide();
 			}
 			if($.inArray('min', array) !== -1) {
